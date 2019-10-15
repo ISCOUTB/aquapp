@@ -13,8 +13,13 @@ import {
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { ParticlesBackgroundComponent } from './components/particles-background/particles-background.component';
+import { GetStartPageComponent } from './components/get-start-page/get-start-page.component';
 
-const components = [TableComponent, ParticlesBackgroundComponent];
+const components = [
+  TableComponent,
+  ParticlesBackgroundComponent,
+  GetStartPageComponent,
+];
 
 @NgModule({
   declarations: components,
