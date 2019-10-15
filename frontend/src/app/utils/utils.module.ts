@@ -12,8 +12,10 @@ import {
   MatProgressSpinnerModule,
 } from '@angular/material';
 
+const components = [TableComponent];
+
 @NgModule({
-  declarations: [TableComponent],
+  declarations: components,
   imports: [
     CommonModule,
     MatTableModule,
@@ -23,5 +25,6 @@ import {
     MatProgressSpinnerModule,
   ],
   providers: [ApiService, StorageService, MessagesService],
+  exports: components,
 })
 export class UtilsModule {}
