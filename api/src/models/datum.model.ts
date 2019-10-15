@@ -38,4 +38,4 @@ export interface DatumRelations {
   // describe navigational properties here
 }
 
-export type DatoWithRelations = Datum & DatumRelations;
+export type DatumWithRelations = Datum & DatumRelations;

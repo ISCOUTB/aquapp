@@ -78,7 +78,6 @@ export class ApiApplication extends BootMixin(
   }
 
   setUpBindings(): void {
-    // Establecer la configuración de la base de datos
     this.bind('datasources.config.Mongo').to({
       name: 'Mongo',
       connector: 'mongodb',

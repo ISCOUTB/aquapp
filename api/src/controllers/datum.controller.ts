@@ -172,30 +172,29 @@ export class DatumController {
     },
   })
   async findJsonata(
-    @param.query.string('orden') orden: string,
-    @param.query.string('consulta')
-    consulta: string,
+    @param.query.string('order') order: string,
+    @param.query.string('query')
+    query: string,
     @param.query.string('sensor')
     sensor: string,
-    @param.query.string('filtrosAdicionales') filtrosAdicionales: string,
-    @param.query.string('filtrosTabla') filtrosTabla: string,
+    @param.query.string('filtrosAdicionales') additionalFilters: string,
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
-    @param.query.number('tamanioPagina') tamanioPagina: number,
-    @param.query.number('datosOmitidos') datosOmitidos: number,
+    @param.query.number('pageSize') pageSize: number,
+    @param.query.number('offset') offset: number,
   ) {
     const filtros: any[] = [{active: true}, {usuario: currentUserProfile.id}];
     const filtrosAdicionalesArreglo: any[] =
-      filtrosAdicionales !== undefined ? JSON.parse(filtrosAdicionales) : [];
-    if (filtrosAdicionales !== undefined && filtrosAdicionales.length) {
+      additionalFilters !== undefined ? JSON.parse(additionalFilters) : [];
+    if (additionalFilters !== undefined && additionalFilters.length) {
       filtros.splice(0, 0, ...filtrosAdicionalesArreglo);
     }
     if (sensor !== undefined) {
       filtros.splice(0, 0, {sensor: sensor});
     }
     let ordenUsuario: string[] = [];
-    if (orden !== undefined && orden.length) {
-      const ordenArreglo = JSON.parse(orden);
+    if (order !== undefined && order.length) {
+      const ordenArreglo = JSON.parse(order);
       if (ordenArreglo.length) {
         ordenUsuario = ordenArreglo.map(
           (o: any) => `${o.field} ${o.direction.toUpperCase()}`,
@@ -203,22 +202,22 @@ export class DatumController {
       }
     }
     const t1 = Date.now();
-    const consultaBD: Filter<Datum> =
-      datosOmitidos !== undefined && tamanioPagina !== undefined
+    const dbQuery: Filter<Datum> =
+      offset !== undefined && pageSize !== undefined
         ? {
             where: {and: filtros},
             order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
-            offset: datosOmitidos,
-            limit: tamanioPagina,
+            offset: offset,
+            limit: pageSize,
           }
         : {
             where: {and: filtros},
             order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
           };
-    let datos: Datum[] = await this.datumRepository.find(consultaBD, {
+    let data: Datum[] = await this.datumRepository.find(dbQuery, {
       strictObjectIDCoercion: true,
     });
-    let tamanioReal = await this.datumRepository.count(
+    let realSize = await this.datumRepository.count(
       {and: filtros},
       {
         strictObjectIDCoercion: true,
@@ -226,19 +225,19 @@ export class DatumController {
     );
     const t2 = Date.now();
     const vm = new vm2.VM({
-      sandbox: {datos: datos, total: tamanioReal.count},
+      sandbox: {data: data, total: realSize.count},
       timeout: 1000,
       eval: false,
     });
-    console.log('TAMAÑO CONSULTA: ', datos.length);
-    console.log('TAMAÑO REAL: ', tamanioReal.count);
-    const script = new vm2.VMScript(consulta);
-    const resultado: any = vm.run(script);
+    console.log('Query result size: ', data.length);
+    console.log('Real size: ', realSize.count);
+    const script = new vm2.VMScript(query);
+    const result: any = vm.run(script);
     const t3 = Date.now();
-    console.log('Tiempo de consulta base de datos: ', (t2 - t1) / 1000);
-    console.log('Tiempo de ejecución de consulta: ', (t3 - t2) / 1000);
-    console.log('Tiempo total: ', (t3 - t1) / 1000);
-    return resultado;
+    console.log('Db query time: ', (t2 - t1) / 1000);
+    console.log('Query execution time: ', (t3 - t2) / 1000);
+    console.log('Total time: ', (t3 - t1) / 1000);
+    return result;
   }
 
   @get('/data/{id}', {
@@ -271,9 +270,9 @@ export class DatumController {
         },
       },
     })
-    dato: Datum,
+    datum: Datum,
   ): Promise<void> {
-    await this.formTools.validateDatum(dato);
+    await this.formTools.validateDatum(datum);
     const datumInDb = await this.datumRepository.findById(id);
     if (datumInDb.sensor === undefined) {
       throw new HttpErrors.BadRequest(`You must provide a sensor id`);
@@ -282,7 +281,7 @@ export class DatumController {
     const trackedObject = await this.elementsRepository.findById(
       sensor.trackedObject,
     );
-    const formulario = await this.elementsRepository.findById(
+    const form = await this.elementsRepository.findById(
       trackedObject.form,
     );
 
@@ -296,18 +295,18 @@ export class DatumController {
 
     // Validar formulario
     await this.formTools.validateForm(
-      formulario.fields || [],
+      form.fields || [],
     );
 
-    dato = {
-      ...dato,
+    datum = {
+      ...datum,
       ...(await this.formTools.deserializeSensorForm(
         fields,
-        formulario.campos || [],
-        dato,
+        form.campos || [],
+        datum,
       )),
     };
-    await this.datumRepository.updateById(id, dato);
+    await this.datumRepository.updateById(id, datum);
   }
 
   @del('/data/{id}', {

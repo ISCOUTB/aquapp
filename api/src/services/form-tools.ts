@@ -34,7 +34,7 @@ export class FormTools {
       const index = this.forbiddenProperties.indexOf(property);
       if (index !== -1) {
         throw new HttpErrors.BadRequest(
-          `Dato inválido, trata de sobreescribir la propiedad: ${this.forbiddenProperties[index]}`,
+          `Invalid data: ${this.forbiddenProperties[index]}`,
         );
       }
     }
@@ -81,26 +81,26 @@ export class FormTools {
         typeof sensorField.transformation === 'string' &&
         sensorField.transformation.length
       ) {
-        const validacion = validationCache[fieldTemplate.tipo];
-        if (validacion === undefined) {
+        const validation = validationCache[fieldTemplate.tipo];
+        if (validation === undefined) {
           throw new HttpErrors.BadRequest(
-            `No hay validación para el tipo de dato ${fieldTemplate.tipo}. Contacte al administrador`,
+            `No validation for field ${fieldTemplate.tipo}.`,
           );
         }
         const vm = new vm2.VM({
-          sandbox: {dato: data[property]},
+          sandbox: {datum: data[property]},
           timeout: 1000,
           eval: false,
         });
         const script = new vm2.VMScript(sensorField.transformation);
         try {
-          const datoTransformado = vm.run(script);
+          const transformedDatum = vm.run(script);
           this.validateField(
-            datoTransformado,
-            validacion.descripcion,
+            transformedDatum,
+            validation.descripcion,
             property,
           );
-          objects[property] = datoTransformado;
+          objects[property] = transformedDatum;
         } catch (error) {
           throw new HttpErrors[500](
             `Error transforming data for the field: ${property}. Details: ${error}`,
@@ -110,7 +110,7 @@ export class FormTools {
         const validation = validationCache[fieldTemplate.tipo];
         if (validation === undefined) {
           throw new HttpErrors.BadRequest(
-            `No hay validación para el tipo de dato ${fieldTemplate.tipo}. Contacte al administrador`,
+            `No validation for field ${fieldTemplate.tipo}.`,
           );
         }
         this.validateField(data[property], validation.descripcion, property);

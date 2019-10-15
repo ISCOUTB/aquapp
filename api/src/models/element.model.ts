@@ -35,8 +35,8 @@ export class Element extends Entity {
   }
 }
 
-export interface ElementoRelations {
+export interface ElementRelations {
   // describe navigational properties here
 }
 
-export type ElementoWithRelations = Element & ElementoRelations;
+export type ElementoWithRelations = Element & ElementRelations;
