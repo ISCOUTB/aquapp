@@ -12,11 +12,11 @@ export class StorageService {
     localStorage.setItem(this.prefix + name, value);
   }
 
-  obtener(name: string): string {
+  get(name: string): string {
     return localStorage.getItem(this.prefix + name);
   }
 
-  borrar(name: string) {
+  delete(name: string) {
     localStorage.removeItem(this.prefix + name);
   }
 }

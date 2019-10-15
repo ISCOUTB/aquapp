@@ -19,9 +19,9 @@ export class ApiService {
   // AUTHENTICATION
 
   logOut() {
-    this.storageService.borrar('user');
-    this.storageService.borrar('token');
-    this.storageService.borrar('user');
+    this.storageService.delete('user');
+    this.storageService.delete('token');
+    this.storageService.delete('user');
     this.router.navigate(['/', 'login']);
   }
 
@@ -57,7 +57,7 @@ export class ApiService {
   }
 
   authenticatedUser(): any {
-    return JSON.parse(this.storageService.obtener('user'));
+    return JSON.parse(this.storageService.get('user'));
   }
 
   me() {
@@ -118,7 +118,7 @@ export class ApiService {
   getHeaders() {
     return {
       'content-type': 'application/json',
-      Authorization: 'Bearer ' + this.storageService.obtener('token'),
+      Authorization: 'Bearer ' + this.storageService.get('token'),
     };
   }
 }
