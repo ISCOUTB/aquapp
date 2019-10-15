@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  api:
+    build: ./
+    ports:
+      - 8080:3000
+    depends_on:
+      - aquappdb
+    volumes:
+      - ./archivos:/home/node/app/archivos
+
+  aquappdb:
+    image: 'mongo:4.0.5'
+    ports:
+      - 27016:27017
+    volumes:
+      - ./aquappndb:/data/db
+      - ./imports:/imports
+      - ./backups:/backups
+      - ./001_users.js:/docker-entrypoint-initdb.d/001_users.js:ro
+    restart: always
+    env_file:
+      - ./mongo.env

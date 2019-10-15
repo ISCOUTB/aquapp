@@ -1,0 +1,1 @@
+npx lb-tsc --outDir dist --watch

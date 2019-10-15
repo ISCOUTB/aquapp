@@ -1,0 +1,11 @@
+{
+  "name": "Mongo",
+  "connector": "mongodb",
+  "url": "",
+  "host": "localhost",
+  "port": 27027,
+  "user": "",
+  "password": "",
+  "database": "aquappndb",
+  "useNewUrlParser": true
+}
