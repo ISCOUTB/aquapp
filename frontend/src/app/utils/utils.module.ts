@@ -12,8 +12,9 @@ import {
   MatProgressSpinnerModule,
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
+import { ParticlesBackgroundComponent } from './components/particles-background/particles-background.component';
 
-const components = [TableComponent];
+const components = [TableComponent, ParticlesBackgroundComponent];
 
 @NgModule({
   declarations: components,
