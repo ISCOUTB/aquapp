@@ -31,7 +31,7 @@ export class ApiService {
     }
     const r = await this.http
       .post<{ token: string }>(
-        this.apiUrl + '/usuarios/login',
+        this.apiUrl + '/users/login',
         { email, password },
         {
           headers: {
@@ -61,7 +61,7 @@ export class ApiService {
   }
 
   me() {
-    return this.http.get(`${this.apiUrl}/usuarios/me`, {
+    return this.http.get(`${this.apiUrl}/users/me`, {
       headers: this.getHeaders(),
     });
   }

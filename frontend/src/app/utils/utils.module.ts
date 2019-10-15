@@ -11,6 +11,7 @@ import {
   MatSortModule,
   MatProgressSpinnerModule,
 } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
 
 const components = [TableComponent];
 
@@ -23,6 +24,7 @@ const components = [TableComponent];
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    HttpClientModule,
   ],
   providers: [ApiService, StorageService, MessagesService],
   exports: components,

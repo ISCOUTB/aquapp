@@ -1,1 +1,48 @@
-<p>login works!</p>
+<mat-card>
+  <mat-card-header><h1>Login</h1></mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="form">
+      <mat-form-field>
+        <input
+          id="email"
+          placeholder="Email"
+          matInput
+          type="email"
+          formControlName="email"
+          [errorStateMatcher]="errorStateMatcher"
+        />
+      </mat-form-field>
+      <mat-error
+        *ngIf="
+          form.get('email').hasError('email') &&
+          !emailFormControl.hasError('required')
+        "
+      >
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="form.get('email').hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <mat-form-field>
+        <input
+          id="password"
+          placeholder="Password"
+          matInput
+          type="password"
+          formControlName="password"
+        />
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      [disabled]="form.invalid"
+      color="primary"
+      mat-button
+      mat-raised-button
+      (click)="login()"
+    >
+      Login
+    </button>
+  </mat-card-actions>
+</mat-card>
