@@ -9,8 +9,10 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+const components = [LoginComponent];
+
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: components,
   imports: [
     CommonModule,
     UtilsModule,
@@ -20,5 +22,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
   ],
+  exports: components,
 })
 export class AnonymousUserModule {}

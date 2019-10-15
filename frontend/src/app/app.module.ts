@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AnonymousUserModule } from './anonymous-user/anonymous-user.module';
 import { SuperUserModule } from './super-user/super-user.module';
 import { UtilsModule } from './utils/utils.module';
+import { AdminUserModule } from './admin-user/admin-user.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,6 +17,7 @@ import { UtilsModule } from './utils/utils.module';
     BrowserAnimationsModule,
     AnonymousUserModule,
     SuperUserModule,
+    AdminUserModule,
     UtilsModule,
   ],
   providers: [],
