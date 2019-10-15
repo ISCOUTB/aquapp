@@ -53,7 +53,7 @@ export class ApiService {
   }
 
   redirectToStartPage() {
-    this.router.navigateByUrl('/paginas/get-start-page');
+    this.router.navigateByUrl('/get-start-page');
   }
 
   authenticatedUser(): any {
@@ -76,41 +76,41 @@ export class ApiService {
 
   getBuffer(
     endpoint: string,
-    parametros: { [prop: string]: string | string[] },
+    parameters: { [prop: string]: string | string[] },
   ) {
-    const opciones: any = {
-      params: parametros,
+    const options: any = {
+      params: parameters,
       responseType: 'blob',
       headers: this.getHeaders(),
     };
-    return this.http.get(`${this.apiUrl}/${endpoint}`, { ...opciones });
+    return this.http.get(`${this.apiUrl}/${endpoint}`, { ...options });
   }
 
   post(
     endpoint: string,
-    parametros: { [prop: string]: string | string[] },
+    parameters: { [prop: string]: string | string[] },
     cuerpo: any,
   ) {
     return this.http.post<any>(`${this.apiUrl}/${endpoint}`, cuerpo, {
-      params: parametros,
+      params: parameters,
       headers: this.getHeaders(),
     });
   }
 
-  delete(endpoint: string, parametros: { [prop: string]: string | string[] }) {
+  delete(endpoint: string, parameters: { [prop: string]: string | string[] }) {
     return this.http.delete<any>(`${this.apiUrl}/${endpoint}`, {
-      params: parametros,
+      params: parameters,
       headers: this.getHeaders(),
     });
   }
 
   patch(
     endpoint: string,
-    parametros: { [prop: string]: string | string[] },
+    parameters: { [prop: string]: string | string[] },
     cuerpo: any,
   ) {
     return this.http.patch<any>(`${this.apiUrl}/${endpoint}`, cuerpo, {
-      params: parametros,
+      params: parameters,
       headers: this.getHeaders(),
     });
   }
