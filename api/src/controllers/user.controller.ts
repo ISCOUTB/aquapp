@@ -149,9 +149,7 @@ export class UsuarioController {
     if (additionalFilters !== undefined && additionalFilters.length) {
       filters.splice(0, 0, ...additionalFiltersArray);
     }
-    const user = await this.miscTools.currentUser(
-      currentUserProfile,
-    ) as User;
+    const user = (await this.miscTools.currentUser(currentUserProfile)) as User;
     if (user.type === 'admin') {
       filters.splice(
         0,
@@ -229,7 +227,7 @@ export class UsuarioController {
     await this.userRepository.deleteById(id);
   }
 
-  @get('/users/yo', {
+  @get('/users/me', {
     responses: {
       '200': {
         description: 'The current user profile',
