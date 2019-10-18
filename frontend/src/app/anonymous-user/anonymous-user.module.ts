@@ -8,8 +8,9 @@ import {
   MatButtonModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
 
-const components = [LoginComponent];
+const components = [LoginComponent, AnonymousUserStartPageComponent];
 
 @NgModule({
   declarations: components,

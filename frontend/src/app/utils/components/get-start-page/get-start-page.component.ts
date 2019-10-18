@@ -12,12 +12,15 @@ export class GetStartPageComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit() {
-    this.apiService.me().subscribe((me: any) => {
-      if (me.name === 'superuser') {
-        this.router.navigateByUrl('/superuser');
-      } else {
-        this.router.navigateByUrl('/admin');
-      }
-    });
+    this.apiService.me().subscribe(
+      (me: any) => {
+        if (me.name === 'superuser') {
+          this.router.navigateByUrl('/superuser');
+        } else {
+          this.router.navigateByUrl('/admin');
+        }
+      },
+      () => this.router.navigateByUrl('/inicio'),
+    );
   }
 }
