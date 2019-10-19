@@ -162,19 +162,14 @@ export class UsuarioController {
     } else {
       throw new HttpErrors.Unauthorized(`You don't have enough permissions`);
     }
-    let usuarios: User[] = await this.userRepository.find(
+    let users: User[] = await this.userRepository.find(
       {
         where: {and: filters},
       },
       {strictObjectIDCoercion: true},
     );
-    usuarios = this.miscTools.sortAndPaginate(
-      usuarios,
-      order,
-      undefined,
-      undefined,
-    );
-    const usuariosMapeados = usuarios.map(e => ({usuario: e}));
+    users = this.miscTools.sortAndPaginate(users, order, undefined, undefined);
+    const usuariosMapeados = users.map(e => ({usuario: e}));
     return jsonata(query).evaluate(usuariosMapeados);
   }
 
