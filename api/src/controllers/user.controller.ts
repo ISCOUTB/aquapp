@@ -80,7 +80,7 @@ export class UsuarioController {
     if (currentUserProfile.name === 'superuser') {
       user.tipo = 'admin';
     } else {
-      if (user.tipo === 'admin') {
+      if (user.tipo !== 'admin') {
         throw new HttpErrors.UnprocessableEntity(`Wrong user type`);
       }
     }
@@ -268,7 +268,7 @@ export class UsuarioController {
   })
   async login(
     @requestBody(CredentialsRequestBody) credentials: Credentials,
-  ): Promise<{token: string}> {
+  ): Promise<{token: string; user: any}> {
     // ensure the user exists, and the password is correct
     const user = await this.userService.verifyCredentials(credentials);
 
@@ -278,6 +278,6 @@ export class UsuarioController {
     // create a JSON Web Token based on the user profile
     const token = await this.jwtService.generateToken(userProfile);
 
-    return {token};
+    return {token, user};
   }
 }
