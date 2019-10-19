@@ -46,8 +46,7 @@ export class ApiService {
       });
     if (r !== null) {
       this.storageService.save('token', r.token);
-      const user: any = await this.me().toPromise();
-      this.storageService.save('user', JSON.stringify(user));
+      this.storageService.save('user', JSON.stringify(r.user));
       this.redirectToStartPage();
     }
   }
