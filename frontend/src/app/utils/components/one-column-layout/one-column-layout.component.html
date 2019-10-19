@@ -23,6 +23,12 @@
       <button mat-button mat-icon-button (click)="drawerOpened = !drawerOpened">
         <mat-icon>menu</mat-icon>
       </button>
+      <button mat-button mat-icon-button (click)="location.back()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button mat-button mat-icon-button (click)="location.forward()">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
     </app-toolbar>
     <mat-card>
       <mat-card-header *ngIf="title"

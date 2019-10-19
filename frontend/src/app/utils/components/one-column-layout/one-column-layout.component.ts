@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DrawerElement } from '../../models/drawer';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-one-column-layout',
@@ -13,7 +14,11 @@ export class OneColumnLayoutComponent implements OnInit {
   @Input() sidenavMode = 'over';
   elements: DrawerElement[] = [];
   drawerOpened = false;
-  constructor(private router: Router, private storageService: StorageService) {}
+  constructor(
+    private router: Router,
+    private storageService: StorageService,
+    public location: Location,
+  ) {}
 
   ngOnInit() {
     try {
