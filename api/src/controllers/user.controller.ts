@@ -277,7 +277,9 @@ export class UsuarioController {
 
     // create a JSON Web Token based on the user profile
     const token = await this.jwtService.generateToken(userProfile);
-
+    if (user.password === undefined) {
+      delete user.password;
+    }
     return {token, user};
   }
 }
