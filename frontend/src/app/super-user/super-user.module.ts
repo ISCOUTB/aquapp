@@ -3,8 +3,13 @@ import { CommonModule } from '@angular/common';
 import { SuperuserStartPageComponent } from './components/superuser-start-page/superuser-start-page.component';
 import { UtilsModule } from '../utils/utils.module';
 import { AdminsComponent } from './components/admins/admins.component';
+import { NewAdminComponent } from './components/new-admin/new-admin.component';
 
-const components = [SuperuserStartPageComponent, AdminsComponent];
+const components = [
+  SuperuserStartPageComponent,
+  AdminsComponent,
+  NewAdminComponent,
+];
 
 @NgModule({
   declarations: components,
