@@ -1,4 +1,4 @@
-<div class="example-container mat-elevation-z8">
+<div *ngIf="tableColumns" class="example-container mat-elevation-z8">
   <div class="example-loading-shade" *ngIf="loading">
     <mat-spinner *ngIf="loading"></mat-spinner>
   </div>
@@ -13,22 +13,35 @@
       matSortDisableClear
       matSortDirection="desc"
     >
-      <ng-container *ngFor="let column of columns" matColumnDef="number">
+      <ng-container
+        *ngFor="let column of columns"
+        matColumnDef="{{ column.title }}"
+      >
         <th mat-header-cell *matHeaderCellDef>{{ column.title }}</th>
         <td mat-cell *matCellDef="let row">{{ row[column.property] }}</td>
       </ng-container>
 
-      <ng-container matColumnDef="created">
+      <ng-container matColumnDef="Acciones">
         <th mat-header-cell *matHeaderCellDef>
           Acciones
+
+          <button
+            mat-button
+            mat-icon-button
+            [ngStyle]="{ 'margin-left': '10px' }"
+            (click)="newElement()"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
         </th>
         <td mat-cell *matCellDef="let row">
           <button
             *ngFor="let action of actions"
             (click)="triggerAction(row, action)"
             mat-button
+            color="primary"
           >
-            {{ action.name }}
+            <mat-icon>{{ action.icon }}</mat-icon>
           </button>
         </td>
       </ng-container>

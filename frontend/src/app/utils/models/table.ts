@@ -1,7 +1,9 @@
+import { QueryParameters } from './url';
+
 export interface Action {
-  name: string[];
+  name: string;
   route: string[];
-  parameters: { [prop: string]: string }[];
+  parameters: QueryParameters;
   icon: string;
   color: string;
   idPropertyName: string;
