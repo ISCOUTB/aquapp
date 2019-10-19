@@ -169,8 +169,7 @@ export class UsuarioController {
       {strictObjectIDCoercion: true},
     );
     users = this.miscTools.sortAndPaginate(users, order, undefined, undefined);
-    const usuariosMapeados = users.map(e => ({usuario: e}));
-    return jsonata(query).evaluate(usuariosMapeados);
+    return jsonata(query).evaluate(users);
   }
 
   @get('/users/{id}', {
