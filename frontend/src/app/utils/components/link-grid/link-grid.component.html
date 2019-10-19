@@ -1,6 +1,7 @@
 <mat-grid-list [cols]="columns" [rowHeight]="height">
   <mat-grid-tile *ngFor="let element of elements">
     <mat-card
+      class="shortcut"
       [routerLink]="element.url"
       [queryParams]="element.queryParameters"
     >
