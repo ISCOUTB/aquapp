@@ -1,2 +1,11 @@
 <app-one-column-layout [title]="'Usuarios administradores'">
+  <app-table
+    [actions]="actions"
+    [columns]="columns"
+    [getElementsEndpoint]="getElementsEndpoint"
+    [getElementsQueryParams]="getElementsQueryParams"
+    [deleteElementEndpoint]="deleteElementEndpoint"
+    [newElementRoute]="newElementRoute"
+  >
+  </app-table>
 </app-one-column-layout>
