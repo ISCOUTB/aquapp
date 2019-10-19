@@ -1,20 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-
-interface Action {
-  name: string[];
-  route: string[];
-  parameters: { [prop: string]: string }[];
-  icon: string;
-  color: string;
-  idPropertyName: string;
-}
-
-interface Column {
-  title: string;
-  property: string;
-}
+import { Action, Column } from '../../models/table';
 
 @Component({
   selector: 'app-table',
