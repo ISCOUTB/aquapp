@@ -8,11 +8,11 @@ export class MiscTools {
     public userRepository: UserRepository,
   ) {}
 
-  async currentUser(perfil: UserProfile) {
-    if (perfil.name === 'superuser') {
-      return {...perfil, tipo: 'superuser'};
+  async currentUser(profile: UserProfile) {
+    if (profile.name === 'superuser') {
+      return {...profile, tipo: 'superuser'};
     }
-    return await this.userRepository.findById(perfil.id);
+    return await this.userRepository.findById(profile.id);
   }
 
   sortAndPaginate(
@@ -77,9 +77,7 @@ export class MiscTools {
     const userInDb = await this.userRepository.findById(usuario);
     const userFilter: any = {};
     userFilter[userProperty] =
-      userInDb.tipo === 'admin'
-        ? usuario
-        : userInDb.admin;
+      userInDb.tipo === 'admin' ? usuario : userInDb.admin;
     const filtrosAdicionales: any = [];
     if (filtro === undefined) {
       const filtro = {
