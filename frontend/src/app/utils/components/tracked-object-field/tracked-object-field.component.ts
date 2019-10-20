@@ -17,7 +17,6 @@ export class TrackedObjectFieldComponent implements OnInit {
 
   ngOnInit() {
     const currentValue: any = this.form.get(this.template.name).value;
-    console.log(currentValue);
     this.form
       .get(this.template.name)
       .setValue(
