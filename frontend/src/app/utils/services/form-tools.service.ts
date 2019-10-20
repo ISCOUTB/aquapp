@@ -64,15 +64,15 @@ export class FormToolsService {
     const form = this.fb.group(this.getControlsFromTemplate(fields));
     // Establecer los valores por defecto
     for (const fieldTemplate of fields) {
-      const campoFormulario = form.get(fieldTemplate.name);
-      if (campoFormulario !== null) {
-        campoFormulario.setValue(
+      const formField = form.get(fieldTemplate.name);
+      if (formField !== null) {
+        formField.setValue(
           !!fieldTemplate.defaultValue
             ? fieldTemplate.defaultValue
             : fieldTemplate.defaultValue,
         );
         if (fieldTemplate.soloLectura) {
-          campoFormulario.disable();
+          formField.disable();
         }
       }
     }

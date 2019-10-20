@@ -4,6 +4,9 @@ import { FormGroup } from '@angular/forms';
 import { AddFieldComponent } from '../add-field/add-field.component';
 import { MatDialog } from '@angular/material';
 import { FormToolsService } from '../../services/form-tools.service';
+import { ApiService } from '../../services/api.service';
+import { Form } from '../../models/form';
+import { JSONataResponse } from '../../models/url';
 
 @Component({
   selector: 'app-fields',
@@ -13,13 +16,28 @@ import { FormToolsService } from '../../services/form-tools.service';
 export class FieldsComponent implements OnInit {
   @Input() form: FormGroup;
   fields: Field[] = [];
-
-  constructor(public dialog: MatDialog, private formTools: FormToolsService) {}
+  forms: Form[] = [];
+  constructor(
+    public dialog: MatDialog,
+    private formTools: FormToolsService,
+    private apiService: ApiService,
+  ) {}
 
   ngOnInit() {
     this.form
       .get('fields')
       .valueChanges.subscribe((value: any[]) => (this.fields = value));
+
+    this.apiService
+      .get('/elements/jsonata', {
+        query: '([$])',
+        additionalFilters: JSON.stringify([{ category: 'forms' }]),
+      })
+      .subscribe({
+        next: (forms: JSONataResponse) => {
+          this.forms = forms.data as Form[];
+        },
+      });
   }
 
   addField() {
@@ -29,6 +47,7 @@ export class FieldsComponent implements OnInit {
       maxHeight: '600px',
       height: '80%',
       hasBackdrop: true,
+      data: { forms: this.forms },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -45,7 +64,7 @@ export class FieldsComponent implements OnInit {
       maxWidth: '350px',
       maxHeight: '600px',
       height: '80%',
-      data: this.fields[index],
+      data: { field: this.fields[index], forms: this.forms },
       hasBackdrop: true,
     });
 

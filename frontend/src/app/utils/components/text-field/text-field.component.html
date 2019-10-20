@@ -1,0 +1,10 @@
+<form class="form-50" [formGroup]="form">
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      [formControlName]="template.name"
+      [placeholder]="template.title"
+      [name]="'field-' + template.name"
+    />
+  </mat-form-field>
+</form>

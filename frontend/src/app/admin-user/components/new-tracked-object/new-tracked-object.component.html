@@ -1,5 +1,5 @@
 <app-one-column-layout [title]="title">
-  <form class="new-to-form" [formGroup]="form">
+  <form class="form-50" [formGroup]="form">
     <mat-form-field class="full-width">
       <input
         matInput
@@ -16,39 +16,54 @@
         name="new-to-description"
       ></textarea>
     </mat-form-field>
-    <button
-      *ngIf="!id"
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="primary"
-      (click)="newTrackedObject()"
-      class="action-button"
-      [disabled]="form.invalid || loading"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-    <button
-      *ngIf="id"
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="primary"
-      class="action-button"
-      (click)="editTrackedObject()"
-      [disabled]="form.invalid || loading"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="warn"
-      (click)="location.back()"
-      class="action-button"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
+    <mat-form-field class="full-width">
+      <mat-label>Formulario</mat-label>
+      <mat-select formControlName="form">
+        <mat-option *ngFor="let form of forms" [value]="form.id">{{
+          form.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </form>
+  <app-render-fields
+    *ngIf="additionalFieldsForm"
+    [form]="additionalFieldsForm"
+    [fields]="additionalFields"
+  ></app-render-fields>
+  <br />
+  <br />
+  <button
+    *ngIf="!id"
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="primary"
+    (click)="newTrackedObject()"
+    class="action-button"
+    [disabled]="form.invalid || loading"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <button
+    *ngIf="id"
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="primary"
+    class="action-button"
+    (click)="editTrackedObject()"
+    [disabled]="form.invalid || loading"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="warn"
+    (click)="location.back()"
+    class="action-button"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
 </app-one-column-layout>

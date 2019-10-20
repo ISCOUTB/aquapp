@@ -9,6 +9,7 @@ import {
   MatInputModule,
   MatButtonModule,
   MatIconModule,
+  MatSelectModule,
 } from '@angular/material';
 import { FormsComponent } from './components/forms/forms.component';
 import { NewFormComponent } from './components/new-form/new-form.component';
@@ -31,6 +32,7 @@ const components = [
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
   ],
   exports: components,
 })

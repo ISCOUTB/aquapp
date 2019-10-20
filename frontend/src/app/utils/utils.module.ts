@@ -34,6 +34,10 @@ import { RouterModule } from '@angular/router';
 import { FieldsComponent } from './components/fields/fields.component';
 import { AddFieldComponent } from './components/add-field/add-field.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RenderFieldsComponent } from './components/render-fields/render-fields.component';
+import { TextFieldComponent } from './components/text-field/text-field.component';
+import { NumberFieldComponent } from './components/number-field/number-field.component';
+import { TrackedObjectFieldComponent } from './components/tracked-object-field/tracked-object-field.component';
 
 const components = [
   TableComponent,
@@ -44,6 +48,10 @@ const components = [
   LinkGridComponent,
   FieldsComponent,
   AddFieldComponent,
+  RenderFieldsComponent,
+  TextFieldComponent,
+  NumberFieldComponent,
+  TrackedObjectFieldComponent,
 ];
 
 @NgModule({

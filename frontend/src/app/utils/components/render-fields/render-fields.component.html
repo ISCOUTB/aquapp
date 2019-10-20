@@ -1,0 +1,17 @@
+<div *ngFor="let field of fields">
+  <app-text-field
+    *ngIf="field.type === 'short-text'"
+    [form]="form"
+    [template]="field"
+  ></app-text-field>
+  <app-number-field
+    *ngIf="field.type === 'number'"
+    [form]="form"
+    [template]="field"
+  ></app-number-field>
+  <app-tracked-object-field
+    *ngIf="field.type === 'tracked-object'"
+    [form]="form"
+    [template]="field"
+  ></app-tracked-object-field>
+</div>

@@ -21,6 +21,7 @@ export interface TrackedObjectField extends Field {
   trackedObject: any;
   multi: boolean;
   populate: boolean;
+  form: string;
 }
 
 export const FIELD_TYPES = [
