@@ -4,6 +4,7 @@ export const ROUTES = {
   // Admin user
   admin: 'admin-start-page',
   trackedObjects: 'objects',
+  newTrackedObject: 'new-tracked-object',
   admins: 'admins',
   newAdmin: 'new-admin',
   // Anonymous user

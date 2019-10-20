@@ -1,1 +1,11 @@
-<p>tracked-objects works!</p>
+<app-one-column-layout [title]="'Objetos'"
+  ><app-table
+    [actions]="actions"
+    [columns]="columns"
+    [getElementsEndpoint]="getElementsEndpoint"
+    [getElementsQueryParams]="getElementsQueryParams"
+    [deleteElementEndpoint]="deleteElementEndpoint"
+    [newElementRoute]="newElementRoute"
+  >
+  </app-table>
+</app-one-column-layout>
