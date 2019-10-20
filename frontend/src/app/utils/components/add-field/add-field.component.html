@@ -60,6 +60,20 @@
     />
   </mat-form-field>
 </form>
+<form
+  *ngIf="controlForm.get('type').value === 'number'"
+  [formGroup]="fieldForm"
+>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      type="number"
+      formControlName="defaultValue"
+      placeholder="Valor por defecto"
+      name="new-field-default-value"
+    />
+  </mat-form-field>
+</form>
 <br />
 <br />
 <button
