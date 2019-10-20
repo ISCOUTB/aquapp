@@ -78,9 +78,9 @@ export class UsuarioController {
     user.password = await this.passwordHasher.hashPassword(user.password);
 
     if (currentUserProfile.name === 'superuser') {
-      user.tipo = 'admin';
+      user.type = 'admin';
     } else {
-      if (user.tipo !== 'admin') {
+      if (user.type !== 'admin') {
         throw new HttpErrors.UnprocessableEntity(`Wrong user type`);
       }
     }
@@ -142,6 +142,8 @@ export class UsuarioController {
     @param.query.string('query')
     query: string,
     @param.query.string('additionalFilters') additionalFilters: string,
+    @param.query.number('pageSize') pageSize: number,
+    @param.query.number('offset') offset: number,
   ) {
     const filters: any[] = [];
     const additionalFiltersArray: any[] =
@@ -162,13 +164,35 @@ export class UsuarioController {
     } else {
       throw new HttpErrors.Unauthorized(`You don't have enough permissions`);
     }
-    let users: User[] = await this.userRepository.find(
-      {
-        where: {and: filters},
-      },
-      {strictObjectIDCoercion: true},
-    );
+    let userOrder: string[] = [];
+    if (order !== undefined && order.length) {
+      const ordenArreglo = JSON.parse(order);
+      if (ordenArreglo.length) {
+        userOrder = ordenArreglo.map(
+          (o: any) => `${o.field} ${o.direction.toUpperCase()}`,
+        );
+      }
+    }
+    const dbQuery: Filter<User> =
+      offset !== undefined && pageSize !== undefined
+        ? {
+            where: {and: filters},
+            order: userOrder.length ? userOrder : ['createdAt ASC'],
+            offset: offset,
+            limit: pageSize,
+          }
+        : {
+            where: {and: filters},
+            order: userOrder.length ? userOrder : ['createdAt ASC'],
+          };
+    let users: User[] = await this.userRepository.find(dbQuery, {
+      strictObjectIDCoercion: true,
+    });
     users = this.miscTools.sortAndPaginate(users, order, undefined, undefined);
+    console.log(filters);
+
+    console.log(dbQuery);
+    console.log(users);
     return jsonata(query).evaluate(users);
   }
 
