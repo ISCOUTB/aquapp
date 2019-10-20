@@ -26,6 +26,7 @@ export class NewFormComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
       category: ['', Validators.required],
+      fields: [[], Validators.required],
     });
     this.form.get('category').setValue('forms');
   }

@@ -1,0 +1,49 @@
+<table *ngIf="fields" class="table">
+  <tr>
+    <th [ngStyle]="{ 'text-align': 'center' }" colspan="2">
+      Campos
+    </th>
+  </tr>
+  <tr>
+    <th>Campo</th>
+    <th [ngStyle]="{ width: '90px' }">
+      <button
+        color="primary"
+        (click)="addField()"
+        mat-button
+        mat-icon-button
+        mat-raised-button
+        class="action-button"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </th>
+  </tr>
+  <tr *ngFor="let field of fields; let i = index">
+    <td>
+      {{ field.title }}
+    </td>
+    <td [ngStyle]="{ 'text-align': 'center' }">
+      <button
+        color="primary"
+        (click)="editField(i)"
+        mat-button
+        mat-icon-button
+        mat-raised-button
+        class="action-button"
+      >
+        <i class="fas fa-edit">edit</i>
+      </button>
+      <button
+        color="warn"
+        (click)="removeField(i)"
+        mat-button
+        mat-icon-button
+        mat-raised-button
+        class="action-button"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </tr>
+</table>

@@ -25,6 +25,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { OneColumnLayoutComponent } from './components/one-column-layout/one-column-layout.component';
 import { LinkGridComponent } from './components/link-grid/link-grid.component';
 import { RouterModule } from '@angular/router';
+import { FieldsComponent } from './components/fields/fields.component';
 
 const components = [
   TableComponent,
@@ -33,6 +34,7 @@ const components = [
   ToolbarComponent,
   OneColumnLayoutComponent,
   LinkGridComponent,
+  FieldsComponent,
 ];
 
 @NgModule({
