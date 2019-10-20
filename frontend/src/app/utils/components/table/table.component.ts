@@ -30,6 +30,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   loading = true;
   data: any[] = [];
   tableColumns: string[] = [];
+  total = 0;
   @ViewChild(MatPaginator, { read: MatPaginator, static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort, { read: MatSort, static: false }) sort: MatSort;
@@ -59,8 +60,9 @@ export class TableComponent implements OnInit, AfterViewInit {
         offset: (this.pageSize * this.paginator.pageIndex).toString(),
       })
       .subscribe({
-        next: (elements: any[]) => {
-          this.data = elements;
+        next: (elements: any) => {
+          this.data = elements.data;
+          this.total = elements.total;
           console.log(this.data);
         },
         error: () => {},

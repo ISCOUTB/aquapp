@@ -188,12 +188,11 @@ export class UsuarioController {
     let users: User[] = await this.userRepository.find(dbQuery, {
       strictObjectIDCoercion: true,
     });
+    let count = await this.userRepository.count(dbQuery.where, {
+      strictObjectIDCoercion: true,
+    });
     users = this.miscTools.sortAndPaginate(users, order, undefined, undefined);
-    console.log(filters);
-
-    console.log(dbQuery);
-    console.log(users);
-    return jsonata(query).evaluate(users);
+    return {data: jsonata(query).evaluate(users), total: count.count};
   }
 
   @get('/users/{id}', {

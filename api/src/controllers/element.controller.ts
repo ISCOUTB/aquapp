@@ -116,6 +116,8 @@ export class ElementController {
     @param.query.string('query')
     query: string,
     @param.query.string('additionalFilters') additionalFilters: string,
+    @param.query.number('limit') limit: number,
+    @param.query.number('offset') offset: number,
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
   ) {
@@ -132,14 +134,14 @@ export class ElementController {
     let elements: Element[] = await this.elementsRepository.find(
       {
         where: {and: filters},
+        limit,
+        offset,
       },
       {strictObjectIDCoercion: true},
     );
-    elements = this.MiscTools.sortAndPaginate(
-      elements,
-      order,
-      undefined,
-      undefined,
+    const count = await this.elementsRepository.count(
+      {and: filters},
+      {strictObjectIDCoercion: true},
     );
     if (populate) {
       for (const element of elements) {
@@ -162,7 +164,7 @@ export class ElementController {
         }
       }
     }
-    return jsonata(query).evaluate(elements);
+    return {data: jsonata(query).evaluate(elements), total: count.count};
   }
 
   @get('/elements/{id}', {
