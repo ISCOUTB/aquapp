@@ -7,8 +7,10 @@ export const ROUTES = {
   newTrackedObject: 'new-tracked-object',
   admins: 'admins',
   newAdmin: 'new-admin',
+  forms: 'forms',
+  newForm: 'new-form',
   // Anonymous user
   login: 'login',
-  start: '',
+  start: 'inicio',
   getStartPage: 'get-start-page',
 };

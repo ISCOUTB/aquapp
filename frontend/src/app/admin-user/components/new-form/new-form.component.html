@@ -1,0 +1,54 @@
+<app-one-column-layout [title]="title">
+  <form class="new-form" [formGroup]="form">
+    <mat-form-field class="full-width">
+      <input
+        matInput
+        formControlName="name"
+        placeholder="Nombre"
+        name="new-to-name"
+      />
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Descripción"
+        name="new-to-description"
+      ></textarea>
+    </mat-form-field>
+    <button
+      *ngIf="!id"
+      mat-button
+      mat-icon-button
+      mat-raised-button
+      color="primary"
+      (click)="newForm()"
+      class="action-button"
+      [disabled]="form.invalid || loading"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+    <button
+      *ngIf="id"
+      mat-button
+      mat-icon-button
+      mat-raised-button
+      color="primary"
+      class="action-button"
+      (click)="editForm()"
+      [disabled]="form.invalid || loading"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-button
+      mat-icon-button
+      mat-raised-button
+      color="warn"
+      (click)="location.back()"
+      class="action-button"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </form>
+</app-one-column-layout>

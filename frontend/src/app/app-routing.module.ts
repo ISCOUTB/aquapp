@@ -10,6 +10,8 @@ import { NewAdminComponent } from './super-user/components/new-admin/new-admin.c
 import { ROUTES } from './routes';
 import { TrackedObjectsComponent } from './admin-user/components/tracked-objects/tracked-objects.component';
 import { NewTrackedObjectComponent } from './admin-user/components/new-tracked-object/new-tracked-object.component';
+import { FormsComponent } from './admin-user/components/forms/forms.component';
+import { NewFormComponent } from './admin-user/components/new-form/new-form.component';
 
 const routes: Routes = [
   // Anonymous user routes
@@ -22,6 +24,8 @@ const routes: Routes = [
   { path: ROUTES.admin, component: AdminStartPageComponent },
   { path: ROUTES.trackedObjects, component: TrackedObjectsComponent },
   { path: ROUTES.newTrackedObject, component: NewTrackedObjectComponent },
+  { path: ROUTES.forms, component: FormsComponent },
+  { path: ROUTES.newForm, component: NewFormComponent },
   {
     path: ROUTES.start,
     component: AnonymousUserStartPageComponent,
