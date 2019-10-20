@@ -13,12 +13,11 @@ import {
   getModelSchemaRef,
   getWhereSchemaFor,
   patch,
-  put,
   del,
   requestBody,
   HttpErrors,
 } from '@loopback/rest';
-import {Element, GlobalElement} from '../models';
+import {Element} from '../models';
 import {ElementRepository} from '../repositories';
 import {
   authenticate,
@@ -90,6 +89,7 @@ export class ElementController {
       },
     },
   })
+  @authenticate('jwt')
   async find(
     @param.query.object('filter', getFilterSchemaFor(Element))
     filter?: Filter<Element>,
@@ -100,15 +100,16 @@ export class ElementController {
   @get('/elements/jsonata', {
     responses: {
       '200': {
-        description: 'Array of ElementGlobal model instances',
+        description: 'Array of Element model instances',
         content: {
           'application/json': {
-            schema: {type: 'array', items: {'x-ts-type': GlobalElement}},
+            schema: {type: 'array', items: {'x-ts-type': Element}},
           },
         },
       },
     },
   })
+  @authenticate('jwt')
   async findJsonata(
     @param.query.string('order') order: string,
     @param.query.boolean('populate') populate: boolean,
