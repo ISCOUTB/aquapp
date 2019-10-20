@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LinkGridElement } from 'src/app/utils/models/link-grid';
+import { ROUTES } from 'src/app/routes';
 
 @Component({
   selector: 'app-admin-start-page',
@@ -11,7 +12,7 @@ export class AdminStartPageComponent implements OnInit {
     {
       title: 'Objetos',
       description: `Creación de objetos`,
-      url: ['/', 'tracked-objects'],
+      url: ['/', ROUTES.trackedObjects],
       queryParameters: {},
     },
   ];
