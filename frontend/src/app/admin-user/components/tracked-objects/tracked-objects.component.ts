@@ -46,7 +46,7 @@ export class TrackedObjectsComponent implements OnInit {
       },
     ]),
   };
-  pageSize = 2;
+  pageSize = 10;
   deleteElementEndpoint = '/elements';
   constructor() {}
 
