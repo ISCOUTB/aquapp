@@ -88,38 +88,39 @@ export class FormToolsService {
 
   getFormFieldTemplate(fieldType: string) {
     let form: FormGroup;
+    const commonControls = {
+      required: [false, Validators.required],
+      readOnly: [false, Validators.required],
+      hidden: [false, Validators.required],
+      name: ['', Validators.required],
+      title: ['', Validators.required],
+      description: [''],
+    };
     switch (fieldType) {
       case 'short-text':
         form = this.fb.group({
-          name: ['', Validators.required],
-          title: ['', Validators.required],
-          description: [''],
+          ...commonControls,
           defaultValue: ['', Validators.required],
         });
         break;
       case 'number':
         form = this.fb.group({
-          name: ['', Validators.required],
-          title: ['', Validators.required],
-          description: [''],
+          ...commonControls,
           defaultValue: [0, Validators.required],
         });
         break;
       case 'tracked-object':
         form = this.fb.group({
-          name: ['', Validators.required],
-          title: ['', Validators.required],
-          description: [''],
+          ...commonControls,
           defaultValue: [0, Validators.required],
+          form: ['', Validators.required],
           multi: [false, Validators.required],
           populate: [false, Validators.required],
         });
         break;
       default:
         form = this.fb.group({
-          name: ['', Validators.required],
-          title: ['', Validators.required],
-          description: [''],
+          ...commonControls,
           defaultValue: ['', Validators.required],
         });
         break;

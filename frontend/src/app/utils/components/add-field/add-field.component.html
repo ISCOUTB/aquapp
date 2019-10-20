@@ -46,6 +46,19 @@
       name="new-field-description"
     ></textarea>
   </mat-form-field>
+  <mat-checkbox formControlName="required">
+    Requerido
+  </mat-checkbox>
+  <br />
+  <mat-checkbox formControlName="readOnly">
+    Solo lectura
+  </mat-checkbox>
+  <br />
+  <mat-checkbox formControlName="hidden">
+    Oculto
+  </mat-checkbox>
+  <br />
+  <br />
 </form>
 <form
   *ngIf="controlForm.get('type').value === 'short-text'"
@@ -78,6 +91,14 @@
   *ngIf="controlForm.get('type').value === 'tracked-object'"
   [formGroup]="fieldForm"
 >
+  <mat-form-field class="full-width">
+    <mat-label>Formulario</mat-label>
+    <mat-select formControlName="form">
+      <mat-option *ngFor="let form of forms" [value]="form.id">{{
+        form.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <mat-checkbox formControlName="multi">
     Valores múltiples
   </mat-checkbox>
