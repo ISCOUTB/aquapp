@@ -63,7 +63,6 @@ export class TableComponent implements OnInit, AfterViewInit {
         next: (elements: any) => {
           this.data = elements.data;
           this.total = elements.total;
-          console.log(this.data);
         },
         error: () => {},
         complete: () => (this.loading = false),
