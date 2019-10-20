@@ -91,7 +91,6 @@ export class FormToolsService {
     switch (fieldType) {
       case 'short-text':
         form = this.fb.group({
-          type: ['', Validators.required],
           name: ['', Validators.required],
           title: ['', Validators.required],
           description: [''],
@@ -100,7 +99,6 @@ export class FormToolsService {
         break;
       case 'number':
         form = this.fb.group({
-          type: ['', Validators.required],
           name: ['', Validators.required],
           title: ['', Validators.required],
           description: [''],
@@ -109,7 +107,6 @@ export class FormToolsService {
         break;
       default:
         form = this.fb.group({
-          type: ['', Validators.required],
           name: ['', Validators.required],
           title: ['', Validators.required],
           description: [''],
@@ -117,7 +114,6 @@ export class FormToolsService {
         });
         break;
     }
-    form.get('type').setValue(fieldType);
     return form;
   }
 }

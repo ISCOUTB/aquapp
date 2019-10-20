@@ -1,0 +1,86 @@
+<h1>Nuevo campo</h1>
+<form [formGroup]="controlForm">
+  <mat-form-field class="full-width">
+    <mat-label>Tipo de campo</mat-label>
+    <mat-select formControlName="type">
+      <mat-option
+        *ngFor="let fieldType of fieldTypes"
+        [value]="fieldType.name"
+        >{{ fieldType.title }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</form>
+<form
+  *ngIf="controlForm.get('type').value === 'short-text'"
+  [formGroup]="fieldForm"
+>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      formControlName="name"
+      placeholder="Nombre"
+      name="new-field-name"
+    />
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      formControlName="title"
+      placeholder="Título"
+      name="new-field-title"
+    />
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <textarea
+      matInput
+      formControlName="description"
+      placeholder="Descripción"
+      name="new-field-description"
+    ></textarea>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      formControlName="defaultValue"
+      placeholder="Valor por defecto"
+      name="new-field-default-value"
+    />
+  </mat-form-field>
+</form>
+<br />
+<br />
+<button
+  *ngIf="!editing"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  (click)="onNoClick()"
+  class="action-button"
+  [disabled]="controlForm.invalid || !fieldForm || fieldForm.invalid"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<button
+  *ngIf="editing"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  class="action-button"
+  (click)="onNoClick()"
+  [disabled]="controlForm.invalid || !fieldForm || fieldForm.invalid"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="warn"
+  (click)="onNoClick()"
+  class="action-button"
+>
+  <mat-icon>close</mat-icon>
+</button>

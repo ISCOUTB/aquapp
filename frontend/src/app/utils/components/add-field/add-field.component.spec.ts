@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewNumberFieldComponent } from './new-number-field.component';
+import { AddFieldComponent } from './add-field.component';
 
-describe('NewNumberFieldComponent', () => {
-  let component: NewNumberFieldComponent;
-  let fixture: ComponentFixture<NewNumberFieldComponent>;
+describe('AddFieldComponent', () => {
+  let component: AddFieldComponent;
+  let fixture: ComponentFixture<AddFieldComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewNumberFieldComponent ]
+      declarations: [ AddFieldComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NewNumberFieldComponent);
+    fixture = TestBed.createComponent(AddFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

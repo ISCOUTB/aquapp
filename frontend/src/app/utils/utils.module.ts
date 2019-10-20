@@ -12,11 +12,15 @@ import {
   MatProgressSpinnerModule,
   MatToolbarModule,
   MatCardModule,
-  MatDrawerContainer,
   MatSidenavModule,
   MatIconModule,
   MatListModule,
   MatGridListModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+  MAT_DIALOG_DATA,
+  MatInputModule,
+  MatSelectModule,
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { ParticlesBackgroundComponent } from './components/particles-background/particles-background.component';
@@ -26,6 +30,8 @@ import { OneColumnLayoutComponent } from './components/one-column-layout/one-col
 import { LinkGridComponent } from './components/link-grid/link-grid.component';
 import { RouterModule } from '@angular/router';
 import { FieldsComponent } from './components/fields/fields.component';
+import { AddFieldComponent } from './components/add-field/add-field.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const components = [
   TableComponent,
@@ -35,6 +41,7 @@ const components = [
   OneColumnLayoutComponent,
   LinkGridComponent,
   FieldsComponent,
+  AddFieldComponent,
 ];
 
 @NgModule({
@@ -54,8 +61,20 @@ const components = [
     MatListModule,
     MatGridListModule,
     RouterModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
   ],
-  providers: [ApiService, StorageService, MessagesService],
+  providers: [
+    ApiService,
+    StorageService,
+    MessagesService,
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+  ],
   exports: components,
+  entryComponents: [AddFieldComponent],
 })
 export class UtilsModule {}

@@ -28,7 +28,7 @@
       color="primary"
       (click)="newForm()"
       class="action-button"
-      [disabled]="form.invalid || loading"
+      [disabled]="form.invalid"
     >
       <mat-icon>add</mat-icon>
     </button>
@@ -40,7 +40,7 @@
       color="primary"
       class="action-button"
       (click)="editForm()"
-      [disabled]="form.invalid || loading"
+      [disabled]="form.invalid"
     >
       <mat-icon>edit</mat-icon>
     </button>
