@@ -42,7 +42,7 @@ export class AddFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (Object.keys(this.data.field).length) {
+    if (Object.keys(this.data.field || {}).length) {
       this.editing = true;
       this.title = 'Editando campo';
       this.formTools.serializeFromObject(this.controlForm, this.data.field);
