@@ -41,12 +41,13 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.paginator.pageSize = this.pageSize;
-    merge(this.sort.sortChange, this.paginator.page).subscribe({
-      next: () => this.getElements(),
-    });
-    console.log(this.actions);
-    this.getElements();
+    setTimeout(() => {
+      this.paginator.pageSize = this.pageSize;
+      merge(this.sort.sortChange, this.paginator.page).subscribe({
+        next: () => this.getElements(),
+      });
+      this.getElements();
+    }, 100);
   }
 
   getElements() {
