@@ -8,6 +8,7 @@ import { AnonymousUserStartPageComponent } from './anonymous-user/components/ano
 import { AdminsComponent } from './super-user/components/admins/admins.component';
 import { NewAdminComponent } from './super-user/components/new-admin/new-admin.component';
 import { ROUTES } from './routes';
+import { TrackedObjectsComponent } from './admin-user/components/tracked-objects/tracked-objects.component';
 
 const routes: Routes = [
   // Anonymous user routes
@@ -18,7 +19,7 @@ const routes: Routes = [
   { path: ROUTES.newAdmin, component: NewAdminComponent },
   // Admin routes
   { path: ROUTES.admin, component: AdminStartPageComponent },
-  { path: ROUTES.trackedObjects, component: NewAdminComponent },
+  { path: ROUTES.trackedObjects, component: TrackedObjectsComponent },
   {
     path: ROUTES.start,
     component: AnonymousUserStartPageComponent,
