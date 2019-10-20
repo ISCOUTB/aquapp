@@ -6,15 +6,16 @@
     opened
   >
     <mat-list>
-      <mat-list-item *ngFor="let element of elements">
-        <button
-          class="drawer-item"
-          mat-button
-          (click)="elementPressed(element)"
-        >
-          <mat-icon matPrefix>{{ element.icon }}</mat-icon>
-          {{ element.title }}
-        </button>
+      <mat-list-item
+        [routerLink]="element.url"
+        [queryParams]="element.queryParameters"
+        *ngFor="let element of elements"
+        class="drawer-element"
+      >
+        <mat-icon class="drawer-element-icon" matPrefix>{{
+          element.icon
+        }}</mat-icon>
+        {{ element.title }}
       </mat-list-item>
     </mat-list>
   </mat-drawer>

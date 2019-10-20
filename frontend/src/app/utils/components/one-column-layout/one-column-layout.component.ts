@@ -3,6 +3,7 @@ import { DrawerElement } from '../../models/drawer';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { Location } from '@angular/common';
+import { ROUTES } from 'src/app/routes';
 
 @Component({
   selector: 'app-one-column-layout',
@@ -29,18 +30,24 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
     try {
       const user = JSON.parse(this.storageService.get('user'));
       console.log(user);
+      this.elements.push({
+        title: 'Inicio',
+        icon: 'home',
+        url: ['/', ROUTES.getStartPage],
+        queryParameters: {},
+      });
       if (user.name === 'superuser') {
         this.elements.push({
           title: 'Cerrar sesión',
           icon: 'input',
-          url: ['/', 'login'],
+          url: ['/', ROUTES.login],
           queryParameters: {},
         });
       } else {
         this.elements.push({
           title: 'Cerrar sesión',
           icon: 'input',
-          url: ['/', 'login'],
+          url: ['/', ROUTES.login],
           queryParameters: {},
         });
       }
@@ -48,7 +55,7 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
       this.elements.push({
         title: 'Iniciar sesión',
         icon: 'input',
-        url: ['/', 'login'],
+        url: ['/', ROUTES.login],
         queryParameters: {},
       });
     }

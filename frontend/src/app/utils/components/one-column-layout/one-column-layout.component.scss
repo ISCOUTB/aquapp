@@ -4,6 +4,20 @@
   overflow: hidden;
 }
 
+.drawer-element {
+  font-size: 1em;
+  line-height: 1em;
+}
+
+.drawer-element-icon {
+  margin-right: 0.8em;
+}
+
+.drawer-element:hover {
+  background-color: #ccc;
+  cursor: pointer;
+}
+
 .content {
   padding: 0 5px 0 5px;
   width: calc(100% - 10px);
