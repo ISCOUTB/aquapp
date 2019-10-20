@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DrawerElement } from '../../models/drawer';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
@@ -9,16 +9,21 @@ import { Location } from '@angular/common';
   templateUrl: './one-column-layout.component.html',
   styleUrls: ['./one-column-layout.component.scss'],
 })
-export class OneColumnLayoutComponent implements OnInit {
+export class OneColumnLayoutComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() sidenavMode = 'over';
   elements: DrawerElement[] = [];
   drawerOpened = false;
+  contentClass = 'content';
+  resizeListener = () =>
+    (this.contentClass = window.innerWidth < 600 ? 'content-2' : 'content');
   constructor(
     private router: Router,
     private storageService: StorageService,
     public location: Location,
-  ) {}
+  ) {
+    window.addEventListener('resize', this.resizeListener);
+  }
 
   ngOnInit() {
     try {
@@ -53,5 +58,9 @@ export class OneColumnLayoutComponent implements OnInit {
     this.router.navigate(element.url, {
       queryParams: element.queryParameters,
     });
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.resizeListener);
   }
 }
