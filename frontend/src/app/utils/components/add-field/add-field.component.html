@@ -10,6 +10,16 @@
       >
     </mat-select>
   </mat-form-field>
+  <mat-form-field *ngIf="controlForm.get('type').value" class="full-width">
+    <mat-label>Validadores</mat-label>
+    <mat-select multiple formControlName="validators">
+      <mat-option
+        *ngFor="let validator of validators"
+        [value]="validator.name"
+        >{{ validator.title }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
 </form>
 <form
   *ngIf="controlForm.get('type').value === 'short-text'"

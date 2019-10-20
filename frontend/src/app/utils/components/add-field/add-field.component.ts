@@ -30,6 +30,7 @@ export class AddFieldComponent implements OnInit {
       ],
     },
   ];
+  validators = [];
   controlForm: FormGroup;
   fieldForm: FormGroup;
   editing = false;
@@ -68,8 +69,12 @@ export class AddFieldComponent implements OnInit {
       this.formTools.serializeFromObject(this.fieldForm, this.data);
     }
     this.controlForm.get('type').valueChanges.subscribe({
-      next: (value: string) =>
-        (this.fieldForm = this.formTools.getFormFieldTemplate(value)),
+      next: (value: string) => {
+        this.fieldForm = this.formTools.getFormFieldTemplate(value);
+        this.validators = this.fieldTypes.find(
+          field => field.name === value,
+        ).validators;
+      },
     });
   }
 }
