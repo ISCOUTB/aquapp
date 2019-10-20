@@ -4,6 +4,12 @@ import { AdminStartPageComponent } from './components/admin-start-page/admin-sta
 import { UtilsModule } from '../utils/utils.module';
 import { NewTrackedObjectComponent } from './components/new-tracked-object/new-tracked-object.component';
 import { TrackedObjectsComponent } from './components/tracked-objects/tracked-objects.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatInputModule,
+  MatButtonModule,
+  MatIconModule,
+} from '@angular/material';
 
 const components = [
   AdminStartPageComponent,
@@ -13,7 +19,15 @@ const components = [
 
 @NgModule({
   declarations: components,
-  imports: [CommonModule, UtilsModule],
+  imports: [
+    CommonModule,
+    UtilsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   exports: components,
 })
 export class AdminUserModule {}

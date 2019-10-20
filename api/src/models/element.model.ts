@@ -16,6 +16,17 @@ export class Element extends Entity {
 
   @property({
     type: 'string',
+    required: true,
+  })
+  name: string;
+
+  @property({
+    type: 'string',
+  })
+  description?: string;
+
+  @property({
+    type: 'string',
   })
   form?: string;
 
