@@ -15,6 +15,12 @@ export class AdminStartPageComponent implements OnInit {
       url: ['/', ROUTES.trackedObjects],
       queryParameters: {},
     },
+    {
+      title: 'Formularios',
+      description: `Administración de formularios`,
+      url: ['/', ROUTES.forms],
+      queryParameters: {},
+    },
   ];
   constructor() {}
 
