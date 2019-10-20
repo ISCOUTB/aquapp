@@ -5,7 +5,9 @@
       [routerLink]="element.url"
       [queryParams]="element.queryParameters"
     >
-      <mat-card-header>{{ element.title }}</mat-card-header>
+      <mat-card-header
+        ><h2>{{ element.title }}</h2></mat-card-header
+      >
       <mat-card-content>
         {{ element.description }}
       </mat-card-content>
