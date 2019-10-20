@@ -1,15 +1,24 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Action, Column } from '../../models/table';
 import { QueryParameters } from '../../models/url';
+import { MatPaginator, MatSort } from '@angular/material';
+import { merge } from 'rxjs';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
   @Input() getElementsEndpoint: string;
   @Input() getElementsQueryParams: QueryParameters = {};
   @Input() newElementRoute: string[];
@@ -18,30 +27,44 @@ export class TableComponent implements OnInit {
   @Input() actions: Action[];
   @Input() columns: Column[];
   @Input() pageSize = 10;
-  tableColumns: string[] = [];
   loading = true;
   data: any[] = [];
+  tableColumns: string[] = [];
+  @ViewChild(MatPaginator, { read: MatPaginator, static: false })
+  paginator: MatPaginator;
+  @ViewChild(MatSort, { read: MatSort, static: false }) sort: MatSort;
   constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit() {
     this.tableColumns = this.columns.map((column: Column) => column.title);
     this.tableColumns.push('Acciones');
+  }
+
+  ngAfterViewInit() {
+    this.paginator.pageSize = this.pageSize;
+    merge(this.sort.sortChange, this.paginator.page).subscribe({
+      next: () => this.getElements(),
+    });
+    console.log(this.actions);
     this.getElements();
   }
 
   getElements() {
     this.loading = true;
     this.apiService
-      .get(this.getElementsEndpoint, this.getElementsQueryParams)
-      .subscribe(
-        (elements: any[]) => {
+      .get(this.getElementsEndpoint, {
+        ...this.getElementsQueryParams,
+        limit: this.pageSize.toString(),
+        offset: (this.pageSize * this.paginator.pageIndex).toString(),
+      })
+      .subscribe({
+        next: (elements: any[]) => {
           this.data = elements;
+          console.log(this.data);
         },
-        () => {},
-        () => {
-          this.loading = false;
-        },
-      );
+        error: () => {},
+        complete: () => (this.loading = false),
+      });
   }
 
   getQueryParameters(action: Action, id: string) {
@@ -62,7 +85,10 @@ export class TableComponent implements OnInit {
       console.log('OBJECT ID UNDEFINED');
       return;
     }
-    if (action.name === 'delete') {
+    if (
+      action.name === 'delete' &&
+      window.confirm('¿Está seguro de eliminar?')
+    ) {
       this.loading = true;
       this.apiService
         .delete(

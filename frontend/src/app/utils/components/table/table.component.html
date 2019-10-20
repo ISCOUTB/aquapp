@@ -1,4 +1,4 @@
-<div *ngIf="tableColumns" class="example-container mat-elevation-z8">
+<div class="example-container mat-elevation-z8">
   <div class="example-loading-shade" *ngIf="loading">
     <mat-spinner *ngIf="loading"></mat-spinner>
   </div>
@@ -22,7 +22,11 @@
       </ng-container>
 
       <ng-container matColumnDef="Acciones">
-        <th mat-header-cell *matHeaderCellDef>
+        <th
+          [ngStyle]="{ with: '150px !important' }"
+          mat-header-cell
+          *matHeaderCellDef
+        >
           Acciones
 
           <button
@@ -39,7 +43,7 @@
             *ngFor="let action of actions"
             (click)="triggerAction(row, action)"
             mat-button
-            color="primary"
+            [color]="action.color"
           >
             <mat-icon>{{ action.icon }}</mat-icon>
           </button>
