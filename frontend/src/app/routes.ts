@@ -5,6 +5,8 @@ export const ROUTES = {
   admin: 'admin-start-page',
   trackedObjects: 'objects',
   newTrackedObject: 'new-tracked-object',
+  data: 'data',
+  newDatum: 'new-datum',
   admins: 'admins',
   newAdmin: 'new-admin',
   forms: 'forms',

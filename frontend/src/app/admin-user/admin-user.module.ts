@@ -13,6 +13,8 @@ import {
 } from '@angular/material';
 import { FormsComponent } from './components/forms/forms.component';
 import { NewFormComponent } from './components/new-form/new-form.component';
+import { DataComponent } from './components/data/data.component';
+import { NewDatumComponent } from './components/new-datum/new-datum.component';
 
 const components = [
   AdminStartPageComponent,
@@ -20,6 +22,8 @@ const components = [
   TrackedObjectsComponent,
   FormsComponent,
   NewFormComponent,
+  DataComponent,
+  NewDatumComponent,
 ];
 
 @NgModule({

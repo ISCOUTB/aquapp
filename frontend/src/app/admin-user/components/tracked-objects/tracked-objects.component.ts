@@ -11,6 +11,14 @@ import { ROUTES } from 'src/app/routes';
 export class TrackedObjectsComponent implements OnInit {
   actions: Action[] = [
     {
+      name: 'data',
+      route: ['/', ROUTES.data],
+      parameters: {},
+      icon: 'bar_chart',
+      color: 'primary',
+      idPropertyName: 'trackedObjectId',
+    },
+    {
       name: 'edit',
       route: ['/', ROUTES.newTrackedObject],
       parameters: {},
