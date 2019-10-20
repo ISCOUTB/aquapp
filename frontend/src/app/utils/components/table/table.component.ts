@@ -96,7 +96,10 @@ export class TableComponent implements OnInit, AfterViewInit {
           this.getQueryParameters(action, object.id),
         )
         .subscribe(
-          () => console.log('Deleted successfully'),
+          () => {
+            console.log('Deleted successfully');
+            this.getElements();
+          },
           () => console.log('Error deleting'),
           () => (this.loading = false),
         );
