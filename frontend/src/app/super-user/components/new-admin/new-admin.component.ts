@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/utils/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { FormToolsService } from 'src/app/utils/services/form-tools.service';
 
 @Component({
   selector: 'app-new-admin',
@@ -19,6 +20,7 @@ export class NewAdminComponent implements OnInit {
     private apiService: ApiService,
     private activatedRoute: ActivatedRoute,
     public location: Location,
+    private formTools: FormToolsService,
   ) {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
@@ -29,6 +31,19 @@ export class NewAdminComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.queryParams.id;
+    if (!!this.id) {
+      this.loading = true;
+      this.form.disable();
+      this.apiService.get(`/users/${this.id}`, {}).subscribe({
+        next: user => {
+          this.formTools.serializeFromObject(this.form, user);
+          this.form.enable();
+          this.form.updateValueAndValidity();
+        },
+        error: () => {},
+        complete: () => (this.loading = false),
+      });
+    }
   }
 
   newAdmin() {
@@ -42,5 +57,14 @@ export class NewAdminComponent implements OnInit {
     });
   }
 
-  editAdmin() {}
+  editAdmin() {
+    this.loading = true;
+    this.apiService.patch(`/users/${this.id}`, {}, this.form.value).subscribe({
+      next: () => {
+        this.location.back();
+      },
+      error: () => {},
+      complete: () => (this.loading = false),
+    });
+  }
 }
