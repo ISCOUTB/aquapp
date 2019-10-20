@@ -7,18 +7,20 @@ import { AdminStartPageComponent } from './admin-user/components/admin-start-pag
 import { AnonymousUserStartPageComponent } from './anonymous-user/components/anonymous-user-start-page/anonymous-user-start-page.component';
 import { AdminsComponent } from './super-user/components/admins/admins.component';
 import { NewAdminComponent } from './super-user/components/new-admin/new-admin.component';
+import { ROUTES } from './routes';
 
 const routes: Routes = [
   // Anonymous user routes
-  { path: 'login', component: LoginComponent },
+  { path: ROUTES.login, component: LoginComponent },
   // Superuser routes
-  { path: 'superuser', component: SuperuserStartPageComponent },
-  { path: 'admins', component: AdminsComponent },
-  { path: 'new-admin', component: NewAdminComponent },
+  { path: ROUTES.superuser, component: SuperuserStartPageComponent },
+  { path: ROUTES.admins, component: AdminsComponent },
+  { path: ROUTES.newAdmin, component: NewAdminComponent },
   // Admin routes
-  { path: 'admin', component: AdminStartPageComponent },
+  { path: ROUTES.admin, component: AdminStartPageComponent },
+  { path: ROUTES.trackedObjects, component: NewAdminComponent },
   {
-    path: 'inicio',
+    path: ROUTES.start,
     component: AnonymousUserStartPageComponent,
   },
   {

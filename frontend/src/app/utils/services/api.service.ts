@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
 import { HttpClient } from '@angular/common/http';
+import { ROUTES } from 'src/app/routes';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class ApiService {
     this.storageService.delete('user');
     this.storageService.delete('token');
     this.storageService.delete('user');
-    this.router.navigate(['/', 'login']);
+    this.router.navigate(['/', ROUTES.login]);
   }
 
   async login(email: string, password: string) {
@@ -52,7 +53,7 @@ export class ApiService {
   }
 
   redirectToStartPage() {
-    this.router.navigateByUrl('/get-start-page');
+    this.router.navigateByUrl(`${ROUTES.getStartPage}`);
   }
 
   authenticatedUser(): any {

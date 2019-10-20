@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Action, Column } from 'src/app/utils/models/table';
 import { QueryParameters } from 'src/app/utils/models/url';
+import { ROUTES } from 'src/app/routes';
 
 @Component({
   selector: 'app-admins',
@@ -32,7 +33,7 @@ export class AdminsComponent implements OnInit {
       property: 'name',
     },
   ];
-  newElementRoute = ['/', 'new-admin'];
+  newElementRoute = ['/', ROUTES.newAdmin];
 
   getElementsEndpoint = '/users/jsonata';
   getElementsQueryParams: QueryParameters = {
