@@ -16,8 +16,6 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
   elements: DrawerElement[] = [];
   drawerOpened = false;
   contentClass = 'content';
-  resizeListener = () =>
-    (this.contentClass = window.innerWidth < 600 ? 'content-2' : 'content');
   constructor(
     private router: Router,
     private storageService: StorageService,
@@ -26,10 +24,13 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
     window.addEventListener('resize', this.resizeListener);
   }
 
+  resizeListener() {
+    this.contentClass = window.innerWidth < 600 ? 'content-2' : 'content';
+  }
+
   ngOnInit() {
     try {
       const user = JSON.parse(this.storageService.get('user'));
-      console.log(user);
       this.elements.push({
         title: 'Inicio',
         icon: 'home',
