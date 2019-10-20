@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FormToolsService } from '../../services/form-tools.service';
+import { FIELD_TYPES } from 'src/app/utils/models/field';
 
 @Component({
   selector: 'app-add-field',
@@ -9,32 +10,7 @@ import { FormToolsService } from '../../services/form-tools.service';
   styleUrls: ['./add-field.component.scss'],
 })
 export class AddFieldComponent implements OnInit {
-  fieldTypes = [
-    {
-      name: 'short-text',
-      title: 'Texto',
-      validators: [],
-    },
-    {
-      name: 'number',
-      title: 'Número',
-      validators: [
-        {
-          name: 'latitude',
-          title: 'Latitud',
-        },
-        {
-          name: 'longitude',
-          title: 'Longitud',
-        },
-      ],
-    },
-    {
-      name: 'tracked-object',
-      title: 'Objeto(s) monitoreado(s)',
-      validators: [],
-    },
-  ];
+  fieldTypes = FIELD_TYPES;
   validators = [];
   controlForm: FormGroup;
   fieldForm: FormGroup;

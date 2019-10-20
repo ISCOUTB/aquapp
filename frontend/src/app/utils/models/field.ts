@@ -22,3 +22,30 @@ export interface TrackedObjectField extends Field {
   multi: boolean;
   populate: boolean;
 }
+
+export const FIELD_TYPES = [
+  {
+    name: 'short-text',
+    title: 'Texto',
+    validators: [],
+  },
+  {
+    name: 'number',
+    title: 'Número',
+    validators: [
+      {
+        name: 'latitude',
+        title: 'Latitud',
+      },
+      {
+        name: 'longitude',
+        title: 'Longitud',
+      },
+    ],
+  },
+  {
+    name: 'tracked-object',
+    title: 'Objeto(s) monitoreado(s)',
+    validators: [],
+  },
+];
