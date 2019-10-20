@@ -11,7 +11,7 @@ export class AdminStartPageComponent implements OnInit {
   shortcuts: LinkGridElement[] = [
     {
       title: 'Objetos',
-      description: `Creación de objetos`,
+      description: `Administración de objetos`,
       url: ['/', ROUTES.trackedObjects],
       queryParameters: {},
     },
