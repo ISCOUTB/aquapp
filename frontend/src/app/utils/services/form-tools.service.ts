@@ -105,6 +105,16 @@ export class FormToolsService {
           defaultValue: [0, Validators.required],
         });
         break;
+      case 'tracked-object':
+        form = this.fb.group({
+          name: ['', Validators.required],
+          title: ['', Validators.required],
+          description: [''],
+          defaultValue: [0, Validators.required],
+          multi: [false, Validators.required],
+          populate: [false, Validators.required],
+        });
+        break;
       default:
         form = this.fb.group({
           name: ['', Validators.required],

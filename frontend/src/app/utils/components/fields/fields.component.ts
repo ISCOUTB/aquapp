@@ -24,7 +24,10 @@ export class FieldsComponent implements OnInit {
 
   addField() {
     const dialogRef = this.dialog.open(AddFieldComponent, {
-      width: '250px',
+      width: '80%',
+      maxWidth: '350px',
+      maxHeight: '600px',
+      height: '80%',
       hasBackdrop: true,
     });
 
@@ -38,7 +41,10 @@ export class FieldsComponent implements OnInit {
 
   editField(index: number) {
     const dialogRef = this.dialog.open(AddFieldComponent, {
-      width: '250px',
+      width: '80%',
+      maxWidth: '350px',
+      maxHeight: '600px',
+      height: '80%',
       data: this.fields[index],
       hasBackdrop: true,
     });

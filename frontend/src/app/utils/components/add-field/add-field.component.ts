@@ -29,6 +29,11 @@ export class AddFieldComponent implements OnInit {
         },
       ],
     },
+    {
+      name: 'tracked-object',
+      title: 'Objeto(s) monitoreado(s)',
+      validators: [],
+    },
   ];
   validators = [];
   controlForm: FormGroup;

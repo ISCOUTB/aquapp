@@ -16,3 +16,9 @@ export interface TextField extends Field {
 export interface NumberField extends Field {
   defaultValue: number;
 }
+
+export interface TrackedObjectField extends Field {
+  trackedObject: any;
+  multi: boolean;
+  populate: boolean;
+}

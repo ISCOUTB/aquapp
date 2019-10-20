@@ -74,6 +74,29 @@
     />
   </mat-form-field>
 </form>
+<form
+  *ngIf="controlForm.get('type').value === 'tracked-object'"
+  [formGroup]="fieldForm"
+>
+  <mat-checkbox formControlName="multi">
+    Valores múltiples
+  </mat-checkbox>
+  <br />
+  <br />
+  <mat-checkbox formControlName="populate">
+    Popular
+  </mat-checkbox>
+  <br />
+  <br />
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      formControlName="defaultValue"
+      placeholder="Valor por defecto"
+      name="new-field-default-value"
+    />
+  </mat-form-field>
+</form>
 <br />
 <br />
 <button

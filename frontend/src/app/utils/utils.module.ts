@@ -21,6 +21,8 @@ import {
   MAT_DIALOG_DATA,
   MatInputModule,
   MatSelectModule,
+  MatSlideToggleModule,
+  MatCheckboxModule,
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { ParticlesBackgroundComponent } from './components/particles-background/particles-background.component';
@@ -66,6 +68,7 @@ const components = [
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
+    MatCheckboxModule,
   ],
   providers: [
     ApiService,
