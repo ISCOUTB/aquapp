@@ -2,6 +2,7 @@ export interface Field {
   name: string;
   title: string;
   type: string;
+  description: string;
   required: boolean;
   hidden: boolean;
   readOnly: boolean;
