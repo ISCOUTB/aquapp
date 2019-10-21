@@ -8,7 +8,7 @@ import {HttpErrors} from '@loopback/rest';
 import * as vm2 from 'vm2';
 
 export class FormTools {
-  forbiddenProperties = ['user', 'trackedObject', 'sensor'];
+  forbiddenProperties = ['user'];
   constructor(
     @repository(UserRepository)
     public repositorioUsuarios: UserRepository,
@@ -40,15 +40,9 @@ export class FormTools {
     }
   }
 
-  async deserializeSensorForm(
-    fields: any[],
-    templates: any[],
-    data: any,
-  ) {
+  async deserializeSensorForm(fields: any[], templates: any[], data: any) {
     if (!fields.length || !templates.length) {
-      throw new HttpErrors.BadRequest(
-        `No fields in the form or sensor`,
-      );
+      throw new HttpErrors.BadRequest(`No fields in the form or sensor`);
     }
     const validations =
       (await this.repositorioElementosGlobales.find({
