@@ -26,6 +26,13 @@ export class DateFieldComponent implements OnInit {
       .valueChanges.subscribe((value: any) => {
         this.form.get(this.template.name).setValue(new Date(value).getTime());
       });
+
+    this.controlForm
+      .get(this.template.name)
+      .setValue(
+        new Date(this.form.get(this.template.name).value).toISOString(),
+        { emitEvent: false },
+      );
     this.form.get(this.template.name).valueChanges.subscribe({
       next: (value: number) => {
         this.controlForm

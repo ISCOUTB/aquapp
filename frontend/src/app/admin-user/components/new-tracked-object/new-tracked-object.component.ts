@@ -24,6 +24,7 @@ export class NewTrackedObjectComponent implements OnInit {
   previousValue: any;
   trackedProperties: string[] = [];
   calculatedFields = ['ICAMpff'];
+  init = false;
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
@@ -77,25 +78,32 @@ export class NewTrackedObjectComponent implements OnInit {
               this.additionalFieldsForm,
               this.previousValue,
             );
+            this.init = true;
           }
         },
       });
   }
 
   updateAdditionalFieldsForm(template: string) {
-    this.previousValue = {
-      ...this.previousValue,
-      ...this.form.value,
-      ...(this.additionalFieldsForm !== undefined
-        ? this.additionalFieldsForm.value
-        : {}),
-    };
+    if (this.init) {
+      this.previousValue = {
+        ...this.previousValue,
+        ...this.form.value,
+        ...(this.additionalFieldsForm !== undefined
+          ? this.additionalFieldsForm.value
+          : {}),
+      };
+    }
     this.additionalFieldsForm = this.formTools.getFormFieldTemplate(template);
     this.additionalFields = this.forms.find(
       form => form.id === template,
     ).fields;
     this.additionalFieldsForm = this.formTools.serializeFormFromTemplate(
       this.additionalFields,
+    );
+    this.formTools.serializeFromObject(
+      this.additionalFieldsForm,
+      this.previousValue,
     );
   }
 
