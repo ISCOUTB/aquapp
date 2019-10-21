@@ -89,12 +89,10 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
     };
-    /*
-    window.addEventListener('mousemove', ev => {
+    window.addEventListener('mousemove', (ev: MouseEvent) => {
       this.mouse.x = ev.x;
       this.mouse.y = ev.y;
     });
-    // */
   }
 
   ngAfterViewInit(): void {
