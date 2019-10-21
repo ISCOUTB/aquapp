@@ -22,6 +22,8 @@ export class NewTrackedObjectComponent implements OnInit {
   loading = false;
   forms: Form[] = [];
   previousValue: any;
+  trackedProperties: string[] = [];
+  calculatedFields = ['ICAMpff'];
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
@@ -32,8 +34,10 @@ export class NewTrackedObjectComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       description: [''],
+      calculatedFields: [''],
       category: ['', Validators.required],
       form: ['', Validators.required],
+      trackedProperties: [[]],
     });
     this.form.get('category').setValue('tracked-objects');
   }

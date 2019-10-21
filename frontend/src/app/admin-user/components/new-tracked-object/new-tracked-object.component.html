@@ -24,6 +24,26 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Campos a monitorear</mat-label>
+      <mat-select multiple formControlName="trackedProperties">
+        <mat-option
+          *ngFor="let additionalField of additionalFields"
+          [value]="additionalField.name"
+          >{{ additionalField.title }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Campos calculados</mat-label>
+      <mat-select multiple formControlName="trackedProperties">
+        <mat-option
+          *ngFor="let calculatedField of calculatedFields"
+          [value]="calculatedField"
+          >{{ calculatedField }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
   </form>
   <app-render-fields
     *ngIf="additionalFieldsForm"

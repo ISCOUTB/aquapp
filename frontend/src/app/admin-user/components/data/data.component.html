@@ -1,5 +1,6 @@
 <app-one-column-layout [title]="'Datos'"
   ><app-table
+    *ngIf="init"
     [actions]="actions"
     [columns]="columns"
     [getElementsEndpoint]="getElementsEndpoint"

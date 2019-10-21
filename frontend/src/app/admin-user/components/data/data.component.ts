@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Column, Action } from 'src/app/utils/models/table';
 import { QueryParameters } from 'src/app/utils/models/url';
 import { ROUTES } from 'src/app/routes';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-data',
@@ -43,15 +44,19 @@ export class DataComponent implements OnInit {
         total: this.total
       }
     )`,
-    additionalFilters: JSON.stringify([
-      {
-        category: 'tracked-objects',
-      },
-    ]),
+    additionalFilters: '',
   };
   pageSize = 10;
   deleteElementEndpoint = '/elements';
-  constructor() {}
+  init = false;
+  constructor(private activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getElementsQueryParams.additionalFilters = JSON.stringify([
+      {
+        trackedObject: this.activatedRoute.snapshot.queryParams.trackedObjectId,
+      },
+    ]);
+    this.init = true;
+  }
 }

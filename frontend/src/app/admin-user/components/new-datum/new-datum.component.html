@@ -1,1 +1,7 @@
-<p>new-datum works!</p>
+<app-one-column-layout [title]="'Datos'"
+  ><app-render-fields
+    *ngIf="form"
+    [form]="form"
+    [fields]="fields"
+  ></app-render-fields>
+</app-one-column-layout>

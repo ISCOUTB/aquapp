@@ -176,8 +176,19 @@ export class ElementController {
     },
   })
   @authenticate('jwt')
-  async findById(@param.path.string('id') id: string): Promise<Element> {
-    return this.elementsRepository.findById(id);
+  async findById(
+    @param.path.string('id') id: string,
+    @param.query.boolean('populate') populate: boolean,
+  ): Promise<any> {
+    const element = await this.elementsRepository.findById(id);
+    console.log(id, populate, element);
+    if (populate) {
+      return {
+        ...element,
+        form: await this.elementsRepository.findById(element.form),
+      };
+    }
+    return element;
   }
 
   @patch('/elements/{id}', {
