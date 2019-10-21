@@ -19,6 +19,14 @@ export class TrackedObjectsComponent implements OnInit {
       idPropertyName: 'trackedObjectId',
     },
     {
+      name: 'clone',
+      route: ['/', ROUTES.data],
+      parameters: {},
+      icon: 'library_add',
+      color: 'primary',
+      idPropertyName: 'trackedObjectId',
+    },
+    {
       name: 'edit',
       route: ['/', ROUTES.newTrackedObject],
       parameters: {},

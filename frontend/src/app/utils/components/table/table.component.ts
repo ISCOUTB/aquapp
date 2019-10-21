@@ -87,6 +87,27 @@ export class TableComponent implements OnInit, AfterViewInit {
       console.log('OBJECT ID UNDEFINED');
       return;
     }
+    if (action.name === 'clone') {
+      this.apiService
+        .post(
+          `${this.deleteElementEndpoint}`,
+          this.getQueryParameters(action, object.id),
+          {
+            ...object,
+            id: undefined,
+            name: `${object.name} (copia)`,
+          },
+        )
+        .subscribe(
+          () => {
+            console.log('Cloned successfully');
+            this.getElements();
+          },
+          () => console.log('Error cloning'),
+          () => (this.loading = false),
+        );
+      return;
+    }
     if (
       action.name === 'delete' &&
       window.confirm('¿Está seguro de eliminar?')
