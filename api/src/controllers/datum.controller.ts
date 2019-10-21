@@ -83,14 +83,10 @@ export class DatumController {
       trackedObject.user !== currentUserProfile.id &&
       currentUserProfile.name !== process.env.ADMIN_USER
     ) {
-      throw new HttpErrors.Unauthorized(
-        `You don't own this object`,
-      );
+      throw new HttpErrors.Unauthorized(`You don't own this object`);
     }
 
-    const form = await this.elementsRepository.findById(
-      trackedObject.form,
-    );
+    const form = await this.elementsRepository.findById(trackedObject.form);
     datum.active = true;
     datum.createdAt = this.miscTools.gmtM5(Date.now());
     // Asignar referencias
@@ -101,15 +97,11 @@ export class DatumController {
     const fields: any[] = sensor.fields || [];
 
     if (!fields.length) {
-      throw new HttpErrors.UnprocessableEntity(
-        `The sensor isn't configured`,
-      );
+      throw new HttpErrors.UnprocessableEntity(`The sensor isn't configured`);
     }
 
     // Validar formulario
-    await this.formTools.validateForm(
-      form.fields || [],
-    );
+    await this.formTools.validateForm(form.fields || []);
     datum = {
       ...datum,
       ...(await this.formTools.deserializeSensorForm(
@@ -125,40 +117,6 @@ export class DatumController {
     return this.datumRepository.create(datum);
   }
 
-  @get('/data/count', {
-    responses: {
-      '200': {
-        description: 'Datum model count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  @authenticate('jwt')
-  async count(
-    @param.query.object('where', getWhereSchemaFor(Datum)) where?: Where<Datum>,
-  ): Promise<Count> {
-    return this.datumRepository.count(where);
-  }
-
-  @get('/data', {
-    responses: {
-      '200': {
-        description: 'Array of Datum model instances',
-        content: {
-          'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(Datum)},
-          },
-        },
-      },
-    },
-  })
-  async find(
-    @param.query.object('filter', getFilterSchemaFor(Datum))
-    filter?: Filter<Datum>,
-  ): Promise<Datum[]> {
-    return this.datumRepository.find(filter);
-  }
-
   @get('/data/vm2', {
     responses: {
       '200': {
@@ -171,7 +129,8 @@ export class DatumController {
       },
     },
   })
-  async findJsonata(
+  @authenticate('jwt')
+  async findVM2(
     @param.query.string('order') order: string,
     @param.query.string('query')
     query: string,
@@ -281,22 +240,16 @@ export class DatumController {
     const trackedObject = await this.elementsRepository.findById(
       sensor.trackedObject,
     );
-    const form = await this.elementsRepository.findById(
-      trackedObject.form,
-    );
+    const form = await this.elementsRepository.findById(trackedObject.form);
 
     const fields: any[] = sensor.fields || [];
 
     if (!fields.length) {
-      throw new HttpErrors.UnprocessableEntity(
-        `The sensor isn't configured`,
-      );
+      throw new HttpErrors.UnprocessableEntity(`The sensor isn't configured`);
     }
 
     // Validar formulario
-    await this.formTools.validateForm(
-      form.fields || [],
-    );
+    await this.formTools.validateForm(form.fields || []);
 
     datum = {
       ...datum,
