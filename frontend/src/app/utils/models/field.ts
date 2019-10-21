@@ -31,6 +31,11 @@ export const FIELD_TYPES = [
     validators: [],
   },
   {
+    name: 'date',
+    title: 'Fecha',
+    validators: [],
+  },
+  {
     name: 'number',
     title: 'Número',
     validators: [

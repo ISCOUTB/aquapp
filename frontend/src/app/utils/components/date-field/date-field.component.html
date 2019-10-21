@@ -1,0 +1,16 @@
+<form class="form-50" [formGroup]="controlForm">
+  <mat-form-field class="full-width">
+    <input
+      [formControlName]="template.name"
+      matInput
+      [matDatepicker]="picker"
+      [placeholder]="template.title"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker
+      #picker
+      startView="year"
+      [startAt]="startDate"
+    ></mat-datepicker>
+  </mat-form-field>
+</form>

@@ -23,6 +23,8 @@ import {
   MatSelectModule,
   MatSlideToggleModule,
   MatCheckboxModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { ParticlesBackgroundComponent } from './components/particles-background/particles-background.component';
@@ -38,6 +40,7 @@ import { RenderFieldsComponent } from './components/render-fields/render-fields.
 import { TextFieldComponent } from './components/text-field/text-field.component';
 import { NumberFieldComponent } from './components/number-field/number-field.component';
 import { TrackedObjectFieldComponent } from './components/tracked-object-field/tracked-object-field.component';
+import { DateFieldComponent } from './components/date-field/date-field.component';
 
 const components = [
   TableComponent,
@@ -52,6 +55,7 @@ const components = [
   TextFieldComponent,
   NumberFieldComponent,
   TrackedObjectFieldComponent,
+  DateFieldComponent,
 ];
 
 @NgModule({
@@ -77,11 +81,14 @@ const components = [
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     ApiService,
     StorageService,
     MessagesService,
+    MatDatepickerModule,
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
     { provide: MAT_DIALOG_DATA, useValue: {} },
   ],

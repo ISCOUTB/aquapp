@@ -118,6 +118,18 @@
     />
   </mat-form-field>
 </form>
+<form *ngIf="controlForm.get('type').value === 'date'" [formGroup]="fieldForm">
+  <mat-form-field class="full-width">
+    <input
+      formControlName="defaultValue"
+      matInput
+      [matDatepicker]="picker"
+      placeholder="Valor por defecto"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker startView="year"></mat-datepicker>
+  </mat-form-field>
+</form>
 <br />
 <br />
 <button

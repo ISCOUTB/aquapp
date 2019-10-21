@@ -78,6 +78,7 @@ export class NewDatumComponent implements OnInit {
 
   editDatum() {
     this.loading = true;
+    console.log(this.form.value);
     this.apiService.patch(`/data/${this.id}`, {}, this.form.value).subscribe({
       next: () => {
         this.location.back();

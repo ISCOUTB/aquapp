@@ -31,27 +31,27 @@ export class FormToolsService {
 
   deserialize(form: FormGroup, partial = true) {
     const object = {};
-    for (const campo of Object.keys(form.controls)) {
-      object[campo] =
-        form.get(campo) && (partial ? form.get(campo).pristine : false)
+    for (const field of Object.keys(form.controls)) {
+      object[field] =
+        form.get(field) && (partial ? form.get(field).pristine : false)
           ? undefined
-          : form.get(campo).value;
+          : form.get(field).value;
     }
     return object;
   }
 
   serializeFromObject(form: FormGroup, object: any) {
-    for (const propiedad of Object.keys(object)) {
-      const campo = form.get(propiedad);
-      if (campo !== null) {
-        campo.setValue(object[propiedad]);
+    for (const property of Object.keys(object)) {
+      const field = form.get(property);
+      if (field !== null) {
+        field.setValue(object[property]);
       }
     }
   }
 
   getControlsFromTemplate(fields: any) {
     const controls = {};
-    // Convertir cada campo en un control para el formulario
+    // Convertir cada field en un control para el formulario
     for (const fieldTemplate of fields) {
       controls[fieldTemplate.name] = fieldTemplate.required
         ? [fieldTemplate.defaultValue, Validators.required]
@@ -79,10 +79,10 @@ export class FormToolsService {
     return form;
   }
 
-  setValuesFromObject(object: any, form: FormGroup) {
-    for (const campo of Object.keys(form.controls)) {
-      object[campo] =
-        form.get(campo) === null ? undefined : form.get(campo).value;
+  setValuesToObject(object: any, form: FormGroup) {
+    for (const field of Object.keys(form.controls)) {
+      object[field] =
+        form.get(field) === null ? undefined : form.get(field).value;
     }
   }
 
@@ -116,6 +116,12 @@ export class FormToolsService {
           form: ['', Validators.required],
           multi: [false, Validators.required],
           populate: [false, Validators.required],
+        });
+        break;
+      case 'date':
+        form = this.fb.group({
+          ...commonControls,
+          defaultValue: [Date.now(), Validators.required],
         });
         break;
       default:

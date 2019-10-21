@@ -14,4 +14,9 @@
     [form]="form"
     [template]="field"
   ></app-tracked-object-field>
+  <app-date-field
+    *ngIf="field.type === 'date'"
+    [form]="form"
+    [template]="field"
+  ></app-date-field>
 </div>

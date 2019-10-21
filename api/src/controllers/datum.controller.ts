@@ -196,33 +196,6 @@ export class DatumController {
     datum: Datum,
   ): Promise<void> {
     await this.formTools.validateDatum(datum);
-    const datumInDb = await this.datumRepository.findById(id);
-    if (datumInDb.sensor === undefined) {
-      throw new HttpErrors.BadRequest(`You must provide a sensor id`);
-    }
-    const sensor = await this.elementsRepository.findById(datumInDb.sensor);
-    const trackedObject = await this.elementsRepository.findById(
-      sensor.trackedObject,
-    );
-    const form = await this.elementsRepository.findById(trackedObject.form);
-
-    const fields: any[] = sensor.fields || [];
-
-    if (!fields.length) {
-      throw new HttpErrors.UnprocessableEntity(`The sensor isn't configured`);
-    }
-
-    // Validar formulario
-    await this.formTools.validateForm(form.fields || []);
-
-    datum = {
-      ...datum,
-      ...(await this.formTools.deserializeSensorForm(
-        fields,
-        form.campos || [],
-        datum,
-      )),
-    };
     await this.datumRepository.updateById(id, datum);
   }
 
