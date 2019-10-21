@@ -130,6 +130,7 @@ export class TableComponent implements OnInit, AfterViewInit {
     }
     this.router.navigate(action.route, {
       queryParams: this.getQueryParameters(action, object.id),
+      queryParamsHandling: 'merge',
     });
   }
 }

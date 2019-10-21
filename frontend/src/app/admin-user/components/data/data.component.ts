@@ -13,7 +13,7 @@ export class DataComponent implements OnInit {
   actions: Action[] = [
     {
       name: 'edit',
-      route: ['/', ROUTES.newTrackedObject],
+      route: ['/', ROUTES.newDatum],
       parameters: {},
       icon: 'edit',
       color: 'primary',
@@ -30,8 +30,10 @@ export class DataComponent implements OnInit {
   ];
   columns: Column[] = [
     {
-      title: 'Name',
-      property: 'name',
+      title: 'Fecha de creación',
+      property: 'createdAt',
+      transformation: (value: number) =>
+        new Date(value).toLocaleDateString('es'),
     },
   ];
   newElementRoute = ['/', ROUTES.newDatum];
@@ -47,7 +49,7 @@ export class DataComponent implements OnInit {
     additionalFilters: '',
   };
   pageSize = 10;
-  deleteElementEndpoint = '/elements';
+  deleteElementEndpoint = '/data';
   init = false;
   constructor(private activatedRoute: ActivatedRoute) {}
 

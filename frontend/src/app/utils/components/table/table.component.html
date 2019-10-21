@@ -18,7 +18,13 @@
         matColumnDef="{{ column.title }}"
       >
         <th mat-header-cell *matHeaderCellDef>{{ column.title }}</th>
-        <td mat-cell *matCellDef="let row">{{ row[column.property] }}</td>
+        <td mat-cell *matCellDef="let row">
+          {{
+            column.transformation
+              ? column.transformation(row[column.property])
+              : row[column.property]
+          }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="Acciones">
