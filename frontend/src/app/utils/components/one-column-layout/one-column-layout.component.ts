@@ -45,12 +45,26 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
           queryParameters: {},
         });
       } else {
-        this.elements.push({
-          title: 'Cerrar sesión',
-          icon: 'input',
-          url: ['/', ROUTES.login],
-          queryParameters: {},
-        });
+        this.elements.push(
+          {
+            title: 'Objetos',
+            icon: 'account_tree',
+            url: ['/', ROUTES.trackedObjects],
+            queryParameters: {},
+          },
+          {
+            title: 'Formularios',
+            icon: 'assignment',
+            url: ['/', ROUTES.forms],
+            queryParameters: {},
+          },
+          {
+            title: 'Cerrar sesión',
+            icon: 'input',
+            url: ['/', ROUTES.login],
+            queryParameters: {},
+          },
+        );
       }
     } catch (error) {
       this.elements.push({
