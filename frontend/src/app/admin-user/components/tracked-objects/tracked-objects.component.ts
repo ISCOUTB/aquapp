@@ -45,8 +45,12 @@ export class TrackedObjectsComponent implements OnInit {
   ];
   columns: Column[] = [
     {
-      title: 'Name',
+      title: 'Nombre',
       property: 'name',
+    },
+    {
+      title: 'Descripción',
+      property: 'description',
     },
   ];
   newElementRoute = ['/', ROUTES.newTrackedObject];
