@@ -32,9 +32,7 @@ export class LoginComponent implements OnInit {
     this.apiService
       .login(this.form.get('email').value, this.form.get('password').value)
       .then(
-        (response: any) => {
-          console.log(response);
-        },
+        () => {},
         () => {
           window.alert('Credenciales incorrectas');
         },
