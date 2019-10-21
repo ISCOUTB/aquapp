@@ -64,55 +64,19 @@ export class DatumController {
     currentUserProfile: UserProfile,
   ): Promise<Datum> {
     await this.formTools.validateDatum(datum);
-    if (sensorId === undefined) {
-      throw new HttpErrors.BadRequest(`Provide a sensor id`);
-    }
-    const sensor = await this.elementsRepository.findById(sensorId);
     const trackedObject = await this.elementsRepository.findById(
-      sensor.trackedObject,
+      datum.trackedObject,
     );
 
-    // TODO: Non admin user permissions
-    if (
-      sensor.user !== currentUserProfile.id &&
-      currentUserProfile.name !== process.env.ADMIN_USER
-    ) {
-      throw new HttpErrors.Unauthorized(`You don't own this object`);
-    }
-    if (
-      trackedObject.user !== currentUserProfile.id &&
-      currentUserProfile.name !== process.env.ADMIN_USER
-    ) {
-      throw new HttpErrors.Unauthorized(`You don't own this object`);
-    }
-
-    const form = await this.elementsRepository.findById(trackedObject.form);
     datum.active = true;
     datum.createdAt = this.miscTools.gmtM5(Date.now());
-    // Asignar referencias
+
     datum.sensor = sensorId;
     datum.trackedObject = trackedObject.id;
-    datum.usuario = trackedObject.user;
+    datum.user = currentUserProfile.id;
 
-    const fields: any[] = sensor.fields || [];
-
-    if (!fields.length) {
-      throw new HttpErrors.UnprocessableEntity(`The sensor isn't configured`);
-    }
-
-    // Validar formulario
-    await this.formTools.validateForm(form.fields || []);
-    datum = {
-      ...datum,
-      ...(await this.formTools.deserializeSensorForm(
-        fields,
-        form.fields || [],
-        datum,
-      )),
-    };
-
-    sensor.lastDatum = datum;
-    await this.elementsRepository.save(sensor);
+    trackedObject.lastDatum = datum;
+    await this.elementsRepository.save(trackedObject);
 
     return this.datumRepository.create(datum);
   }
@@ -142,7 +106,7 @@ export class DatumController {
     @param.query.number('pageSize') pageSize: number,
     @param.query.number('offset') offset: number,
   ) {
-    const filtros: any[] = [{active: true}, {usuario: currentUserProfile.id}];
+    const filtros: any[] = [{active: true}, {user: currentUserProfile.id}];
     const filtrosAdicionalesArreglo: any[] =
       additionalFilters !== undefined ? JSON.parse(additionalFilters) : [];
     if (additionalFilters !== undefined && additionalFilters.length) {
