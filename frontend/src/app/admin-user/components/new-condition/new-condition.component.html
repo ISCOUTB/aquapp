@@ -1,6 +1,6 @@
 <h1>Nueva condición</h1>
 <form [formGroup]="form">
-  <mat-form-field class="full-width">
+  <mat-form-field appearance="fill" class="full-width">
     <input
       matInput
       formControlName="name"
@@ -8,7 +8,7 @@
       name="new-condition-name"
     />
   </mat-form-field>
-  <mat-form-field class="full-width">
+  <mat-form-field appearance="fill" class="full-width">
     <input
       matInput
       formControlName="property"
@@ -16,7 +16,7 @@
       name="new-condition-property"
     />
   </mat-form-field>
-  <mat-form-field class="full-width">
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Operador</mat-label>
     <mat-select formControlName="operator">
       <mat-option *ngFor="let operator of operators" [value]="operator.name">{{
@@ -24,7 +24,7 @@
       }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field class="full-width">
+  <mat-form-field appearance="fill" class="full-width">
     <input
       matInput
       formControlName="value"
@@ -32,7 +32,7 @@
       name="new-condition-value"
     />
   </mat-form-field>
-  <mat-form-field class="full-width">
+  <mat-form-field appearance="fill" class="full-width">
     <mat-label>Tipo</mat-label>
     <mat-select formControlName="valueType">
       <mat-option

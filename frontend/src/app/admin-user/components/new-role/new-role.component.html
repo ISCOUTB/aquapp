@@ -1,6 +1,6 @@
 <app-one-column-layout [title]="title">
   <form class="form-50" [formGroup]="form">
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <input
         matInput
         formControlName="name"
@@ -8,7 +8,7 @@
         name="new-role-name"
       />
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <textarea
         matInput
         formControlName="description"
@@ -16,7 +16,7 @@
         name="new-role-description"
       ></textarea>
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Colección</mat-label>
       <mat-select formControlName="collection">
         <mat-option

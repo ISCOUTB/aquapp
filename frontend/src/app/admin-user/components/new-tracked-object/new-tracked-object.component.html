@@ -1,6 +1,6 @@
 <app-one-column-layout [title]="title">
   <form class="form-50" [formGroup]="form">
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <input
         matInput
         formControlName="name"
@@ -8,7 +8,7 @@
         name="new-to-name"
       />
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <textarea
         matInput
         formControlName="description"
@@ -16,7 +16,7 @@
         name="new-to-description"
       ></textarea>
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Formulario</mat-label>
       <mat-select formControlName="form">
         <mat-option *ngFor="let form of forms" [value]="form.id">{{
@@ -24,7 +24,7 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Campos a monitorear</mat-label>
       <mat-select multiple formControlName="trackedProperties">
         <mat-option
@@ -34,7 +34,7 @@
         >
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field appearance="fill" class="full-width">
       <mat-label>Campos calculados</mat-label>
       <mat-select multiple formControlName="calculatedFields">
         <mat-option
