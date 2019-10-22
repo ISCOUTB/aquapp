@@ -10,6 +10,10 @@ import {
   MatButtonModule,
   MatIconModule,
   MatSelectModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MAT_DIALOG_DATA,
 } from '@angular/material';
 import { FormsComponent } from './components/forms/forms.component';
 import { NewFormComponent } from './components/new-form/new-form.component';
@@ -17,6 +21,8 @@ import { DataComponent } from './components/data/data.component';
 import { NewDatumComponent } from './components/new-datum/new-datum.component';
 import { RolesComponent } from './components/roles/roles.component';
 import { NewRoleComponent } from './components/new-role/new-role.component';
+import { NewConditionComponent } from './components/new-condition/new-condition.component';
+import { ConditionsComponent } from './components/conditions/conditions.component';
 
 const components = [
   AdminStartPageComponent,
@@ -28,6 +34,8 @@ const components = [
   NewDatumComponent,
   RolesComponent,
   NewRoleComponent,
+  ConditionsComponent,
+  NewConditionComponent,
 ];
 
 @NgModule({
@@ -41,7 +49,14 @@ const components = [
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
+    MatCheckboxModule,
+    MatDialogModule,
   ],
   exports: components,
+  entryComponents: [NewConditionComponent],
+  providers: [
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+  ],
 })
 export class AdminUserModule {}

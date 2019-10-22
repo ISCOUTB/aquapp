@@ -1,0 +1,79 @@
+<h1>Nueva condición</h1>
+<form [formGroup]="form">
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      formControlName="name"
+      placeholder="Nombre"
+      name="new-condition-name"
+    />
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      formControlName="property"
+      placeholder="Propiedad"
+      name="new-condition-property"
+    />
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Operador</mat-label>
+    <mat-select formControlName="operator">
+      <mat-option *ngFor="let operator of operators" [value]="operator.name">{{
+        operator.title
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input
+      matInput
+      formControlName="value"
+      placeholder="Valor"
+      name="new-condition-value"
+    />
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Tipo</mat-label>
+    <mat-select formControlName="valueType">
+      <mat-option
+        *ngFor="let fieldType of fieldTypes"
+        [value]="fieldType.name"
+        >{{ fieldType.title }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</form>
+<button
+  *ngIf="!editing"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  (click)="onNoClick()"
+  class="action-button"
+  [disabled]="form.invalid"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<button
+  *ngIf="editing"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  class="action-button"
+  (click)="onNoClick()"
+  [disabled]="form.invalid"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="warn"
+  (click)="onNoClick(true)"
+  class="action-button"
+>
+  <mat-icon>close</mat-icon>
+</button>

@@ -1,0 +1,49 @@
+<table *ngIf="conditions" class="table">
+  <tr>
+    <th [ngStyle]="{ 'text-align': 'center' }" colspan="2">
+      Condiciones
+    </th>
+  </tr>
+  <tr>
+    <th [ngStyle]="{ 'text-align': 'left' }">Nombre</th>
+    <th [ngStyle]="{ width: '90px' }">
+      <button
+        color="primary"
+        (click)="add()"
+        mat-button
+        mat-icon-button
+        mat-raised-button
+        class="action-button"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </th>
+  </tr>
+  <tr *ngFor="let condition of conditions; let i = index">
+    <td>
+      {{ condition.name }}
+    </td>
+    <td [ngStyle]="{ 'text-align': 'center' }">
+      <button
+        color="primary"
+        (click)="edit(i)"
+        mat-button
+        mat-icon-button
+        mat-raised-button
+        class="action-button"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        color="warn"
+        (click)="remove(i)"
+        mat-button
+        mat-icon-button
+        mat-raised-button
+        class="action-button"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </tr>
+</table>
