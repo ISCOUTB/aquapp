@@ -23,6 +23,8 @@ import { RolesComponent } from './components/roles/roles.component';
 import { NewRoleComponent } from './components/new-role/new-role.component';
 import { NewConditionComponent } from './components/new-condition/new-condition.component';
 import { ConditionsComponent } from './components/conditions/conditions.component';
+import { UsersComponent } from './components/users/users.component';
+import { NewUserComponent } from './components/new-user/new-user.component';
 
 const components = [
   AdminStartPageComponent,
@@ -36,6 +38,8 @@ const components = [
   NewRoleComponent,
   ConditionsComponent,
   NewConditionComponent,
+  UsersComponent,
+  NewUserComponent,
 ];
 
 @NgModule({

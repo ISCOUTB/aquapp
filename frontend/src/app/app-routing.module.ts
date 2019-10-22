@@ -16,6 +16,8 @@ import { DataComponent } from './admin-user/components/data/data.component';
 import { NewDatumComponent } from './admin-user/components/new-datum/new-datum.component';
 import { RolesComponent } from './admin-user/components/roles/roles.component';
 import { NewRoleComponent } from './admin-user/components/new-role/new-role.component';
+import { UsersComponent } from './admin-user/components/users/users.component';
+import { NewUserComponent } from './admin-user/components/new-user/new-user.component';
 
 const routes: Routes = [
   // Anonymous user routes
@@ -43,6 +45,14 @@ const routes: Routes = [
   {
     path: ROUTES.newRole,
     component: NewRoleComponent,
+  },
+  {
+    path: ROUTES.users,
+    component: UsersComponent,
+  },
+  {
+    path: ROUTES.newUser,
+    component: NewUserComponent,
   },
   {
     path: '**',
