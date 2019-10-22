@@ -15,4 +15,6 @@ export const ROUTES = {
   login: 'login',
   start: 'inicio',
   getStartPage: 'get-start-page',
+  roles: 'roles',
+  newRole: 'new-role',
 };

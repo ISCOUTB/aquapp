@@ -21,6 +21,12 @@ export class AdminStartPageComponent implements OnInit {
       url: ['/', ROUTES.forms],
       queryParameters: {},
     },
+    {
+      title: 'Roles',
+      description: `Administración de roles`,
+      url: ['/', ROUTES.roles],
+      queryParameters: {},
+    },
   ];
   constructor() {}
 

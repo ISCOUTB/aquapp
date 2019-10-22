@@ -15,6 +15,8 @@ import { FormsComponent } from './components/forms/forms.component';
 import { NewFormComponent } from './components/new-form/new-form.component';
 import { DataComponent } from './components/data/data.component';
 import { NewDatumComponent } from './components/new-datum/new-datum.component';
+import { RolesComponent } from './components/roles/roles.component';
+import { NewRoleComponent } from './components/new-role/new-role.component';
 
 const components = [
   AdminStartPageComponent,
@@ -24,6 +26,8 @@ const components = [
   NewFormComponent,
   DataComponent,
   NewDatumComponent,
+  RolesComponent,
+  NewRoleComponent,
 ];
 
 @NgModule({

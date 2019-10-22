@@ -14,6 +14,8 @@ import { FormsComponent } from './admin-user/components/forms/forms.component';
 import { NewFormComponent } from './admin-user/components/new-form/new-form.component';
 import { DataComponent } from './admin-user/components/data/data.component';
 import { NewDatumComponent } from './admin-user/components/new-datum/new-datum.component';
+import { RolesComponent } from './admin-user/components/roles/roles.component';
+import { NewRoleComponent } from './admin-user/components/new-role/new-role.component';
 
 const routes: Routes = [
   // Anonymous user routes
@@ -33,6 +35,14 @@ const routes: Routes = [
   {
     path: ROUTES.start,
     component: AnonymousUserStartPageComponent,
+  },
+  {
+    path: ROUTES.roles,
+    component: RolesComponent,
+  },
+  {
+    path: ROUTES.newRole,
+    component: NewRoleComponent,
   },
   {
     path: '**',
