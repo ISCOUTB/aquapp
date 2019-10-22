@@ -80,46 +80,15 @@ export class UsuarioController {
     if (currentUserProfile.name === 'superuser') {
       user.type = 'admin';
     } else {
-      if (user.type !== 'admin') {
+      const userInDB = await this.userRepository.findById(
+        currentUserProfile.id,
+      );
+      user.type = 'regular';
+      if (userInDB.type !== 'admin') {
         throw new HttpErrors.UnprocessableEntity(`Wrong user type`);
       }
     }
     return this.userRepository.create(user);
-  }
-
-  @get('/users/count', {
-    responses: {
-      '200': {
-        description: 'User model count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  @authenticate('jwt')
-  async count(
-    @param.query.object('where', getWhereSchemaFor(User)) where?: Where<User>,
-  ): Promise<Count> {
-    return this.userRepository.count(where);
-  }
-
-  @get('/users', {
-    responses: {
-      '200': {
-        description: 'Array of User model instances',
-        content: {
-          'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(User)},
-          },
-        },
-      },
-    },
-  })
-  @authenticate('jwt')
-  async find(
-    @param.query.object('filter', getFilterSchemaFor(User))
-    filter?: Filter<User>,
-  ): Promise<User[]> {
-    return this.userRepository.find(filter);
   }
 
   @get('/users/jsonata', {
@@ -153,12 +122,7 @@ export class UsuarioController {
     }
     const user = (await this.miscTools.currentUser(currentUserProfile)) as User;
     if (user.type === 'admin') {
-      filters.splice(
-        0,
-        0,
-        {active: true},
-        {administrador: currentUserProfile.id},
-      );
+      filters.splice(0, 0, {active: true}, {admin: currentUserProfile.id});
     } else if (user.name === 'superuser') {
       filters.splice(0, 0, {active: true}, {type: 'admin'});
     } else {
@@ -229,6 +193,9 @@ export class UsuarioController {
     })
     user: User,
   ): Promise<void> {
+    if (!!user.password) {
+      user.password = await this.passwordHasher.hashPassword(user.password);
+    }
     await this.userRepository.updateById(id, user);
   }
 
