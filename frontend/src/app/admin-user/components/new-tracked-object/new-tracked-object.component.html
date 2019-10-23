@@ -1,91 +1,89 @@
-<app-one-column-layout [title]="title">
-  <form class="form-50" [formGroup]="form">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Nombre</mat-label>
-      <input
-        matInput
-        formControlName="name"
-        placeholder="Nombre"
-        name="new-to-name"
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Descripción</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        placeholder="Descripción"
-        name="new-to-description"
-      ></textarea>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Formulario</mat-label>
-      <mat-select formControlName="form">
-        <mat-option *ngFor="let form of forms" [value]="form.id">{{
-          form.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Campos a monitorear</mat-label>
-      <mat-select multiple formControlName="trackedProperties">
-        <mat-option
-          *ngFor="let additionalField of additionalFields"
-          [value]="additionalField.name"
-          >{{ additionalField.title }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Campos calculados</mat-label>
-      <mat-select multiple formControlName="calculatedFields">
-        <mat-option
-          *ngFor="let calculatedField of calculatedFields"
-          [value]="calculatedField"
-          >{{ calculatedField }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-  </form>
-  <app-render-fields
-    *ngIf="additionalFieldsForm"
-    [form]="additionalFieldsForm"
-    [fields]="additionalFields"
-  ></app-render-fields>
-  <br />
-  <br />
-  <button
-    *ngIf="!id"
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="primary"
-    (click)="newTrackedObject()"
-    class="action-button"
-    [disabled]="form.invalid || loading"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-  <button
-    *ngIf="id"
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="primary"
-    class="action-button"
-    (click)="editTrackedObject()"
-    [disabled]="form.invalid || loading"
-  >
-    <mat-icon>edit</mat-icon>
-  </button>
-  <button
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="warn"
-    (click)="location.back()"
-    class="action-button"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</app-one-column-layout>
+<form class="form-50" [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input
+      matInput
+      formControlName="name"
+      placeholder="Nombre"
+      name="new-to-name"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Descripción</mat-label>
+    <textarea
+      matInput
+      formControlName="description"
+      placeholder="Descripción"
+      name="new-to-description"
+    ></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Formulario</mat-label>
+    <mat-select formControlName="form">
+      <mat-option *ngFor="let form of forms" [value]="form.id">{{
+        form.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Campos a monitorear</mat-label>
+    <mat-select multiple formControlName="trackedProperties">
+      <mat-option
+        *ngFor="let additionalField of additionalFields"
+        [value]="additionalField.name"
+        >{{ additionalField.title }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Campos calculados</mat-label>
+    <mat-select multiple formControlName="calculatedFields">
+      <mat-option
+        *ngFor="let calculatedField of calculatedFields"
+        [value]="calculatedField"
+        >{{ calculatedField }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</form>
+<app-render-fields
+  *ngIf="additionalFieldsForm"
+  [form]="additionalFieldsForm"
+  [fields]="additionalFields"
+></app-render-fields>
+<br />
+<br />
+<button
+  *ngIf="!id"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  (click)="newTrackedObject()"
+  class="action-button"
+  [disabled]="form.invalid || loading"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<button
+  *ngIf="id"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  class="action-button"
+  (click)="editTrackedObject()"
+  [disabled]="form.invalid || loading"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="warn"
+  (click)="location.back()"
+  class="action-button"
+>
+  <mat-icon>close</mat-icon>
+</button>

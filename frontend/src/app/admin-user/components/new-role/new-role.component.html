@@ -1,87 +1,85 @@
-<app-one-column-layout [title]="title">
-  <form class="form-50" [formGroup]="form">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Nombre</mat-label>
-      <input
-        matInput
-        formControlName="name"
-        placeholder="Nombre"
-        name="new-role-name"
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Descripción</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        placeholder="Descripción"
-        name="new-role-description"
-      ></textarea>
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Colección</mat-label>
-      <mat-select formControlName="collection">
-        <mat-option
-          *ngFor="let collection of collections"
-          [value]="collection.name"
-          >{{ collection.title }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <mat-checkbox formControlName="create">
-      Crear
-    </mat-checkbox>
-    <br />
-    <mat-checkbox formControlName="read">
-      Leer
-    </mat-checkbox>
-    <br />
-    <mat-checkbox formControlName="update">
-      Actualizar
-    </mat-checkbox>
-    <br />
-    <mat-checkbox formControlName="delete">
-      Eliminar
-    </mat-checkbox>
-    <br />
-  </form>
+<form class="form-50" [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input
+      matInput
+      formControlName="name"
+      placeholder="Nombre"
+      name="new-role-name"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Descripción</mat-label>
+    <textarea
+      matInput
+      formControlName="description"
+      placeholder="Descripción"
+      name="new-role-description"
+    ></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Colección</mat-label>
+    <mat-select formControlName="collection">
+      <mat-option
+        *ngFor="let collection of collections"
+        [value]="collection.name"
+        >{{ collection.title }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-checkbox formControlName="create">
+    Crear
+  </mat-checkbox>
   <br />
+  <mat-checkbox formControlName="read">
+    Leer
+  </mat-checkbox>
   <br />
-  <app-conditions [form]="form"></app-conditions>
+  <mat-checkbox formControlName="update">
+    Actualizar
+  </mat-checkbox>
   <br />
+  <mat-checkbox formControlName="delete">
+    Eliminar
+  </mat-checkbox>
   <br />
-  <button
-    *ngIf="!id"
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="primary"
-    (click)="newRole()"
-    class="action-button"
-    [disabled]="form.invalid || loading"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-  <button
-    *ngIf="id"
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="primary"
-    class="action-button"
-    (click)="editRole()"
-    [disabled]="form.invalid || loading"
-  >
-    <mat-icon>edit</mat-icon>
-  </button>
-  <button
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="warn"
-    (click)="location.back()"
-    class="action-button"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</app-one-column-layout>
+</form>
+<br />
+<br />
+<app-conditions [form]="form"></app-conditions>
+<br />
+<br />
+<button
+  *ngIf="!id"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  (click)="newRole()"
+  class="action-button"
+  [disabled]="form.invalid || loading"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<button
+  *ngIf="id"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  class="action-button"
+  (click)="editRole()"
+  [disabled]="form.invalid || loading"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="warn"
+  (click)="location.back()"
+  class="action-button"
+>
+  <mat-icon>close</mat-icon>
+</button>

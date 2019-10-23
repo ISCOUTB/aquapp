@@ -1,13 +1,11 @@
-<app-one-column-layout [title]="'Datos'"
-  ><app-table
-    *ngIf="init"
-    [actions]="actions"
-    [columns]="columns"
-    [getElementsEndpoint]="getElementsEndpoint"
-    [getElementsQueryParams]="getElementsQueryParams"
-    [deleteElementEndpoint]="deleteElementEndpoint"
-    [newElementRoute]="newElementRoute"
-    [pageSize]="pageSize"
-  >
-  </app-table>
-</app-one-column-layout>
+<app-table
+  *ngIf="init"
+  [actions]="actions"
+  [columns]="columns"
+  [getElementsEndpoint]="getElementsEndpoint"
+  [getElementsQueryParams]="getElementsQueryParams"
+  [deleteElementEndpoint]="deleteElementEndpoint"
+  [newElementRoute]="newElementRoute"
+  [pageSize]="pageSize"
+>
+</app-table>

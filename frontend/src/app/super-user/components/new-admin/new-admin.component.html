@@ -1,67 +1,65 @@
-<app-one-column-layout [title]="title">
-  <form class="new-admin-form" [formGroup]="form">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Nombre</mat-label>
-      <input
-        matInput
-        formControlName="name"
-        placeholder="Nombre"
-        name="new-admin-name"
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Email</mat-label>
-      <input
-        matInput
-        type="email"
-        formControlName="email"
-        placeholder="Email"
-        name="new-admin-email"
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Contraseña</mat-label>
-      <input
-        matInput
-        type="password"
-        formControlName="password"
-        placeholder="Contraseña"
-        name="new-admin-password"
-      />
-    </mat-form-field>
-    <button
-      *ngIf="!id"
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="primary"
-      (click)="newAdmin()"
-      class="action-button"
-      [disabled]="form.invalid || loading"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-    <button
-      *ngIf="id"
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="primary"
-      class="action-button"
-      (click)="editAdmin()"
-      [disabled]="form.invalid || loading"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="warn"
-      (click)="location.back()"
-      class="action-button"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-  </form>
-</app-one-column-layout>
+<form class="new-admin-form" [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input
+      matInput
+      formControlName="name"
+      placeholder="Nombre"
+      name="new-admin-name"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      type="email"
+      formControlName="email"
+      placeholder="Email"
+      name="new-admin-email"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Contraseña</mat-label>
+    <input
+      matInput
+      type="password"
+      formControlName="password"
+      placeholder="Contraseña"
+      name="new-admin-password"
+    />
+  </mat-form-field>
+  <button
+    *ngIf="!id"
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="primary"
+    (click)="newAdmin()"
+    class="action-button"
+    [disabled]="form.invalid || loading"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <button
+    *ngIf="id"
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="primary"
+    class="action-button"
+    (click)="editAdmin()"
+    [disabled]="form.invalid || loading"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="warn"
+    (click)="location.back()"
+    class="action-button"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</form>

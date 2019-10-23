@@ -1,60 +1,58 @@
-<app-one-column-layout [title]="title">
-  <form class="new-form" [formGroup]="form">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Nombre</mat-label>
-      <input
-        matInput
-        formControlName="name"
-        placeholder="Nombre"
-        name="new-to-name"
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Descripción</mat-label>
-      <textarea
-        matInput
-        formControlName="description"
-        placeholder="Descripción"
-        name="new-to-description"
-      ></textarea>
-    </mat-form-field>
+<form class="new-form" [formGroup]="form">
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input
+      matInput
+      formControlName="name"
+      placeholder="Nombre"
+      name="new-to-name"
+    />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Descripción</mat-label>
+    <textarea
+      matInput
+      formControlName="description"
+      placeholder="Descripción"
+      name="new-to-description"
+    ></textarea>
+  </mat-form-field>
 
-    <app-fields [form]="form"></app-fields>
-    <br />
-    <br />
-    <button
-      *ngIf="!id"
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="primary"
-      (click)="newForm()"
-      class="action-button"
-      [disabled]="form.invalid"
-    >
-      <mat-icon>add</mat-icon>
-    </button>
-    <button
-      *ngIf="id"
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="primary"
-      class="action-button"
-      (click)="editForm()"
-      [disabled]="form.invalid"
-    >
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      mat-button
-      mat-icon-button
-      mat-raised-button
-      color="warn"
-      (click)="location.back()"
-      class="action-button"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
-  </form>
-</app-one-column-layout>
+  <app-fields [form]="form"></app-fields>
+  <br />
+  <br />
+  <button
+    *ngIf="!id"
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="primary"
+    (click)="newForm()"
+    class="action-button"
+    [disabled]="form.invalid"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+  <button
+    *ngIf="id"
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="primary"
+    class="action-button"
+    (click)="editForm()"
+    [disabled]="form.invalid"
+  >
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button
+    mat-button
+    mat-icon-button
+    mat-raised-button
+    color="warn"
+    (click)="location.back()"
+    class="action-button"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</form>

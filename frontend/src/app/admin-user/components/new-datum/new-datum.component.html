@@ -1,44 +1,42 @@
-<app-one-column-layout [title]="'Nuevo dato'"
-  ><app-render-fields
-    *ngIf="form"
-    [form]="form"
-    [fields]="fields"
-  ></app-render-fields>
-  <br />
-  <br />
-  <button
-    *ngIf="!id && form"
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="primary"
-    (click)="newDatum()"
-    class="action-button"
-    [disabled]="form.invalid"
-  >
-    <mat-icon>add</mat-icon>
-  </button>
-  <button
-    *ngIf="id && form"
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="primary"
-    class="action-button"
-    (click)="editDatum()"
-    [disabled]="form.invalid"
-  >
-    <mat-icon>edit</mat-icon>
-  </button>
-  <button
-    *ngIf="form"
-    mat-button
-    mat-icon-button
-    mat-raised-button
-    color="warn"
-    (click)="location.back()"
-    class="action-button"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-</app-one-column-layout>
+<app-render-fields
+  *ngIf="form"
+  [form]="form"
+  [fields]="fields"
+></app-render-fields>
+<br />
+<br />
+<button
+  *ngIf="!id && form"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  (click)="newDatum()"
+  class="action-button"
+  [disabled]="form.invalid"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<button
+  *ngIf="id && form"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="primary"
+  class="action-button"
+  (click)="editDatum()"
+  [disabled]="form.invalid"
+>
+  <mat-icon>edit</mat-icon>
+</button>
+<button
+  *ngIf="form"
+  mat-button
+  mat-icon-button
+  mat-raised-button
+  color="warn"
+  (click)="location.back()"
+  class="action-button"
+>
+  <mat-icon>close</mat-icon>
+</button>
