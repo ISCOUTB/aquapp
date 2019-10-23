@@ -21,12 +21,14 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
     private storageService: StorageService,
     public location: Location,
   ) {
+    if (window.innerWidth >= 700) {
+      this.drawerOpened = true;
+    }
     this.resizeListener();
-    window.addEventListener('resize', this.resizeListener);
+    window.addEventListener('resize', () => this.resizeListener());
   }
 
   resizeListener() {
-    this.contentClass = window.innerWidth < 600 ? 'content-2' : 'content';
     this.sidenavMode = window.innerWidth < 700 ? 'over' : 'side';
   }
 
