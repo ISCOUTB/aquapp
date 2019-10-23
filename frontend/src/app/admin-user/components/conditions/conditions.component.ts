@@ -71,7 +71,11 @@ export class ConditionsComponent implements OnInit {
       maxWidth: '350px',
       maxHeight: '600px',
       height: '80%',
-      data: { condition: this.conditions[index], operators: this.operators },
+      data: {
+        condition: this.conditions[index],
+        operators: this.operators,
+        editing: true,
+      },
       hasBackdrop: true,
     });
 

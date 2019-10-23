@@ -1,6 +1,7 @@
 <app-one-column-layout [title]="title">
   <form class="new-admin-form" [formGroup]="form">
     <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
       <input
         matInput
         formControlName="name"
@@ -9,6 +10,7 @@
       />
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
       <input
         matInput
         type="email"
@@ -18,6 +20,7 @@
       />
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Contraseña</mat-label>
       <input
         matInput
         type="password"

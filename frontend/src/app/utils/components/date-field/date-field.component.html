@@ -1,5 +1,6 @@
 <form class="form-50" [formGroup]="controlForm">
   <mat-form-field appearance="fill" class="full-width">
+    <mat-label>{{ template.title }}</mat-label>
     <input
       [formControlName]="template.name"
       matInput

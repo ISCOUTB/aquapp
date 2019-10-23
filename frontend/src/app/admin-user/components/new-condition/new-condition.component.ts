@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AddFieldComponent } from 'src/app/utils/components/add-field/add-field.component';
 import { Condition } from '../conditions/conditions.component';
@@ -13,8 +13,9 @@ import { FIELD_TYPES } from 'src/app/utils/models/field';
   styleUrls: ['./new-condition.component.scss'],
 })
 export class NewConditionComponent implements OnInit {
-  @Input() condition: Condition;
-  @Input() operators: { name: string; title: string }[] = [];
+  condition: Condition;
+  operators: { name: string; title: string }[] = [];
+  editing = false;
   form: FormGroup;
   fields: Field[] = [];
   acceptedFieldTypes = ['short-text', 'number'];
@@ -47,6 +48,7 @@ export class NewConditionComponent implements OnInit {
   ngOnInit() {
     this.operators = this.data.operators;
     this.condition = this.data.condition;
+    this.editing = this.data.editing;
     if (this.condition !== undefined) {
       this.formTools.serializeFromObject(this.form, this.condition);
     }

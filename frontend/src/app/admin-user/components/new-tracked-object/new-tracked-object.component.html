@@ -1,6 +1,7 @@
 <app-one-column-layout [title]="title">
   <form class="form-50" [formGroup]="form">
     <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
       <input
         matInput
         formControlName="name"
@@ -9,6 +10,7 @@
       />
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Descripción</mat-label>
       <textarea
         matInput
         formControlName="description"
