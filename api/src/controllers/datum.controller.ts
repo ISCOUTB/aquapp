@@ -84,8 +84,18 @@ export class DatumController {
     datum.createdAt = this.miscTools.gmtM5(Date.now());
 
     datum.sensor = sensorId ? sensorId : 'no-sensor';
-    datum.trackedObject = trackedObject.id;
     datum.user = admin.id;
+
+    for (const calculatedField of trackedObject.calculatedFields) {
+      switch (calculatedField) {
+        case 'ICAMpff':
+          datum.icampff = await this.miscTools.icampff(datum);
+          console.log(datum);
+          break;
+        default:
+          break;
+      }
+    }
 
     trackedObject.lastDatum = datum;
     await this.elementsRepository.save(trackedObject);
@@ -254,6 +264,16 @@ export class DatumController {
     const datum = await this.datumRepository.findById(id);
     if (changes.user !== admin.id) {
       throw new HttpErrors.Unauthorized(`Not enough permissions`);
+    }
+    const trackedObject = await this.elementsRepository.findById(datum.id);
+    for (const calculatedField of trackedObject.calculatedFields) {
+      switch (calculatedField) {
+        case 'ICAMpff':
+          changes.icampff = await this.miscTools.icampff(datum);
+          break;
+        default:
+          break;
+      }
     }
     await this.formTools.validateDatum(changes);
     await this.datumRepository.updateById(id, changes);

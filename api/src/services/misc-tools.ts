@@ -160,5 +160,16 @@ export class MiscTools {
     return await this.userRepository.findById(profile.id);
   }
 
-  async icampff(datum: any) {}
+  async icampff(datum: any) {
+    return await fetch(
+      `http://buritaca.invemar.org.co/ICAMWebService/calculate-icam-ae/od/${datum.dissolvedOxygen}/no3/${datum.nitrate}/sst/${datum.totalSuspendedSolids}/ctt/${datum.thermotolerantColiforms}/ph/${datum.pH}/po4/${datum.phosphates}/dbo/${datum.biochemicalOxygenDemand}/cla/${datum.chrolophyllA}`,
+      {
+        method: 'GET',
+      },
+    )
+      .then(async response => (await response.json()).value)
+      .catch(() => {
+        throw new HttpErrors.ServiceUnavailable(`Invemar API is down`);
+      });
+  }
 }
