@@ -34,6 +34,7 @@ export class NewFormComponent implements OnInit {
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.queryParams.id;
     if (!!this.id) {
+      this.title = 'Editar formulario';
       this.loading = true;
       this.form.disable();
       this.apiService.get(`/elements/${this.id}`, {}).subscribe({

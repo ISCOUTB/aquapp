@@ -46,6 +46,7 @@ export class NewTrackedObjectComponent implements OnInit {
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.queryParams.id;
     if (!!this.id) {
+      this.title = 'Editar objeto';
       this.loading = true;
       this.form.disable();
       this.apiService.get(`/elements/${this.id}`, {}).subscribe({

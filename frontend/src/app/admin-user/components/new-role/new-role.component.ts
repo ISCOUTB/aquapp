@@ -45,6 +45,7 @@ export class NewRoleComponent implements OnInit {
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.queryParams.id;
     if (!!this.id) {
+      this.title = 'Editar rol';
       this.loading = true;
       this.form.disable();
       this.apiService.get(`/elements/${this.id}`, {}).subscribe({
