@@ -1,4 +1,4 @@
-<app-toolbar>
+<app-toolbar [hidden]="sidenavHidden">
   <button mat-button mat-icon-button (click)="drawerOpened = !drawerOpened">
     <mat-icon>menu</mat-icon>
   </button>
@@ -12,7 +12,7 @@
 <mat-drawer-container class="drawer">
   <mat-drawer
     (closed)="drawerOpened = false"
-    [opened]="drawerOpened"
+    [opened]="drawerOpened && !sidenavHidden"
     [mode]="sidenavMode"
     opened
   >
@@ -30,7 +30,7 @@
       </mat-list-item>
     </mat-list>
   </mat-drawer>
-  <mat-drawer-content class="outer-content">
+  <mat-drawer-content [class.outer-content]="!sidenavHidden">
     <div class="inner-content">
       <h1>{{ title }}</h1>
       <ng-content></ng-content>

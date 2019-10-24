@@ -1,9 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { DrawerElement } from '../../models/drawer';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { Location } from '@angular/common';
 import { ROUTES } from 'src/app/routes';
+import { Subscription } from 'rxjs';
+import { MessagesService, Message } from '../../services/messages.service';
+import { MESSAGES } from 'src/app/messages';
 
 @Component({
   selector: 'app-one-column-layout',
@@ -16,16 +19,43 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
   elements: DrawerElement[] = [];
   drawerOpened = false;
   contentClass = 'content';
+  sidenavHidden = false;
+  messageServiceSubscription: Subscription;
+  routerEventsSubscription: Subscription;
   constructor(
     private router: Router,
     private storageService: StorageService,
     public location: Location,
+    private messageService: MessagesService,
   ) {
     if (window.innerWidth >= 700) {
       this.drawerOpened = true;
     }
     this.resizeListener();
     window.addEventListener('resize', () => this.resizeListener());
+
+    this.messageServiceSubscription = this.messageService
+      .getMessage()
+      .subscribe((message: Message) => {
+        switch (message.name) {
+          case MESSAGES.hideToolbar:
+            this.sidenavHidden = true;
+            this.routerEventsSubscription = this.router.events.subscribe(
+              event => {
+                if (event instanceof NavigationStart) {
+                  this.sidenavHidden = false;
+                  if (window.innerWidth >= 700) {
+                    this.drawerOpened = true;
+                  }
+                  this.routerEventsSubscription.unsubscribe();
+                }
+              },
+            );
+            break;
+          default:
+            break;
+        }
+      });
   }
 
   resizeListener() {
