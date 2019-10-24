@@ -90,7 +90,6 @@ export class DatumController {
       switch (calculatedField) {
         case 'ICAMpff':
           datum.icampff = await this.miscTools.icampff(datum);
-          console.log(datum);
           break;
         default:
           break;

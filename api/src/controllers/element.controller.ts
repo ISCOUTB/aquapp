@@ -99,8 +99,6 @@ export class ElementController {
       'get',
       currentUser,
     );
-    console.log(currentUser);
-    console.log(JSON.stringify(currentUserRoleFilters));
     const filters: any[] =
       currentUserProfile.name === process.env.ADMIN_USER
         ? [{active: true}]
