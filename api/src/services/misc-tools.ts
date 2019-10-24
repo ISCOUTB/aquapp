@@ -3,6 +3,7 @@ import {repository} from '@loopback/repository';
 import {User} from '../models';
 import {HttpErrors} from '@loopback/rest';
 import {UserProfile} from '@loopback/authentication';
+import fetch from 'node-fetch';
 
 export class MiscTools {
   constructor(
@@ -158,4 +159,6 @@ export class MiscTools {
     }
     return await this.userRepository.findById(profile.id);
   }
+
+  async icampff(datum: any) {}
 }
