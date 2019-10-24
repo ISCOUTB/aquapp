@@ -50,6 +50,15 @@
       >
         Login
       </button>
+      <button
+        [disabled]="form.invalid"
+        color="warn"
+        mat-button
+        mat-raised-button
+        (click)="start()"
+      >
+        Inicio
+      </button>
     </mat-card-actions>
   </mat-card>
 </ng-template>

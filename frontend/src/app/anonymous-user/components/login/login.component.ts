@@ -14,6 +14,8 @@ import { MessagesService } from 'src/app/utils/services/messages.service';
 import { MESSAGES } from 'src/app/messages';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { Router } from '@angular/router';
+import { ROUTES } from 'src/app/routes';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +35,7 @@ export class LoginComponent implements AfterViewInit {
     private messageService: MessagesService,
     private overlay: Overlay,
     private viewContainerRef: ViewContainerRef,
+    private router: Router,
   ) {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -73,5 +76,9 @@ export class LoginComponent implements AfterViewInit {
           window.alert('Credenciales incorrectas');
         },
       );
+  }
+
+  start() {
+    this.router.navigateByUrl(ROUTES.start);
   }
 }
