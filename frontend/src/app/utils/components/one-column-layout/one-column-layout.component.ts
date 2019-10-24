@@ -22,6 +22,7 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
   sidenavHidden = false;
   messageServiceSubscription: Subscription;
   routerEventsSubscription: Subscription;
+  activeRoute: number;
   constructor(
     private router: Router,
     private storageService: StorageService,
@@ -33,24 +34,23 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
     }
     this.resizeListener();
     window.addEventListener('resize', () => this.resizeListener());
-
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.activeRoute = (this.elements || []).findIndex(element =>
+          element.url.join('').includes(event.url),
+        );
+        this.sidenavHidden = false;
+        if (window.innerWidth >= 700) {
+          this.drawerOpened = true;
+        }
+      }
+    });
     this.messageServiceSubscription = this.messageService
       .getMessage()
       .subscribe((message: Message) => {
         switch (message.name) {
           case MESSAGES.hideToolbar:
             this.sidenavHidden = true;
-            this.routerEventsSubscription = this.router.events.subscribe(
-              event => {
-                if (event instanceof NavigationStart) {
-                  this.sidenavHidden = false;
-                  if (window.innerWidth >= 700) {
-                    this.drawerOpened = true;
-                  }
-                  this.routerEventsSubscription.unsubscribe();
-                }
-              },
-            );
             break;
           default:
             break;
@@ -65,21 +65,29 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     try {
       const user = JSON.parse(this.storageService.get('user'));
-      this.elements.push({
-        title: 'Inicio',
-        icon: 'home',
-        url: ['/', ROUTES.getStartPage],
-        queryParameters: {},
-      });
       if (user.name === 'superuser') {
-        this.elements.push({
-          title: 'Cerrar sesión',
-          icon: 'input',
-          url: ['/', ROUTES.login],
-          queryParameters: {},
-        });
+        this.elements.push(
+          {
+            title: 'Inicio',
+            icon: 'home',
+            url: ['/', ROUTES.superuser],
+            queryParameters: {},
+          },
+          {
+            title: 'Cerrar sesión',
+            icon: 'input',
+            url: ['/', ROUTES.login],
+            queryParameters: {},
+          },
+        );
       } else {
         this.elements.push(
+          {
+            title: 'Inicio',
+            icon: 'home',
+            url: ['/', ROUTES.admin],
+            queryParameters: {},
+          },
           {
             title: 'Objetos',
             icon: 'account_tree',
@@ -113,12 +121,20 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
         );
       }
     } catch (error) {
-      this.elements.push({
-        title: 'Iniciar sesión',
-        icon: 'input',
-        url: ['/', ROUTES.login],
-        queryParameters: {},
-      });
+      this.elements.push(
+        {
+          title: 'Inicio',
+          icon: 'home',
+          url: ['/', ROUTES.start],
+          queryParameters: {},
+        },
+        {
+          title: 'Iniciar sesión',
+          icon: 'input',
+          url: ['/', ROUTES.login],
+          queryParameters: {},
+        },
+      );
     }
   }
 

@@ -20,8 +20,9 @@
       <mat-list-item
         [routerLink]="element.url"
         [queryParams]="element.queryParameters"
-        *ngFor="let element of elements"
+        *ngFor="let element of elements; let i = index"
         class="drawer-element"
+        [class.active]="i === activeRoute"
       >
         <mat-icon class="drawer-element-icon" matPrefix>{{
           element.icon
