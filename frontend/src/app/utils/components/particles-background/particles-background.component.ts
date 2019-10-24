@@ -76,8 +76,8 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
   @ViewChild('canvas', { read: ElementRef, static: false }) lienzo: ElementRef;
   public context: CanvasRenderingContext2D;
   figures: Figure[] = [];
-  colors = ['#FBC02D', '#FFF9C4', '#FFEB3B', '#536DFE', '#BDBDBD'];
-  numberOfFigures = 200;
+  colors = ['#b5763f', '#3f51b5'];
+  numberOfFigures = 150;
   mouse: {
     x: number;
     y: number;
@@ -89,8 +89,8 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
       y: window.innerHeight / 2,
     };
     window.addEventListener('mousemove', (ev: MouseEvent) => {
-      this.mouse.x = ev.x;
-      this.mouse.y = ev.y;
+      this.mouse.x = window.innerWidth / 2;
+      this.mouse.y = window.innerHeight / 2;
     });
   }
 
@@ -113,7 +113,7 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
   inicializar() {
     this.figures = [];
     for (let i = 0; i < this.numberOfFigures; i++) {
-      const radious = Math.random() * 1 + 1;
+      const radious = Math.random() * 5 + 1;
       const x = window.innerWidth / 2;
       const y = window.innerHeight / 2;
       const background = this.colors[
