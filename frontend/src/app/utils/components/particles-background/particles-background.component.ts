@@ -77,7 +77,7 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
   public context: CanvasRenderingContext2D;
   figures: Figure[] = [];
   colors = ['#b5763f', '#3f51b5'];
-  numberOfFigures = 150;
+  numberOfFigures = 250;
   mouse: {
     x: number;
     y: number;
@@ -137,7 +137,7 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
 
   animar() {
     requestAnimationFrame(() => this.animar());
-    this.context.fillStyle = 'rgba(33, 33, 33, 0.3)';
+    this.context.fillStyle = 'rgba(33, 33, 33)';
     this.context.fillRect(
       0,
       0,
