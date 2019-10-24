@@ -19,19 +19,12 @@ export class AppComponent {
   title = '';
   sidenav = true;
   subscription: Subscription;
-  constructor(
-    private messageService: MessagesService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {
+  constructor(private messageService: MessagesService) {
     this.subscription = this.messageService
       .getMessage()
       .subscribe((message: Message) => {
         console.log(message);
         switch (message.name) {
-          case MESSAGES.changePageTitle:
-            this.title = message.value as string;
-            break;
           default:
             break;
         }
