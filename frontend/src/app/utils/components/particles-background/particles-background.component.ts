@@ -76,9 +76,8 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
   @ViewChild('canvas', { read: ElementRef, static: false }) lienzo: ElementRef;
   public context: CanvasRenderingContext2D;
   figures: Figure[] = [];
-  backgroundColor = '#393E41';
-  colors = ['#0D256D', '#B2C8FF', '#6B87DB', '#223677', '#edae49'];
-  numberOfFigures = 250;
+  colors = ['#FBC02D', '#FFF9C4', '#FFEB3B', '#536DFE', '#BDBDBD'];
+  numberOfFigures = 200;
   mouse: {
     x: number;
     y: number;
@@ -138,7 +137,7 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
 
   animar() {
     requestAnimationFrame(() => this.animar());
-    this.context.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    this.context.fillStyle = 'rgba(33, 33, 33, 0.3)';
     this.context.fillRect(
       0,
       0,
