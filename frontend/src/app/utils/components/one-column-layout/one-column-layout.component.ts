@@ -71,7 +71,7 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
           {
             title: 'Usuarios',
             icon: 'people',
-            url: ['/', ROUTES.roles],
+            url: ['/', ROUTES.users],
             queryParameters: {},
           },
           {
