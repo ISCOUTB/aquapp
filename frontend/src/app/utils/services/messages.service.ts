@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
+export interface Message {
+  name: string;
+  value: any;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -8,8 +13,8 @@ export class MessagesService {
   constructor() {}
   private subject = new Subject<any>();
 
-  sendMessage(name: string, value: any = {}) {
-    this.subject.next({ nombre: name, valor: value });
+  sendMessage(message: Message) {
+    this.subject.next(message);
   }
 
   deleteMessage() {

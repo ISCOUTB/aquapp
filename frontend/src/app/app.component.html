@@ -1,3 +1,4 @@
-<app-one-column-layout [title]="'Inicio'"
+<app-one-column-layout *ngIf="sidenav" [title]="title"
   ><router-outlet></router-outlet>
 </app-one-column-layout>
+<router-outlet *ngIf="!sidenav"></router-outlet>

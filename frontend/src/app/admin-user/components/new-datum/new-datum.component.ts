@@ -7,6 +7,8 @@ import { TrackedObject } from 'src/app/utils/models/tracked-object';
 import { Form } from 'src/app/utils/models/form';
 import { Field } from 'src/app/utils/models/field';
 import { Location } from '@angular/common';
+import { MessagesService } from 'src/app/utils/services/messages.service';
+import { MESSAGES } from 'src/app/messages';
 
 @Component({
   selector: 'app-new-datum',
@@ -24,6 +26,7 @@ export class NewDatumComponent implements OnInit {
     private formTools: FormToolsService,
     private activatedRoute: ActivatedRoute,
     public location: Location,
+    private messages: MessagesService,
   ) {}
 
   ngOnInit() {
@@ -51,10 +54,19 @@ export class NewDatumComponent implements OnInit {
 
   getDatum() {
     if (!!this.id) {
+      this.messages.sendMessage({
+        name: MESSAGES.changePageTitle,
+        value: 'Editar dato',
+      });
       this.apiService.get(`/data/${this.id}`, {}).subscribe({
         next: (datum: any) => {
           this.formTools.serializeFromObject(this.form, datum);
         },
+      });
+    } else {
+      this.messages.sendMessage({
+        name: MESSAGES.changePageTitle,
+        value: 'Nuevo dato',
       });
     }
   }
