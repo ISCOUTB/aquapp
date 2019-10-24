@@ -10,6 +10,7 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
 import { AquappComponent } from './components/aquapp/aquapp.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 const components = [
   LoginComponent,
@@ -27,6 +28,7 @@ const components = [
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    LeafletModule,
   ],
   exports: components,
 })
