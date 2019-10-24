@@ -14,7 +14,7 @@ export interface Figure {
 export class Particula implements Figure {
   xOrigin: number;
   yOrigin: number;
-  orbit = (Math.random() * window.innerWidth) / 2.5 + 100;
+  orbit = (Math.random() * window.innerWidth) / 2 + 100;
   previousX: number;
   previousY: number;
   xMousePrevious: number;
