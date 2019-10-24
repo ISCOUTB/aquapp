@@ -52,6 +52,11 @@ export class TrackedObjectsComponent implements OnInit {
       title: 'Descripción',
       property: 'description',
     },
+    {
+      title: 'Formulario',
+      property: 'populatedForm',
+      transformation: (value: any) => value.name as string,
+    },
   ];
   newElementRoute = ['/', ROUTES.newTrackedObject];
 
@@ -65,6 +70,7 @@ export class TrackedObjectsComponent implements OnInit {
         category: 'tracked-objects',
       },
     ]),
+    populate: 'true',
   };
   pageSize = 10;
   deleteElementEndpoint = '/elements';
