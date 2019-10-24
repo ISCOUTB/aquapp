@@ -52,6 +52,10 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
           case MESSAGES.hideToolbar:
             this.sidenavHidden = true;
             break;
+          case MESSAGES.logout:
+          case MESSAGES.login:
+            this.configureMenu();
+            break;
           default:
             break;
         }
@@ -63,6 +67,11 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.configureMenu();
+  }
+
+  configureMenu() {
+    this.elements = [];
     try {
       const user = JSON.parse(this.storageService.get('user'));
       if (user.name === 'superuser') {

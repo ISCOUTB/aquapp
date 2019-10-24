@@ -45,6 +45,8 @@ export class LoginComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.apiService.logOut();
+    this.messageService.sendMessage({ name: MESSAGES.logout, value: {} });
     this.overlayRef = this.overlay.create({
       width: 300,
       height: 320,
@@ -64,7 +66,9 @@ export class LoginComponent implements AfterViewInit {
     this.apiService
       .login(this.form.get('email').value, this.form.get('password').value)
       .then(
-        () => {},
+        () => {
+          this.messageService.sendMessage({ name: MESSAGES.login, value: {} });
+        },
         () => {
           window.alert('Credenciales incorrectas');
         },
