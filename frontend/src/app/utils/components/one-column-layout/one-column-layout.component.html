@@ -32,7 +32,7 @@
     </mat-list>
   </mat-drawer>
   <mat-drawer-content [class.outer-content]="!sidenavHidden">
-    <div class="inner-content">
+    <div [class.inner-content]="!fullWidthContent">
       <h1>{{ title }}</h1>
       <ng-content></ng-content>
     </div>

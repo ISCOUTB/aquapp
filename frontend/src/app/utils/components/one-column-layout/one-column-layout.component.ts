@@ -23,6 +23,7 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
   messageServiceSubscription: Subscription;
   routerEventsSubscription: Subscription;
   activeRoute: number;
+  fullWidthContent = false;
   constructor(
     private router: Router,
     private storageService: StorageService,
@@ -40,6 +41,7 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
           element.url.join('').includes(event.url),
         );
         this.sidenavHidden = false;
+        this.fullWidthContent = false;
         if (window.innerWidth >= 700) {
           this.drawerOpened = true;
         }
@@ -55,6 +57,12 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
           case MESSAGES.logout:
           case MESSAGES.login:
             this.configureMenu();
+            break;
+          case MESSAGES.closeSidenav:
+            this.drawerOpened = false;
+            break;
+          case MESSAGES.fullWidthContent:
+            this.fullWidthContent = true;
             break;
           default:
             break;

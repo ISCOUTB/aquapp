@@ -9,8 +9,13 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
+import { AquappComponent } from './components/aquapp/aquapp.component';
 
-const components = [LoginComponent, AnonymousUserStartPageComponent];
+const components = [
+  LoginComponent,
+  AnonymousUserStartPageComponent,
+  AquappComponent,
+];
 
 @NgModule({
   declarations: components,
