@@ -25,9 +25,6 @@ export class TrackedObjectFieldComponent implements OnInit {
           : currentValue,
       );
 
-    this.form
-      .get(this.template.name)
-      .valueChanges.subscribe((val: any) => console.log(val));
     this.apiService
       .get('/elements/jsonata', {
         query: '([$])',

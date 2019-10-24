@@ -84,7 +84,6 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   triggerAction(object: any, action: Action) {
     if (object.id === undefined) {
-      console.log('OBJECT ID UNDEFINED');
       return;
     }
     if (action.name === 'clone') {
@@ -100,10 +99,9 @@ export class TableComponent implements OnInit, AfterViewInit {
         )
         .subscribe(
           () => {
-            console.log('Cloned successfully');
             this.getElements();
           },
-          () => console.log('Error cloning'),
+          () => {},
           () => (this.loading = false),
         );
       return;
@@ -120,10 +118,9 @@ export class TableComponent implements OnInit, AfterViewInit {
         )
         .subscribe(
           () => {
-            console.log('Deleted successfully');
             this.getElements();
           },
-          () => console.log('Error deleting'),
+          () => {},
           () => (this.loading = false),
         );
       return;

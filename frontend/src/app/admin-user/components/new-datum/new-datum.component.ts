@@ -21,6 +21,7 @@ export class NewDatumComponent implements OnInit {
   fields: Field[] = [];
   loading = false;
   id: string;
+  title = 'Nuevo dato';
   constructor(
     private apiService: ApiService,
     private formTools: FormToolsService,
@@ -54,19 +55,11 @@ export class NewDatumComponent implements OnInit {
 
   getDatum() {
     if (!!this.id) {
-      this.messages.sendMessage({
-        name: MESSAGES.changePageTitle,
-        value: 'Editar dato',
-      });
+      this.title = 'Editar dato';
       this.apiService.get(`/data/${this.id}`, {}).subscribe({
         next: (datum: any) => {
           this.formTools.serializeFromObject(this.form, datum);
         },
-      });
-    } else {
-      this.messages.sendMessage({
-        name: MESSAGES.changePageTitle,
-        value: 'Nuevo dato',
       });
     }
   }
@@ -90,7 +83,6 @@ export class NewDatumComponent implements OnInit {
 
   editDatum() {
     this.loading = true;
-    console.log(this.form.value);
     this.apiService.patch(`/data/${this.id}`, {}, this.form.value).subscribe({
       next: () => {
         this.location.back();
