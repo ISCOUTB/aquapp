@@ -18,7 +18,11 @@ import {
   HttpErrors,
 } from '@loopback/rest';
 import {Datum} from '../models';
-import {DatumRepository, ElementRepository} from '../repositories';
+import {
+  DatumRepository,
+  ElementRepository,
+  UserRepository,
+} from '../repositories';
 import {
   authenticate,
   AuthenticationBindings,
@@ -39,6 +43,8 @@ export class DatumController {
     public formTools: FormTools,
     @inject('MiscTools')
     public miscTools: MiscTools,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
   ) {}
 
   @post('/data', {
@@ -63,6 +69,12 @@ export class DatumController {
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
   ): Promise<Datum> {
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters('data', 'post', currentUser);
     await this.formTools.validateDatum(datum);
     const trackedObject = await this.elementsRepository.findById(
       datum.trackedObject,
@@ -71,9 +83,9 @@ export class DatumController {
     datum.active = true;
     datum.createdAt = this.miscTools.gmtM5(Date.now());
 
-    datum.sensor = sensorId;
+    datum.sensor = sensorId ? sensorId : 'no-sensor';
     datum.trackedObject = trackedObject.id;
-    datum.user = currentUserProfile.id;
+    datum.user = admin.id;
 
     trackedObject.lastDatum = datum;
     await this.elementsRepository.save(trackedObject);
@@ -100,20 +112,34 @@ export class DatumController {
     query: string,
     @param.query.string('sensor')
     sensor: string,
-    @param.query.string('filtrosAdicionales') additionalFilters: string,
+    @param.query.string('additionalFilters') additionalFilters: string,
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
     @param.query.number('pageSize') pageSize: number,
     @param.query.number('offset') offset: number,
   ) {
-    const filtros: any[] = [{active: true}, {user: currentUserProfile.id}];
-    const filtrosAdicionalesArreglo: any[] =
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    const currentUserRoleFilters = this.miscTools.validateOperationAndGetFilters(
+      'data',
+      'get',
+      currentUser,
+    );
+    const filters: any[] = [
+      {active: true},
+      {user: admin.id},
+      ...currentUserRoleFilters,
+    ];
+    const additionalFiltersArray: any[] =
       additionalFilters !== undefined ? JSON.parse(additionalFilters) : [];
     if (additionalFilters !== undefined && additionalFilters.length) {
-      filtros.splice(0, 0, ...filtrosAdicionalesArreglo);
+      filters.splice(0, 0, ...additionalFiltersArray);
     }
     if (sensor !== undefined) {
-      filtros.splice(0, 0, {sensor: sensor});
+      filters.splice(0, 0, {sensor});
     }
     let ordenUsuario: string[] = [];
     if (order !== undefined && order.length) {
@@ -128,20 +154,20 @@ export class DatumController {
     const dbQuery: Filter<Datum> =
       offset !== undefined && pageSize !== undefined
         ? {
-            where: {and: filtros},
+            where: {and: filters},
             order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
             offset: offset,
             limit: pageSize,
           }
         : {
-            where: {and: filtros},
+            where: {and: filters},
             order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
           };
     let data: Datum[] = await this.datumRepository.find(dbQuery, {
       strictObjectIDCoercion: true,
     });
     let realSize = await this.datumRepository.count(
-      {and: filtros},
+      {and: filters},
       {
         strictObjectIDCoercion: true,
       },
@@ -172,8 +198,26 @@ export class DatumController {
     },
   })
   @authenticate('jwt')
-  async findById(@param.path.string('id') id: string): Promise<Datum> {
-    return this.datumRepository.findById(id);
+  async findById(
+    @param.path.string('id') id: string,
+    @inject(AuthenticationBindings.CURRENT_USER)
+    currentUserProfile: UserProfile,
+  ): Promise<Datum> {
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'post',
+      currentUser,
+    );
+    const datum = await this.datumRepository.findById(id);
+    if (datum.user !== admin.id) {
+      throw new HttpErrors.Unauthorized(`Not enough permissions`);
+    }
+    return datum;
   }
 
   @patch('/data/{id}', {
@@ -193,10 +237,26 @@ export class DatumController {
         },
       },
     })
-    datum: Datum,
+    changes: Datum,
+    @inject(AuthenticationBindings.CURRENT_USER)
+    currentUserProfile: UserProfile,
   ): Promise<void> {
-    await this.formTools.validateDatum(datum);
-    await this.datumRepository.updateById(id, datum);
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'post',
+      currentUser,
+    );
+    const datum = await this.datumRepository.findById(id);
+    if (changes.user !== admin.id) {
+      throw new HttpErrors.Unauthorized(`Not enough permissions`);
+    }
+    await this.formTools.validateDatum(changes);
+    await this.datumRepository.updateById(id, changes);
   }
 
   @del('/data/{id}', {
@@ -207,8 +267,25 @@ export class DatumController {
     },
   })
   @authenticate('jwt')
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(
+    @param.path.string('id') id: string,
+    @inject(AuthenticationBindings.CURRENT_USER)
+    currentUserProfile: UserProfile,
+  ): Promise<void> {
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'post',
+      currentUser,
+    );
     const datum = await this.datumRepository.findById(id);
+    if (datum.user !== admin.id) {
+      throw new HttpErrors.Unauthorized(`Not enough permissions`);
+    }
     datum.active = false;
     await this.datumRepository.save(datum);
   }

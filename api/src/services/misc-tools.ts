@@ -1,19 +1,16 @@
-import {UserRepository} from '../repositories';
+import {UserRepository, ElementRepository} from '../repositories';
 import {repository} from '@loopback/repository';
+import {User} from '../models';
+import {HttpErrors} from '@loopback/rest';
 import {UserProfile} from '@loopback/authentication';
 
 export class MiscTools {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @repository(ElementRepository)
+    public elementsRepository: ElementRepository,
   ) {}
-
-  async currentUser(profile: UserProfile) {
-    if (profile.name === 'superuser') {
-      return {...profile, tipo: 'superuser'};
-    }
-    return await this.userRepository.findById(profile.id);
-  }
 
   sortAndPaginate(
     object: any[],
@@ -101,5 +98,64 @@ export class MiscTools {
     let GMTM5Date = UTCDate + 3600000 * -5;
     let newDate = new Date(GMTM5Date);
     return newDate.getTime();
+  }
+
+  async getAdmin(authenticatedUserId: string) {
+    const userInDb = await this.userRepository.findById(authenticatedUserId);
+    if (userInDb.type === 'admin') {
+      return userInDb;
+    } else {
+      return await this.userRepository.findById(userInDb.admin);
+    }
+  }
+
+  async populateUser(user: User) {
+    if (user.type === 'admin') {
+      return;
+    }
+    for (let i = 0; i < user.roles.length; i++) {
+      user.roles[i] = await this.elementsRepository.findById(user.roles[i]);
+    }
+  }
+
+  validateOperationAndGetFilters(
+    collection: string,
+    operation: 'get' | 'delete' | 'patch' | 'post',
+    user: User,
+  ) {
+    const operationToPermission = {
+      post: 'create',
+      get: 'read',
+      patch: 'update',
+      delete: 'delete',
+    };
+    if (user.type === 'admin') {
+      return [];
+    }
+    const filters: any = [];
+    let enoughPermissions = false;
+    for (const role of user.roles) {
+      const condition =
+        role.collection === collection &&
+        role[operationToPermission[operation]];
+      if (condition) {
+        enoughPermissions = true;
+        console.log(JSON.stringify(role.conditions));
+        if (role.conditions && role.conditions.length) {
+          filters.push({and: role.conditions.map((c: any) => c.query)});
+        }
+      }
+    }
+    if (!enoughPermissions) {
+      throw new HttpErrors.Unauthorized(`Not enough permissions`);
+    }
+    return [{or: filters}];
+  }
+
+  async currentUser(profile: UserProfile) {
+    if (profile.name === 'superuser') {
+      return {...profile, tipo: 'superuser'};
+    }
+    return await this.userRepository.findById(profile.id);
   }
 }

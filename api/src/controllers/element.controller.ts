@@ -1,24 +1,16 @@
-import {
-  Count,
-  CountSchema,
-  Filter,
-  repository,
-  Where,
-} from '@loopback/repository';
+import {repository} from '@loopback/repository';
 import {
   post,
   param,
   get,
-  getFilterSchemaFor,
   getModelSchemaRef,
-  getWhereSchemaFor,
   patch,
   del,
   requestBody,
   HttpErrors,
 } from '@loopback/rest';
 import {Element} from '../models';
-import {ElementRepository} from '../repositories';
+import {ElementRepository, UserRepository} from '../repositories';
 import {
   authenticate,
   AuthenticationBindings,
@@ -32,7 +24,9 @@ export class ElementController {
   constructor(
     @repository(ElementRepository)
     public elementsRepository: ElementRepository,
-    @inject('MiscTools') public MiscTools: MiscTools,
+    @inject('MiscTools') public miscTools: MiscTools,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
   ) {}
 
   @post('/elements', {
@@ -56,45 +50,19 @@ export class ElementController {
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
   ): Promise<Element> {
-    element.user = currentUserProfile.id;
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'post',
+      currentUser,
+    );
+    element.user = admin.id;
     element.active = true;
     return this.elementsRepository.create(element);
-  }
-
-  @get('/elements/count', {
-    responses: {
-      '200': {
-        description: 'Element model count',
-        content: {'application/json': {schema: CountSchema}},
-      },
-    },
-  })
-  @authenticate('jwt')
-  async count(
-    @param.query.object('where', getWhereSchemaFor(Element))
-    where?: Where<Element>,
-  ): Promise<Count> {
-    return this.elementsRepository.count(where);
-  }
-
-  @get('/elements', {
-    responses: {
-      '200': {
-        description: 'Array of Element model instances',
-        content: {
-          'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(Element)},
-          },
-        },
-      },
-    },
-  })
-  @authenticate('jwt')
-  async find(
-    @param.query.object('filter', getFilterSchemaFor(Element))
-    filter?: Filter<Element>,
-  ): Promise<Element[]> {
-    return this.elementsRepository.find(filter);
   }
 
   @get('/elements/jsonata', {
@@ -121,16 +89,28 @@ export class ElementController {
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
   ) {
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    const currentUserRoleFilters = this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'get',
+      currentUser,
+    );
+    console.log(currentUser);
+    console.log(JSON.stringify(currentUserRoleFilters));
     const filters: any[] =
       currentUserProfile.name === process.env.ADMIN_USER
         ? [{active: true}]
-        : [{active: true}, {user: currentUserProfile.id}];
+        : [{active: true}, {user: admin.id}];
     const additionalFiltersArray: any[] =
       additionalFilters !== undefined ? JSON.parse(additionalFilters) : [];
     if (additionalFilters !== undefined && additionalFilters.length) {
       filters.splice(0, 0, ...additionalFiltersArray);
     }
-    filters.splice(0, 0, {active: true});
+    filters.splice(0, 0, {active: true}, ...currentUserRoleFilters);
     let elements: Element[] = await this.elementsRepository.find(
       {
         where: {and: filters},
@@ -179,9 +159,23 @@ export class ElementController {
   async findById(
     @param.path.string('id') id: string,
     @param.query.boolean('populate') populate: boolean,
+    @inject(AuthenticationBindings.CURRENT_USER)
+    currentUserProfile: UserProfile,
   ): Promise<any> {
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'get',
+      currentUser,
+    );
     const element = await this.elementsRepository.findById(id);
-    console.log(id, populate, element);
+    if (element.user !== admin.id) {
+      throw new HttpErrors.Unauthorized(`Not enough permissions`);
+    }
     if (populate) {
       return {
         ...element,
@@ -212,9 +206,19 @@ export class ElementController {
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
   ): Promise<void> {
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'patch',
+      currentUser,
+    );
     const el = await this.elementsRepository.findById(id);
-    if (el.user !== currentUserProfile.id) {
-      throw new HttpErrors.Unauthorized(`You don't own this object`);
+    if (el.user !== admin.id) {
+      throw new HttpErrors.Unauthorized(`Not enough permissions`);
     }
     await this.elementsRepository.updateById(id, elemento);
   }
@@ -232,9 +236,19 @@ export class ElementController {
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUserProfile: UserProfile,
   ): Promise<void> {
+    const admin = await this.miscTools.getAdmin(currentUserProfile.id);
+    const currentUser = await this.userRepository.findById(
+      currentUserProfile.id,
+    );
+    await this.miscTools.populateUser(currentUser);
+    this.miscTools.validateOperationAndGetFilters(
+      'elements',
+      'delete',
+      currentUser,
+    );
     const element = await this.elementsRepository.findById(id);
-    if (element.user !== currentUserProfile.id) {
-      throw new HttpErrors.Unauthorized(`You don't own this object`);
+    if (element.user !== admin.id) {
+      throw new HttpErrors.Unauthorized(`Not enough permissions`);
     }
     element.active = false;
     await this.elementsRepository.updateById(id, element);
