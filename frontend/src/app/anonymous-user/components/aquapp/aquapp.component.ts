@@ -66,6 +66,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   overlayTitle: string;
   overlayDescription: string;
   overlayRouterLink = ['/'];
+  overlayParagraphs = [];
   overlayQueryParams: QueryParameters = {};
 
   waterBodies: any[];
@@ -73,6 +74,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   // ID -> DATE -> ICAMpffAvg
   icampffs: { [prop: string]: { [prop: number]: number } } = {};
   icampffDates: number[] = [];
+  currentIcampffDate: number;
 
   constructor(
     private messageService: MessagesService,
@@ -111,6 +113,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openOverlay(data: any) {
+    this.overlayParagraphs = data.additionalParagraphs || [];
     this.overlayRef.updateSize({ width: 400, height: 400 });
     this.overlayTitle = data.name;
     this.overlayDescription = data.description;
@@ -210,6 +213,28 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
           for (const waterBody of response.data) {
             if (!!waterBody.geojson) {
               const geojson: GeoJSON<any> = geoJSON(waterBody.geojson);
+              geojson.on('click', () =>
+                this.ngZone.run(() => {
+                  console.log('THIS:', this);
+                  const icampff = this.icampffs[waterBody.id][
+                    this.currentIcampffDate
+                  ];
+                  this.openOverlay({
+                    name: waterBody.name,
+                    description: `\
+                      ${waterBody.description}
+                    `,
+                    additionalParagraphs: [
+                      `Fecha: ${this.currentIcampffDate}.`,
+                      `ICAMpff: ${
+                        icampff === -1 || icampff === undefined
+                          ? 'Información no disponible'
+                          : icampff
+                      }.`,
+                    ],
+                  });
+                }),
+              );
               this.idToWaterBodyGeoJSON[waterBody.id] = geojson;
               figures.addLayer(
                 geoJSON(waterBody.geojson, {
@@ -292,7 +317,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
           this.icampffDates.sort((a: number, b: number) => a - b);
-          this.setIcampffDate(this.icampffDates[0]);
+          this.setIcampffDate(this.icampffDates[this.icampffDates.length - 1]);
         },
       });
   }
@@ -312,6 +337,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setIcampffDate(date: number) {
+    this.currentIcampffDate = date;
     const icampffLayer: GeoJSONLayer = this.layers.find(
       l => l.name === 'ICAMpff',
     ) as GeoJSONLayer;
