@@ -49,6 +49,7 @@ export class DataComponent implements OnInit {
       }
     )`,
     additionalFilters: '',
+    order: '',
   };
   pageSize = 10;
   deleteElementEndpoint = '/data';
@@ -60,11 +61,6 @@ export class DataComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getElementsQueryParams.additionalFilters = JSON.stringify([
-      {
-        trackedObject: this.activatedRoute.snapshot.queryParams.trackedObjectId,
-      },
-    ]);
     this.apiService
       .get(
         `/elements/${this.activatedRoute.snapshot.queryParams.trackedObjectId}`,
@@ -91,6 +87,18 @@ export class DataComponent implements OnInit {
             }
           }
         }
+
+        if (!!element.sort) {
+          this.getElementsQueryParams.order = JSON.stringify([
+            `${element.sort} ASC`,
+          ]);
+        }
+        this.getElementsQueryParams.additionalFilters = JSON.stringify([
+          {
+            trackedObject: this.activatedRoute.snapshot.queryParams
+              .trackedObjectId,
+          },
+        ]);
         this.init = true;
       });
   }

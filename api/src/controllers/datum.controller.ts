@@ -142,27 +142,23 @@ export class DatumController {
     if (sensor !== undefined) {
       filters.splice(0, 0, {sensor});
     }
-    let ordenUsuario: string[] = [];
+    let userOrder: string[] = [];
     if (order !== undefined && order.length) {
-      const ordenArreglo = JSON.parse(order);
-      if (ordenArreglo.length) {
-        ordenUsuario = ordenArreglo.map(
-          (o: any) => `${o.field} ${o.direction.toUpperCase()}`,
-        );
-      }
+      const orderArray = JSON.parse(order);
+      userOrder = orderArray;
     }
     const t1 = Date.now();
     const dbQuery: Filter<Datum> =
       offset !== undefined && pageSize !== undefined
         ? {
             where: {and: filters},
-            order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
+            order: userOrder.length ? userOrder : ['createdAt ASC'],
             offset: offset,
             limit: pageSize,
           }
         : {
             where: {and: filters},
-            order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
+            order: userOrder.length ? userOrder : ['createdAt ASC'],
           };
     let data: Datum[] = await this.datumRepository.find(dbQuery, {
       strictObjectIDCoercion: true,
@@ -221,27 +217,23 @@ export class DatumController {
     if (sensor !== undefined) {
       filters.splice(0, 0, {sensor});
     }
-    let ordenUsuario: string[] = [];
+    let userOrder: string[] = [];
     if (order !== undefined && order.length) {
-      const ordenArreglo = JSON.parse(order);
-      if (ordenArreglo.length) {
-        ordenUsuario = ordenArreglo.map(
-          (o: any) => `${o.field} ${o.direction.toUpperCase()}`,
-        );
-      }
+      const orderArray = JSON.parse(order);
+      userOrder = orderArray;
     }
     const t1 = Date.now();
     const dbQuery: Filter<Datum> =
       offset !== undefined && pageSize !== undefined
         ? {
             where: {and: filters},
-            order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
+            order: userOrder.length ? userOrder : ['createdAt ASC'],
             offset: offset,
             limit: pageSize,
           }
         : {
             where: {and: filters},
-            order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
+            order: userOrder.length ? userOrder : ['createdAt ASC'],
           };
     let data: Datum[] = await this.datumRepository.find(dbQuery, {
       strictObjectIDCoercion: true,
@@ -252,7 +244,6 @@ export class DatumController {
         strictObjectIDCoercion: true,
       },
     );
-    console.log(JSON.stringify(filters));
     const t2 = Date.now();
     const vm = new vm2.VM({
       sandbox: {data: data, total: realSize.count},
