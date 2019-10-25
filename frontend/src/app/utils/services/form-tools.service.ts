@@ -124,10 +124,16 @@ export class FormToolsService {
           defaultValue: [Date.now(), Validators.required],
         });
         break;
+      case 'file':
+        form = this.fb.group({
+          ...commonControls,
+          format: ['', Validators.required],
+        });
+        break;
       default:
         form = this.fb.group({
           ...commonControls,
-          defaultValue: ['', Validators.required],
+          format: ['', Validators.required],
         });
         break;
     }

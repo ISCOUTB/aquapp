@@ -141,6 +141,22 @@
     <mat-datepicker #picker startView="year"></mat-datepicker>
   </mat-form-field>
 </form>
+<form *ngIf="controlForm.get('type').value === 'file'" [formGroup]="fieldForm">
+  <mat-form-field
+    appearance="fill"
+    *ngIf="controlForm.get('type').value"
+    class="full-width"
+  >
+    <mat-label>Formato</mat-label>
+    <mat-select formControlName="format">
+      <mat-option
+        *ngFor="let fileFormat of fileFormats"
+        [value]="fileFormat.name"
+        >{{ fileFormat.title }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</form>
 <br />
 <br />
 <button

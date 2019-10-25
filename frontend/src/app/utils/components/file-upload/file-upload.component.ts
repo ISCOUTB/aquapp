@@ -21,6 +21,7 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
   @Input() property: string;
   @Input() format: string;
   @Input() icon: string;
+  @Input() title: string;
 
   writeValue(value: any) {
     console.log(value);
@@ -52,7 +53,7 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
         this.selectedFileName = file.name;
         try {
           switch (this.format) {
-            case 'json':
+            case 'JSON':
               writeValue(JSON.parse(myReader.result as string));
               break;
             default:
@@ -66,7 +67,7 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
         }
       };
       switch (this.format) {
-        case 'json':
+        case 'JSON':
           myReader.readAsText(file);
           break;
         default:

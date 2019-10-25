@@ -42,6 +42,7 @@ import { NumberFieldComponent } from './components/number-field/number-field.com
 import { TrackedObjectFieldComponent } from './components/tracked-object-field/tracked-object-field.component';
 import { DateFieldComponent } from './components/date-field/date-field.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { FileFieldComponent } from './components/file-field/file-field.component';
 
 const components = [
   TableComponent,
@@ -58,6 +59,7 @@ const components = [
   TrackedObjectFieldComponent,
   DateFieldComponent,
   FileUploadComponent,
+  FileFieldComponent,
 ];
 
 @NgModule({

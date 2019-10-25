@@ -18,6 +18,7 @@ export class AddFieldComponent implements OnInit {
   editing = false;
   title = 'Nuevo campo';
   forms: Form[] = [];
+  fileFormats = [{ name: 'JSON', title: 'JSON' }];
   constructor(
     public dialogRef: MatDialogRef<AddFieldComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

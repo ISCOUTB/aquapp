@@ -19,4 +19,9 @@
     [form]="form"
     [template]="field"
   ></app-date-field>
+  <app-file-field
+    *ngIf="field.type === 'file'"
+    [form]="form"
+    [template]="field"
+  ></app-file-field>
 </div>

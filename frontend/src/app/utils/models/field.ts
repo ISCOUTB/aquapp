@@ -13,6 +13,10 @@ export interface TextField extends Field {
   defaultValue: string;
 }
 
+export interface FileField extends Field {
+  format: 'JSON';
+}
+
 export interface NumberField extends Field {
   defaultValue: number;
 }
@@ -52,6 +56,11 @@ export const FIELD_TYPES = [
   {
     name: 'tracked-object',
     title: 'Objeto(s) monitoreado(s)',
+    validators: [],
+  },
+  {
+    name: 'file',
+    title: 'Archivo',
     validators: [],
   },
 ];
