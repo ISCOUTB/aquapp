@@ -12,7 +12,9 @@
       >
       <mat-card-content>
         <p>{{ overlayDescription }}</p>
-        <button
+      </mat-card-content>
+      <mat-card-actions
+        ><button
           color="primary"
           [routerLink]="overlayRouterLink"
           [queryParams]="overlayQueryParams"
@@ -29,8 +31,8 @@
           (click)="closeOverlay()"
         >
           cerrar
-        </button>
-      </mat-card-content>
+        </button></mat-card-actions
+      >
     </mat-card>
   </ng-template>
   <div class="leaflet-control-container">
