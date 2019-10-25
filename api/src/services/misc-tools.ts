@@ -141,7 +141,6 @@ export class MiscTools {
         role[operationToPermission[operation]];
       if (condition) {
         enoughPermissions = true;
-        console.log(JSON.stringify(role.conditions));
         if (role.conditions && role.conditions.length) {
           filters.push({and: role.conditions.map((c: any) => c.query)});
         }

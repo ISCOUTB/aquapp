@@ -24,7 +24,6 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
   @Input() title: string;
 
   writeValue(value: any) {
-    console.log(value);
     if (value !== undefined && value !== null) {
       this.propagateChange(value);
     }
@@ -61,8 +60,6 @@ export class FileUploadComponent implements OnInit, ControlValueAccessor {
               break;
           }
         } catch (error) {
-          console.log(error);
-          console.log(myReader.result);
           this.error = true;
         }
       };

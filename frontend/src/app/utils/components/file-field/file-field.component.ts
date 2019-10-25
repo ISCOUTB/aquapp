@@ -13,7 +13,5 @@ export class FileFieldComponent implements OnInit {
   @Input() template: FileField;
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.template);
-  }
+  ngOnInit() {}
 }

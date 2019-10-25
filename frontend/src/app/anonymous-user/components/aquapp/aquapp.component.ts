@@ -228,7 +228,6 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
               const geojson: GeoJSON<any> = geoJSON(waterBody.geojson);
               geojson.on('click', () =>
                 this.ngZone.run(() => {
-                  console.log('THIS:', this);
                   const icampff = this.icampffs[waterBody.id][
                     this.currentIcampffDate
                   ];
