@@ -1,17 +1,9 @@
-import {
-  Count,
-  CountSchema,
-  Filter,
-  repository,
-  Where,
-} from '@loopback/repository';
+import {Filter, repository} from '@loopback/repository';
 import {
   post,
   param,
   get,
-  getFilterSchemaFor,
   getModelSchemaRef,
-  getWhereSchemaFor,
   patch,
   del,
   requestBody,
@@ -181,6 +173,86 @@ export class DatumController {
         strictObjectIDCoercion: true,
       },
     );
+    const t2 = Date.now();
+    const vm = new vm2.VM({
+      sandbox: {data: data, total: realSize.count},
+      timeout: 1000,
+      eval: false,
+    });
+    console.log('Query result size: ', data.length);
+    console.log('Real size: ', realSize.count);
+    const script = new vm2.VMScript(query);
+    const result: any = vm.run(script);
+    const t3 = Date.now();
+    console.log('Db query time: ', (t2 - t1) / 1000);
+    console.log('Query execution time: ', (t3 - t2) / 1000);
+    console.log('Total time: ', (t3 - t1) / 1000);
+    return result;
+  }
+
+  @get('/data/open/vm2', {
+    responses: {
+      '200': {
+        description: 'Array of Datum model instances',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: {'x-ts-type': Datum}},
+          },
+        },
+      },
+    },
+  })
+  async findVM2Open(
+    @param.query.string('order') order: string,
+    @param.query.string('query')
+    query: string,
+    @param.query.string('sensor')
+    sensor: string,
+    @param.query.string('additionalFilters') additionalFilters: string,
+    @param.query.number('pageSize') pageSize: number,
+    @param.query.number('offset') offset: number,
+  ) {
+    const filters: any[] = [{active: true}];
+    const additionalFiltersArray: any[] =
+      additionalFilters !== undefined ? JSON.parse(additionalFilters) : [];
+    if (additionalFilters !== undefined && additionalFilters.length) {
+      filters.splice(0, 0, ...additionalFiltersArray);
+    }
+    if (sensor !== undefined) {
+      filters.splice(0, 0, {sensor});
+    }
+    let ordenUsuario: string[] = [];
+    if (order !== undefined && order.length) {
+      const ordenArreglo = JSON.parse(order);
+      if (ordenArreglo.length) {
+        ordenUsuario = ordenArreglo.map(
+          (o: any) => `${o.field} ${o.direction.toUpperCase()}`,
+        );
+      }
+    }
+    const t1 = Date.now();
+    const dbQuery: Filter<Datum> =
+      offset !== undefined && pageSize !== undefined
+        ? {
+            where: {and: filters},
+            order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
+            offset: offset,
+            limit: pageSize,
+          }
+        : {
+            where: {and: filters},
+            order: ordenUsuario.length ? ordenUsuario : ['createdAt ASC'],
+          };
+    let data: Datum[] = await this.datumRepository.find(dbQuery, {
+      strictObjectIDCoercion: true,
+    });
+    let realSize = await this.datumRepository.count(
+      {and: filters},
+      {
+        strictObjectIDCoercion: true,
+      },
+    );
+    console.log(JSON.stringify(filters));
     const t2 = Date.now();
     const vm = new vm2.VM({
       sandbox: {data: data, total: realSize.count},

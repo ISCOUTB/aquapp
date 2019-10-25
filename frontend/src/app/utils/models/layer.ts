@@ -1,4 +1,4 @@
-import { Marker, GeoJSON, LatLngBounds, latLng } from 'leaflet';
+import { Marker, LatLngBounds, latLng, FeatureGroup } from 'leaflet';
 
 export interface Layer {
   name: string;
@@ -38,7 +38,7 @@ export class GeoJSONLayer implements Layer {
     public object: any,
     public active: boolean,
     public loaded: boolean,
-    public figures: GeoJSON,
+    public figures: FeatureGroup,
   ) {}
 
   getBounds() {

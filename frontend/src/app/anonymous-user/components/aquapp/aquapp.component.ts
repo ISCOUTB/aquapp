@@ -10,10 +10,20 @@ import {
 } from '@angular/core';
 import { MessagesService } from 'src/app/utils/services/messages.service';
 import { MESSAGES } from 'src/app/messages';
-import { Map, tileLayer, latLng, LatLngBounds, Marker, DivIcon } from 'leaflet';
+import {
+  Map,
+  tileLayer,
+  latLng,
+  LatLngBounds,
+  Marker,
+  DivIcon,
+  FeatureGroup,
+  geoJSON,
+  GeoJSON,
+} from 'leaflet';
 import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/utils/services/api.service';
-import { Layer, MarkerLayer } from 'src/app/utils/models/layer';
+import { Layer, MarkerLayer, GeoJSONLayer } from 'src/app/utils/models/layer';
 import { JSONataResponse, QueryParameters } from 'src/app/utils/models/url';
 import { MapService } from 'src/app/utils/services/map.service';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
@@ -54,6 +64,12 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   overlayDescription: string;
   overlayRouterLink = ['/'];
   overlayQueryParams: QueryParameters = {};
+
+  waterBodies: any[];
+  idToWaterBodyGeoJSON: { [prop: string]: GeoJSON<any> } = {};
+  // ID -> DATE -> ICAMpffAvg
+  icampffs: { [prop: string]: { [prop: number]: number } } = {};
+  icampffDates: number[] = [];
 
   constructor(
     private messageService: MessagesService,
@@ -118,7 +134,6 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         .toPromise()
         .then((response: JSONataResponse) => {
-          console.log(response);
           const markers: Marker[] = [];
           const markerStyle = `
             text-shadow: 2px 0 0 #333,
@@ -127,7 +142,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
               -1px -1px 0 #333,
               1px -1px 0 #333,
               -1px 1px 0 #333;
-            color: black;
+            color: #f44336;
             font-size: 32pt;
           `;
           for (const monitoringPoint of response.data) {
@@ -168,14 +183,137 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
         })
         .catch(),
     );
+    promises.push(
+      this.apiService
+        .get(`/elements/open/jsonata`, {
+          query: `([$])`,
+          additionalFilters: JSON.stringify([
+            { category: 'tracked-objects' },
+            { form: '5dac93e7e67d5a13c95a99ed' },
+          ]),
+        })
+        .toPromise()
+        .then((response: JSONataResponse) => {
+          const figures: FeatureGroup = new FeatureGroup();
+          console.log(response.data);
+          for (const waterBody of response.data) {
+            if (!!waterBody.geojson) {
+              const geojson: GeoJSON<any> = geoJSON(waterBody.geojson);
+              this.idToWaterBodyGeoJSON[waterBody.id] = geojson;
+              figures.addLayer(
+                geoJSON(waterBody.geojson, {
+                  style: {
+                    color: '#ccc',
+                    fillColor: '#ccc',
+                    fillOpacity: 0.8,
+                  },
+                }),
+              );
+            }
+          }
+          this.waterBodies = response.data;
+          this.layers.push(
+            new GeoJSONLayer('ICAMpff', '', {}, true, false, figures),
+          );
+        })
+        .catch(),
+    );
     Promise.all(promises).then(() => {
       for (const layer of this.layers) {
         this.mapBounds.extend(layer.getBounds());
       }
       console.log(this.mapBounds);
       console.log(this.layers);
+      this.getIcampffs();
       this.updateLayers();
     });
+  }
+
+  getIcampffs() {
+    this.apiService
+      .get('/data/open/vm2', {
+        query: `this.data`,
+        additionalFilters: JSON.stringify([
+          {
+            trackedObject: {
+              inq: this.waterBodies
+                .map(wb => wb.puntosDeMonitoreo)
+                .reduce((pv, cv) => (pv || []).splice(0, 0, ...cv)),
+            },
+          },
+        ]),
+      })
+      .subscribe({
+        next: (data: any[]) => {
+          console.log('DATA: ', data);
+          for (const datum of data) {
+            if (
+              datum.date !== undefined &&
+              this.icampffDates.indexOf(datum.date) === -1
+            ) {
+              this.icampffDates.push(datum.date);
+            }
+          }
+          for (const waterBody of this.waterBodies) {
+            this.icampffs[waterBody.id] = {};
+            for (const date of this.icampffDates) {
+              const filteredData = data.filter(d => d.date === date);
+              const icampffPerMonitoringPoint = waterBody.puntosDeMonitoreo
+                .map((mp: string) => {
+                  const dataForThisDate = filteredData.find(
+                    (d: any) => d.trackedObject === mp,
+                  );
+                  return dataForThisDate === undefined
+                    ? -1
+                    : dataForThisDate.icampff;
+                })
+                .filter((ic: number) => ic !== -1);
+              this.icampffs[waterBody.id][
+                date
+              ] = icampffPerMonitoringPoint.length
+                ? icampffPerMonitoringPoint.reduce(
+                    (pv: number, cv: number) => pv + cv,
+                  ) / icampffPerMonitoringPoint.length
+                : -1;
+            }
+          }
+          this.icampffDates.sort((a: number, b: number) => a - b);
+          console.log(this.icampffDates);
+          console.log(JSON.stringify(this.icampffs));
+          this.setIcampffDate(this.icampffDates[0]);
+        },
+      });
+  }
+
+  getColor(icampff: number) {
+    return icampff > 90
+      ? '#0032FF' // blue
+      : icampff > 70
+      ? '#49C502' // green
+      : icampff > 50
+      ? '#F9F107' // yellow
+      : icampff > 25
+      ? '#F57702' // orange
+      : icampff === -1
+      ? '#555555'
+      : '#FB1502'; // red
+  }
+
+  setIcampffDate(date: number) {
+    const icampffLayer: GeoJSONLayer = this.layers.find(
+      l => l.name === 'ICAMpff',
+    ) as GeoJSONLayer;
+    for (const waterBody of this.waterBodies) {
+      const geojson: GeoJSON<any> = this.idToWaterBodyGeoJSON[waterBody.id];
+      const color = this.getColor(this.icampffs[waterBody.id][date]);
+      icampffLayer.figures.removeLayer(geojson);
+      geojson.setStyle({
+        color,
+        fillColor: color,
+        fillOpacity: 0.8,
+      });
+      icampffLayer.figures.addLayer(geojson);
+    }
   }
 
   updateLayers() {
