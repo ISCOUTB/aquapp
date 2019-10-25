@@ -333,14 +333,17 @@ export class DatumController {
       currentUser,
     );
     const datum = await this.datumRepository.findById(id);
-    if (changes.user !== admin.id) {
+    if (datum.user !== admin.id) {
       throw new HttpErrors.Unauthorized(`Not enough permissions`);
     }
-    const trackedObject = await this.elementsRepository.findById(datum.id);
+    const trackedObject = await this.elementsRepository.findById(
+      datum.trackedObject,
+    );
     for (const calculatedField of trackedObject.calculatedFields) {
       switch (calculatedField) {
         case 'ICAMpff':
           changes.icampff = await this.miscTools.icampff(datum);
+          console.log(changes.icampff);
           break;
         default:
           break;

@@ -30,14 +30,48 @@
           mat-raised-button
           (click)="closeOverlay()"
         >
-          cerrar
+          Cerrar
+        </button></mat-card-actions
+      >
+    </mat-card>
+  </ng-template>
+  <ng-template #icampffDatesContent>
+    <mat-card>
+      <mat-card-header><h1>Fecha de medición ICAMpff</h1></mat-card-header>
+      <mat-card-content class="icampff-date-list">
+        <mat-list>
+          <mat-list-item
+            (click)="setIcampffDate(id); closeOverlay()"
+            class="item"
+            *ngFor="let id of icampffDates"
+            >{{ id }}</mat-list-item
+          >
+        </mat-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          color="warn"
+          mat-button
+          mat-raised-button
+          (click)="closeOverlay()"
+        >
+          Cancelar
         </button></mat-card-actions
       >
     </mat-card>
   </ng-template>
   <div class="leaflet-control-container">
     <div class="leaflet-top leaflet-right floating-controls">
-      controls
+      <button
+        class=" leaflet-control"
+        mat-button
+        mat-raised-button
+        mat-icon-button
+        color="accent"
+        (click)="openIcampffDateOverlay()"
+      >
+        <mat-icon>date_range</mat-icon>
+      </button>
     </div>
   </div>
 </div>

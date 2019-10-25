@@ -60,6 +60,9 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('templatePortalContent', { static: false })
   templatePortalContent: TemplateRef<any>;
+
+  @ViewChild('icampffDatesContent', { static: false })
+  icampffDatesMenuRef: TemplateRef<any>;
   overlayTitle: string;
   overlayDescription: string;
   overlayRouterLink = ['/'];
@@ -108,13 +111,20 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openOverlay(data: any) {
-    this.overlayRef.updateSize({ width: 300, height: 320 });
+    this.overlayRef.updateSize({ width: 400, height: 400 });
     this.overlayTitle = data.name;
     this.overlayDescription = data.description;
     this.overlayRouterLink = ['/', 'login'];
     this.overlayQueryParams = {};
     this.overlayRef.attach(
       new TemplatePortal(this.templatePortalContent, this.viewContainerRef),
+    );
+  }
+
+  openIcampffDateOverlay() {
+    this.overlayRef.updateSize({ width: 400, height: 400 });
+    this.overlayRef.attach(
+      new TemplatePortal(this.icampffDatesMenuRef, this.viewContainerRef),
     );
   }
 
@@ -197,7 +207,6 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
         .toPromise()
         .then((response: JSONataResponse) => {
           const figures: FeatureGroup = new FeatureGroup();
-          console.log(response.data);
           for (const waterBody of response.data) {
             if (!!waterBody.geojson) {
               const geojson: GeoJSON<any> = geoJSON(waterBody.geojson);
@@ -224,30 +233,33 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
       for (const layer of this.layers) {
         this.mapBounds.extend(layer.getBounds());
       }
-      console.log(this.mapBounds);
-      console.log(this.layers);
       this.getIcampffs();
       this.updateLayers();
     });
   }
 
   getIcampffs() {
+    const puntosDeMonitoreo = [];
+    for (const waterBody of this.waterBodies) {
+      for (const puntoDeMonitoreo of waterBody.puntosDeMonitoreo) {
+        if (puntosDeMonitoreo.indexOf(puntoDeMonitoreo) === -1) {
+          puntosDeMonitoreo.push(puntoDeMonitoreo);
+        }
+      }
+    }
     this.apiService
       .get('/data/open/vm2', {
         query: `this.data`,
         additionalFilters: JSON.stringify([
           {
             trackedObject: {
-              inq: this.waterBodies
-                .map(wb => wb.puntosDeMonitoreo)
-                .reduce((pv, cv) => (pv || []).splice(0, 0, ...cv)),
+              inq: puntosDeMonitoreo,
             },
           },
         ]),
       })
       .subscribe({
         next: (data: any[]) => {
-          console.log('DATA: ', data);
           for (const datum of data) {
             if (
               datum.date !== undefined &&
@@ -280,8 +292,6 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           }
           this.icampffDates.sort((a: number, b: number) => a - b);
-          console.log(this.icampffDates);
-          console.log(JSON.stringify(this.icampffs));
           this.setIcampffDate(this.icampffDates[0]);
         },
       });

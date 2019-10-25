@@ -6,6 +6,8 @@ import {
   MatCardModule,
   MatInputModule,
   MatButtonModule,
+  MatListModule,
+  MatIconModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
@@ -31,6 +33,8 @@ const components = [
     ReactiveFormsModule,
     LeafletModule,
     RouterModule,
+    MatListModule,
+    MatIconModule,
   ],
   exports: components,
 })
