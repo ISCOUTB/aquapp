@@ -1,10 +1,10 @@
 import {
   Component,
-  OnInit,
   ViewContainerRef,
   ViewChild,
   AfterViewInit,
   TemplateRef,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/utils/services/api.service';
@@ -22,7 +22,7 @@ import { ROUTES } from 'src/app/routes';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent implements AfterViewInit, OnDestroy {
   form: FormGroup;
   incorrectCredentials = false;
   errorStateMatcher = new MyErrorStateMatcher();
@@ -63,6 +63,11 @@ export class LoginComponent implements AfterViewInit {
     this.overlayRef.attach(
       new TemplatePortal(this.templatePortalContent, this.viewContainerRef),
     );
+  }
+
+  ngOnDestroy() {
+    this.overlayRef.detach();
+    this.overlayRef.dispose();
   }
 
   login() {

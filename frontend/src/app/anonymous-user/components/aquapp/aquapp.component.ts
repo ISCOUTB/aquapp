@@ -90,10 +90,10 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.overlayRef = this.overlay.create({
-      width: 300,
-      height: 320,
-      disposeOnNavigation: true,
+      width: 0,
+      height: 0,
       hasBackdrop: true,
+      disposeOnNavigation: true,
       positionStrategy: this.overlay
         .position()
         .global()
@@ -103,10 +103,12 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.overlayRef.detach();
     this.overlayRef.dispose();
   }
 
   openOverlay(data: any) {
+    this.overlayRef.updateSize({ width: 300, height: 320 });
     this.overlayTitle = data.name;
     this.overlayDescription = data.description;
     this.overlayRouterLink = ['/', 'login'];
@@ -117,7 +119,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   closeOverlay() {
-    console.log('Removing overlay');
+    this.overlayRef.updateSize({ width: 0, height: 0 });
     this.overlayRef.detach();
   }
 
