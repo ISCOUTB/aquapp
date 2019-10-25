@@ -20,6 +20,10 @@ mat-card {
   cursor: pointer;
 }
 
+.active {
+  background-color: #aaa;
+}
+
 .icampff-date-list {
   height: 200px;
   overflow: auto;
