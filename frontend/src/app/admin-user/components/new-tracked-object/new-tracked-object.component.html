@@ -46,6 +46,16 @@
       >
     </mat-select>
   </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Columnas</mat-label>
+    <mat-select multiple formControlName="columns">
+      <mat-option
+        *ngFor="let additionalField of additionalFields"
+        [value]="additionalField.name"
+        >{{ additionalField.title }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
 </form>
 <app-render-fields
   *ngIf="additionalFieldsForm"

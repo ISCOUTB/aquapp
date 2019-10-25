@@ -39,6 +39,7 @@ export class NewTrackedObjectComponent implements OnInit {
       category: ['', Validators.required],
       form: ['', Validators.required],
       trackedProperties: [[]],
+      columns: [[]],
     });
     this.form.get('category').setValue('tracked-objects');
   }
