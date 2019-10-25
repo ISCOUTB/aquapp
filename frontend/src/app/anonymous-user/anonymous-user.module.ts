@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { UtilsModule } from '../utils/utils.module';
 import {
@@ -37,5 +37,6 @@ const components = [
     MatIconModule,
   ],
   exports: components,
+  providers: [DatePipe],
 })
 export class AnonymousUserModule {}

@@ -28,6 +28,7 @@ import { JSONataResponse, QueryParameters } from 'src/app/utils/models/url';
 import { MapService } from 'src/app/utils/services/map.service';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-aquapp',
@@ -83,6 +84,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
     private overlay: Overlay,
     private viewContainerRef: ViewContainerRef,
     private ngZone: NgZone,
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit() {
@@ -225,7 +227,10 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
                       ${waterBody.description}
                     `,
                     additionalParagraphs: [
-                      `Fecha: ${this.currentIcampffDate}.`,
+                      `Fecha: ${this.datePipe.transform(
+                        this.currentIcampffDate,
+                        'shortDate',
+                      )}.`,
                       `ICAMpff: ${
                         icampff === -1 || icampff === undefined
                           ? 'Información no disponible'
