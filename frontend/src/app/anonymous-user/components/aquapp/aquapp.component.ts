@@ -64,6 +64,10 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('icampffDatesContent', { static: false })
   icampffDatesMenuRef: TemplateRef<any>;
+
+  @ViewChild('layersMenuContent', { static: false })
+  layersMenuRef: TemplateRef<any>;
+
   overlayTitle: string;
   overlayDescription: string;
   overlayRouterLink = ['/'];
@@ -130,6 +134,13 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
     this.overlayRef.updateSize({ width: 400, height: 400 });
     this.overlayRef.attach(
       new TemplatePortal(this.icampffDatesMenuRef, this.viewContainerRef),
+    );
+  }
+
+  openLayerMenuOverlay() {
+    this.overlayRef.updateSize({ width: 400, height: 400 });
+    this.overlayRef.attach(
+      new TemplatePortal(this.layersMenuRef, this.viewContainerRef),
     );
   }
 
@@ -366,6 +377,9 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (!layer.active && layer.loaded) {
         this.mapService.removeLayer(layer, this.map);
       }
+    }
+    if (!!this.currentIcampffDate) {
+      this.setIcampffDate(this.currentIcampffDate);
     }
   }
 

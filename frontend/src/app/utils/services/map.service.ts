@@ -16,6 +16,8 @@ export class MapService {
     } else if (layer instanceof GeoJSONLayer) {
       layer.figures.addTo(map);
     }
+    layer.active = true;
+    layer.loaded = true;
   }
 
   removeLayer(layer: Layer, map: Map) {
@@ -26,5 +28,7 @@ export class MapService {
     } else if (layer instanceof GeoJSONLayer) {
       layer.figures.removeFrom(map);
     }
+    layer.active = false;
+    layer.loaded = false;
   }
 }

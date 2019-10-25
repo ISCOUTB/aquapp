@@ -8,6 +8,7 @@ import {
   MatButtonModule,
   MatListModule,
   MatIconModule,
+  MatCheckboxModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
@@ -35,6 +36,7 @@ const components = [
     RouterModule,
     MatListModule,
     MatIconModule,
+    MatCheckboxModule,
   ],
   exports: components,
   providers: [DatePipe],
