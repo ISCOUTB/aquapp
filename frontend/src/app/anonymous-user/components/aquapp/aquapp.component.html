@@ -5,6 +5,34 @@
   [leafletOptions]="mapOptions"
   (leafletMapReady)="onMapReady($event)"
 >
+  <ng-template #templatePortalContent>
+    <mat-card>
+      <mat-card-header
+        ><h1>{{ overlayTitle }}</h1></mat-card-header
+      >
+      <mat-card-content>
+        <p>{{ overlayDescription }}</p>
+        <button
+          color="primary"
+          [routerLink]="overlayRouterLink"
+          [queryParams]="overlayQueryParams"
+          mat-button
+          mat-raised-button
+          (click)="closeOverlay()"
+        >
+          Exportar datos
+        </button>
+        <button
+          color="warn"
+          mat-button
+          mat-raised-button
+          (click)="closeOverlay()"
+        >
+          cerrar
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </ng-template>
   <div class="leaflet-control-container">
     <div class="leaflet-top leaflet-right floating-controls">
       controls

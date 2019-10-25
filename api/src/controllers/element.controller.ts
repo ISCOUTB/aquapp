@@ -145,6 +145,69 @@ export class ElementController {
     return {data: jsonata(query).evaluate(elements), total: count.count};
   }
 
+  @get('/elements/open/jsonata', {
+    responses: {
+      '200': {
+        description: 'Array of Element model instances',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: {'x-ts-type': Element}},
+          },
+        },
+      },
+    },
+  })
+  async findJsonataOpen(
+    @param.query.string('order') order: string,
+    @param.query.boolean('populate') populate: boolean,
+    @param.query.string('query')
+    query: string,
+    @param.query.string('additionalFilters') additionalFilters: string,
+    @param.query.number('limit') limit: number,
+    @param.query.number('offset') offset: number,
+  ) {
+    const filters: any[] = [{active: true}];
+    const additionalFiltersArray: any[] =
+      additionalFilters !== undefined ? JSON.parse(additionalFilters) : [];
+    if (additionalFilters !== undefined && additionalFilters.length) {
+      filters.splice(0, 0, ...additionalFiltersArray);
+    }
+    let elements: Element[] = await this.elementsRepository.find(
+      {
+        where: {and: filters},
+        limit,
+        offset,
+      },
+      {strictObjectIDCoercion: true},
+    );
+    const count = await this.elementsRepository.count(
+      {and: filters},
+      {strictObjectIDCoercion: true},
+    );
+    if (populate) {
+      for (const element of elements) {
+        switch (element.category) {
+          case 'sensors':
+            element.trackedObject = await this.elementsRepository.findById(
+              element.trackedObject,
+            );
+            element.fieldsToShow = (await this.elementsRepository.findById(
+              element.trackedObject.formulario,
+            )).campos;
+            break;
+          case 'tracked-objects':
+            element.populatedForm = await this.elementsRepository.findById(
+              element.form,
+            );
+            break;
+          default:
+            break;
+        }
+      }
+    }
+    return {data: jsonata(query).evaluate(elements), total: count.count};
+  }
+
   @get('/elements/{id}', {
     responses: {
       '200': {

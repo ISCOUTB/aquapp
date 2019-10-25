@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
 import { AquappComponent } from './components/aquapp/aquapp.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { RouterModule } from '@angular/router';
 
 const components = [
   LoginComponent,
@@ -29,6 +30,7 @@ const components = [
     FormsModule,
     ReactiveFormsModule,
     LeafletModule,
+    RouterModule,
   ],
   exports: components,
 })
