@@ -120,6 +120,23 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
     const series = [];
     const legendNames = [];
     const units = [];
+    const commonSeriesConfig = {
+      type: 'line',
+      smooth: true,
+      stack: 'stack',
+      itemStyle: {
+        borderColor: 'rgba(0,0,0,0.4)',
+        borderWidth: 1,
+      },
+      lineStyle: {
+        normal: {
+          width: 3,
+          shadowColor: 'rgba(0,0,0,0.4)',
+          shadowBlur: 10,
+          shadowOffsetY: 10,
+        },
+      },
+    };
     for (const axis of this.yAxisList) {
       if (!axis.active) {
         continue;
@@ -134,20 +151,16 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
             cache[datum.date] = datum[activeSensor];
           }
           series.push({
+            ...commonSeriesConfig,
             name,
-            type: 'line',
-            smooth: true,
-            stack: 'stack',
             data: this.icampffDates.map((date: number) =>
               cache[date] !== undefined ? cache[date] : -1,
             ),
           });
         } else {
           series.push({
+            ...commonSeriesConfig,
             name,
-            type: 'line',
-            smooth: true,
-            stack: 'stack',
             data: axis.data.map(d => d[activeSensor]),
           });
         }
