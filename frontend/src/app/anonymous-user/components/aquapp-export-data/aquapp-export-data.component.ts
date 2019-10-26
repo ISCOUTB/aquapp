@@ -105,11 +105,25 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
         const name = `${axis.name}, ${
           axis.sensors.find(s => s.name === activeSensor).title
         }`;
-        series.push({
-          name,
-          type: 'line',
-          data: axis.data.map(d => d[activeSensor]),
-        });
+        if (axis instanceof WQMonitoringPointAxis) {
+          const cache: any = {};
+          for (const datum of axis.data) {
+            cache[datum.date] = datum[activeSensor];
+          }
+          series.push({
+            name,
+            type: 'line',
+            data: this.icampffDates.map((date: number) =>
+              cache[date] !== undefined ? cache[date] : -1,
+            ),
+          });
+        } else {
+          series.push({
+            name,
+            type: 'line',
+            data: axis.data.map(d => d[activeSensor]),
+          });
+        }
         legendNames.push(name);
         const unit = this.units.find(u => u.name === activeSensor);
         units.push(unit !== undefined ? unit.unit : '');
@@ -313,7 +327,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
                 wb.id,
                 wb.name,
                 'Cuerpo de agua',
-                true,
+                false,
                 true,
                 this.icampffDates.map((date: number) => ({
                   icampff: this.icampffs[wb.id][date],
