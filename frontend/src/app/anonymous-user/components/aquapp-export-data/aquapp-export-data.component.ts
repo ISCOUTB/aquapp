@@ -156,7 +156,6 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
         units.push(unit !== undefined ? unit.unit : '');
       }
     }
-    console.log('SERIES', JSON.stringify(series, undefined, 2));
     this.options = {
       toolbox: {
         show: true,
@@ -176,7 +175,6 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           ticket,
           callback,
         ) => {
-          console.log(params);
           return params
             .map(param => {
               const unit = units[param.seriesIndex];
