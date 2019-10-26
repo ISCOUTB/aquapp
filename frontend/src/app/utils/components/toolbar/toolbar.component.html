@@ -1,4 +1,23 @@
 <mat-toolbar [color]="color">
   <ng-content></ng-content>
-  AquApp
+  <img
+    [ngStyle]="{
+      display: 'block',
+      float: 'left',
+      width: '125px',
+      height: '41.66px'
+    }"
+    src="assets/brand.png"
+    alt="AquApp logo"
+  />
+  <img
+    [ngStyle]="{
+      display: 'block',
+      float: 'left',
+      'max-height': '100%',
+      'max-width': '100%'
+    }"
+    src="assets/utb-white.png"
+    alt="AquApp logo"
+  />
 </mat-toolbar>
