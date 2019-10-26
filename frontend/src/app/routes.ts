@@ -18,5 +18,6 @@ export const ROUTES = {
   // Anonymous user
   login: 'login',
   start: 'inicio',
+  aquappExportData: 'aquapp-export-data',
   getStartPage: 'get-start-page',
 };

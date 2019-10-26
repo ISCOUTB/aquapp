@@ -29,6 +29,7 @@ import { MapService } from 'src/app/utils/services/map.service';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DatePipe } from '@angular/common';
+import { ROUTES } from 'src/app/routes';
 
 @Component({
   selector: 'app-aquapp',
@@ -123,8 +124,8 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
     this.overlayRef.updateSize({ width: 400, height: 400 });
     this.overlayTitle = data.name;
     this.overlayDescription = data.description;
-    this.overlayRouterLink = ['/', 'login'];
-    this.overlayQueryParams = {};
+    this.overlayRouterLink = ['/', ROUTES.aquappExportData];
+    this.overlayQueryParams = { id: data.id };
     this.overlayRef.attach(
       new TemplatePortal(this.templatePortalContent, this.viewContainerRef),
     );

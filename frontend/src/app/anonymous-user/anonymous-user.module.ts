@@ -15,11 +15,13 @@ import { AnonymousUserStartPageComponent } from './components/anonymous-user-sta
 import { AquappComponent } from './components/aquapp/aquapp.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { RouterModule } from '@angular/router';
+import { AquappExportDataComponent } from './components/aquapp-export-data/aquapp-export-data.component';
 
 const components = [
   LoginComponent,
   AnonymousUserStartPageComponent,
   AquappComponent,
+  AquappExportDataComponent,
 ];
 
 @NgModule({
