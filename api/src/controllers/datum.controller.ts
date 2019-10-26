@@ -333,7 +333,10 @@ export class DatumController {
     for (const calculatedField of trackedObject.calculatedFields) {
       switch (calculatedField) {
         case 'ICAMpff':
-          changes.icampff = await this.miscTools.icampff(datum);
+          changes.icampff = await this.miscTools.icampff({
+            ...datum,
+            ...changes,
+          });
           console.log(changes.icampff);
           break;
         default:
