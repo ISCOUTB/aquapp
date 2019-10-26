@@ -16,6 +16,7 @@ import { AquappComponent } from './components/aquapp/aquapp.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { RouterModule } from '@angular/router';
 import { AquappExportDataComponent } from './components/aquapp-export-data/aquapp-export-data.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 const components = [
   LoginComponent,
@@ -39,6 +40,7 @@ const components = [
     MatListModule,
     MatIconModule,
     MatCheckboxModule,
+    NgxEchartsModule,
   ],
   exports: components,
   providers: [DatePipe],
