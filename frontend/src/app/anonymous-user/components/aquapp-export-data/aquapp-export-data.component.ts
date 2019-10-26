@@ -3,6 +3,7 @@ import { GeoJSON } from 'leaflet';
 import { ApiService } from 'src/app/utils/services/api.service';
 import { JSONataResponse } from 'src/app/utils/models/url';
 import { DatePipe } from '@angular/common';
+import { EChartOption } from 'echarts';
 
 interface SensorAxis {
   name: string;
@@ -12,6 +13,7 @@ interface SensorAxis {
 interface Axis {
   id: string;
   name: string;
+  type: string;
   active: boolean;
   dataLoaded: boolean;
   data: any[];
@@ -35,6 +37,7 @@ class WQMonitoringPointAxis implements Axis {
   constructor(
     public id: string,
     public name: string,
+    public type: string,
     public active: boolean,
     public dataLoaded: boolean,
     public data: any[],
@@ -47,6 +50,7 @@ class WaterBodyAxis implements Axis {
   constructor(
     public id: string,
     public name: string,
+    public type: string,
     public active: boolean,
     public dataLoaded: boolean,
     public data: any[],
@@ -59,7 +63,7 @@ class WaterBodyAxis implements Axis {
   styleUrls: ['./aquapp-export-data.component.scss'],
 })
 export class AquappExportDataComponent implements OnInit, AfterViewInit {
-  options: any = {};
+  options: EChartOption = {};
   colors = ['#51B53F', '#B53F51', '#B5683F', '#B5A33F', '#8BB53F'];
   textColor = 'black';
   axisLineColor = 'black';
@@ -82,6 +86,9 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
     const series = [];
     const legendNames = [];
     for (const axis of this.yAxisList) {
+      if (!axis.active) {
+        continue;
+      }
       for (const activeSensor of axis.activeSensors) {
         const name = `${axis.name}, ${
           axis.sensors.find(s => s.name === activeSensor).title
@@ -95,7 +102,16 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       }
     }
     this.options = {
-      backgroundColor: 'transparent',
+      toolbox: {
+        showTitle: false,
+        feature: {
+          saveAsImage: {
+            title: 'Guardar',
+            name: `grafico`,
+          },
+        },
+      },
+      backgroundColor: '#fafafa',
       color: this.colors,
       tooltip: {
         trigger: 'item',
@@ -121,9 +137,6 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
             },
           },
           axisLabel: {
-            textStyle: {
-              color: this.textColor,
-            },
             formatter: (date: number) =>
               this.datePipe.transform(date, 'shortDate'),
           },
@@ -140,11 +153,6 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           splitLine: {
             lineStyle: {
               color: this.splitLineColor,
-            },
-          },
-          axisLabel: {
-            textStyle: {
-              color: this.textColor,
             },
           },
         },
@@ -177,7 +185,14 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           this.wqMonitoringPoints = response.data;
           this.wqMonitoringPoints.forEach(wq => {
             this.yAxisList.push(
-              new WQMonitoringPointAxis(wq.id, wq.name, false, false, []),
+              new WQMonitoringPointAxis(
+                wq.id,
+                wq.name,
+                'Punto de monitoreo de calidad del agua',
+                false,
+                false,
+                [],
+              ),
             );
           });
         })
@@ -277,6 +292,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
               new WaterBodyAxis(
                 wb.id,
                 wb.name,
+                'Cuerpo de agua',
                 true,
                 true,
                 this.icampffDates.map((date: number) => ({

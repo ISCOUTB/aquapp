@@ -1,2 +1,37 @@
 <h1>Exportar datos</h1>
 <div echarts [options]="options" class="echart"></div>
+<br />
+<br />
+<br />
+<h2>Configuración del gráfico</h2>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let axis of yAxisList">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ axis.name }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ axis.type }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Sensores activos</mat-label>
+      <mat-select
+        multiple
+        [name]="'active-sensors-' + axis.name"
+        [(ngModel)]="axis.activeSensors"
+      >
+        <mat-option *ngFor="let sensor of axis.sensors" [value]="sensor.name">{{
+          sensor.title
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="axis.active">
+      Incluir en el gráfico
+    </mat-checkbox>
+  </mat-expansion-panel>
+</mat-accordion>
+<br />
+<button mat-button mat-raised-button color="primary" (click)="configureChart()">
+  Aplicar cambios
+</button>
