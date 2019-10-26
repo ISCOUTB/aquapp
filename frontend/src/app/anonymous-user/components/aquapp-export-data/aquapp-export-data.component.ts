@@ -136,6 +136,8 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           series.push({
             name,
             type: 'line',
+            smooth: true,
+            stack: 'stack',
             data: this.icampffDates.map((date: number) =>
               cache[date] !== undefined ? cache[date] : -1,
             ),
@@ -144,6 +146,8 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           series.push({
             name,
             type: 'line',
+            smooth: true,
+            stack: 'stack',
             data: axis.data.map(d => d[activeSensor]),
           });
         }
@@ -152,9 +156,10 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
         units.push(unit !== undefined ? unit.unit : '');
       }
     }
+    console.log('SERIES', JSON.stringify(series, undefined, 2));
     this.options = {
       toolbox: {
-        showTitle: false,
+        show: true,
         feature: {
           saveAsImage: {
             title: 'Guardar',
@@ -165,13 +170,25 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       backgroundColor: '#fafafa',
       color: this.colors,
       tooltip: {
-        trigger: 'item',
-        formatter: (params: EChartOption.Tooltip.Format, ticket, callback) => {
-          const unit = units[params.seriesIndex];
-          return `${params.seriesName}<br/>
-          ${this.datePipe.transform(params.name, 'shortDate')}: ${
-            params.value
-          }${unit !== undefined ? unit : ''}`;
+        trigger: 'axis',
+        formatter: (
+          params: EChartOption.Tooltip.Format[],
+          ticket,
+          callback,
+        ) => {
+          console.log(params);
+          return params
+            .map(param => {
+              const unit = units[param.seriesIndex];
+              return `${param.seriesName}<br/>
+            ${this.datePipe.transform(
+              param.name,
+              'shortDate',
+            )}: ${(param.value as number).toFixed(2)}${
+                unit !== undefined ? unit : ''
+              }`;
+            })
+            .join('<br/>');
         },
       },
       legend: {
@@ -201,7 +218,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       ],
       yAxis: [
         {
-          type: 'log',
+          type: 'value',
           axisLine: {
             lineStyle: {
               color: this.axisLineColor,
@@ -356,7 +373,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
                 wb.id,
                 wb.name,
                 'Cuerpo de agua',
-                false,
+                true,
                 true,
                 this.icampffDates.map((date: number) => ({
                   icampff: this.icampffs[wb.id][date],
