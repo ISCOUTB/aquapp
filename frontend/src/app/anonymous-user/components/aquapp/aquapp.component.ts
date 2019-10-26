@@ -170,7 +170,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
               -1px -1px 0 #333,
               1px -1px 0 #333,
               -1px 1px 0 #333;
-            color: #f44336;
+            color: #3f51b5;
             font-size: 32pt;
           `;
           for (const monitoringPoint of response.data) {
