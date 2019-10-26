@@ -64,7 +64,7 @@ class WaterBodyAxis implements Axis {
 })
 export class AquappExportDataComponent implements OnInit, AfterViewInit {
   options: EChartOption = {};
-  colors = ['#51B53F', '#B53F51', '#B5683F', '#B5A33F', '#8BB53F'];
+  colors = ['#51B53F', '#B53F51', '#B5683F', '#B5A33F', '#8BB53F', '#3f51b5'];
   textColor = 'black';
   axisLineColor = 'black';
   splitLineColor = 'black';
@@ -75,6 +75,17 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
   icampffs: { [prop: string]: { [prop: number]: number } } = {};
   wqMonitoringPoints: any[] = [];
   icampffDates: number[] = [];
+  units = [
+    { name: 'icampff', unit: '' },
+    { name: 'dissolvedOxygen', unit: 'mg/L' },
+    { name: 'nitrate', unit: 'µg/L' },
+    { name: 'totalSuspendedSolids', unit: 'mg/L' },
+    { name: 'thermotolerantColiforms', unit: 'NMP/100ml' },
+    { name: 'pH', unit: '' },
+    { name: 'chrolophyllA', unit: 'µg/L' },
+    { name: 'biochemicalOxygenDemand', unit: 'mg/L' },
+    { name: 'phosphates', unit: 'µg/L' },
+  ];
 
   constructor(private apiService: ApiService, private datePipe: DatePipe) {}
 
@@ -85,6 +96,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
   configureChart() {
     const series = [];
     const legendNames = [];
+    const units = [];
     for (const axis of this.yAxisList) {
       if (!axis.active) {
         continue;
@@ -99,6 +111,8 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           data: axis.data.map(d => d[activeSensor]),
         });
         legendNames.push(name);
+        const unit = this.units.find(u => u.name === activeSensor);
+        units.push(unit !== undefined ? unit.unit : '');
       }
     }
     this.options = {
@@ -115,7 +129,13 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       color: this.colors,
       tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c}',
+        formatter: (params: EChartOption.Tooltip.Format, ticket, callback) => {
+          const unit = units[params.seriesIndex];
+          return `${params.seriesName}<br/>
+          ${this.datePipe.transform(params.name, 'shortDate')}: ${
+            params.value
+          }${unit !== undefined ? unit : ''}`;
+        },
       },
       legend: {
         left: 'left',
@@ -301,7 +321,6 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
               ),
             );
           });
-          console.log(JSON.stringify(this.yAxisList, undefined, 2));
           this.configureChart();
         },
       });
