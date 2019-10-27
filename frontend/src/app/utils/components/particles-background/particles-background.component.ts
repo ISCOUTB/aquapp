@@ -83,6 +83,8 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
     y: number;
   };
   clean = false;
+
+  fadeBackgroundOpacity = 1;
   constructor() {
     this.mouse = {
       x: window.innerWidth / 2,
@@ -165,6 +167,18 @@ export class ParticlesBackgroundComponent implements AfterViewInit {
 
     for (const figura of this.figures) {
       figura.update();
+    }
+
+    if (this.fadeBackgroundOpacity > 0) {
+      this.context.fillStyle = `rgba(33, 33, 33, ${this.fadeBackgroundOpacity})`;
+      this.context.fillRect(
+        0,
+        0,
+        this.context.canvas.width,
+        this.context.canvas.height,
+      );
+      this.context.stroke();
+      this.fadeBackgroundOpacity -= 0.005;
     }
   }
 }
