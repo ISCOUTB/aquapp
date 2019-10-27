@@ -19,11 +19,13 @@ import { NewRoleComponent } from './admin-user/components/new-role/new-role.comp
 import { UsersComponent } from './admin-user/components/users/users.component';
 import { NewUserComponent } from './admin-user/components/new-user/new-user.component';
 import { AquappExportDataComponent } from './anonymous-user/components/aquapp-export-data/aquapp-export-data.component';
+import { AquappAboutComponent } from './anonymous-user/components/aquapp-about/aquapp-about.component';
 
 const routes: Routes = [
   // Anonymous user routes
   { path: ROUTES.login, component: LoginComponent },
   { path: ROUTES.aquappExportData, component: AquappExportDataComponent },
+  { path: ROUTES.about, component: AquappAboutComponent },
   // Superuser routes
   { path: ROUTES.superuser, component: SuperuserStartPageComponent },
   { path: ROUTES.admins, component: AdminsComponent },

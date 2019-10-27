@@ -19,12 +19,14 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { RouterModule } from '@angular/router';
 import { AquappExportDataComponent } from './components/aquapp-export-data/aquapp-export-data.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { AquappAboutComponent } from './components/aquapp-about/aquapp-about.component';
 
 const components = [
   LoginComponent,
   AnonymousUserStartPageComponent,
   AquappComponent,
   AquappExportDataComponent,
+  AquappAboutComponent,
 ];
 
 @NgModule({

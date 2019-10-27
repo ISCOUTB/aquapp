@@ -20,4 +20,5 @@ export const ROUTES = {
   start: 'inicio',
   aquappExportData: 'aquapp-export-data',
   getStartPage: 'get-start-page',
+  about: 'about',
 };
