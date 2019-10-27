@@ -152,6 +152,12 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
           queryParameters: {},
         },
         {
+          title: 'Exportar datos',
+          icon: 'bar_chart',
+          url: ['/', ROUTES.aquappExportData],
+          queryParameters: {},
+        },
+        {
           title: 'Iniciar sesión',
           icon: 'input',
           url: ['/', ROUTES.login],
