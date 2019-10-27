@@ -4,6 +4,8 @@ import { ApiService } from 'src/app/utils/services/api.service';
 import { JSONataResponse } from 'src/app/utils/models/url';
 import { DatePipe } from '@angular/common';
 import { EChartOption } from 'echarts';
+import { MessagesService } from 'src/app/utils/services/messages.service';
+import { MESSAGES } from 'src/app/messages';
 
 interface SensorAxis {
   name: string;
@@ -110,7 +112,11 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
     { name: 'phosphates', unit: 'µg/L' },
   ];
 
-  constructor(private apiService: ApiService, private datePipe: DatePipe) {}
+  constructor(
+    private apiService: ApiService,
+    private datePipe: DatePipe,
+    private messages: MessagesService,
+  ) {}
 
   ngOnInit() {
     this.getElements();
@@ -278,6 +284,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {}
 
   getElements() {
+    this.messages.sendMessage({ name: MESSAGES.showSplashScreen, value: {} });
     const promises = [];
     promises.push(
       this.apiService
@@ -323,6 +330,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
     );
     Promise.all(promises).then(() => {
       this.getIcampffs();
+      this.messages.sendMessage({ name: MESSAGES.hideSplashScreen, value: {} });
     });
   }
 
