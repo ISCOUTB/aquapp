@@ -4,4 +4,6 @@ export const MESSAGES = {
   fullWidthContent: 'fullWidthContent',
   login: 'login',
   logout: 'logout',
+  showSplashScreen: 'showSplashScreen',
+  hideSplashScreen: 'hideSplashScreen',
 };

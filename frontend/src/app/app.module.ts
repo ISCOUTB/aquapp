@@ -8,6 +8,7 @@ import { AnonymousUserModule } from './anonymous-user/anonymous-user.module';
 import { SuperUserModule } from './super-user/super-user.module';
 import { UtilsModule } from './utils/utils.module';
 import { AdminUserModule } from './admin-user/admin-user.module';
+import { MatProgressSpinnerModule } from '@angular/material';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { AdminUserModule } from './admin-user/admin-user.module';
     SuperUserModule,
     AdminUserModule,
     UtilsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

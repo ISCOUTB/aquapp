@@ -8,7 +8,10 @@ import {
   NgZone,
   OnDestroy,
 } from '@angular/core';
-import { MessagesService } from 'src/app/utils/services/messages.service';
+import {
+  MessagesService,
+  Message,
+} from 'src/app/utils/services/messages.service';
 import { MESSAGES } from 'src/app/messages';
 import {
   Map,
@@ -335,6 +338,12 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
           this.icampffDates.sort((a: number, b: number) => a - b);
           this.setIcampffDate(this.icampffDates[this.icampffDates.length - 1]);
         },
+        complete: () => {
+          this.messageService.sendMessage({
+            name: MESSAGES.hideSplashScreen,
+            value: {},
+          });
+        },
       });
   }
 
@@ -388,6 +397,10 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
     window.addEventListener('resize', () => this.fixMap());
     setTimeout(() => {
       this.fixMap();
+      this.messageService.sendMessage({
+        name: MESSAGES.showSplashScreen,
+        value: {},
+      });
       this.setupLayers();
     }, 300);
   }
