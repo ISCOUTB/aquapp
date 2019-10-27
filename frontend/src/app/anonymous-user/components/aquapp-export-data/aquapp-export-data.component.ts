@@ -195,9 +195,11 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
             ${this.datePipe.transform(
               param.name,
               'shortDate',
-            )}: ${(param.value as number).toFixed(2)}${
+            )}: <span style="color: ${
+                param.color
+              };">${(param.value as number).toFixed(2)}${
                 unit !== undefined ? unit : ''
-              }`;
+              }</span>`;
             })
             .join('<br/>');
         },
