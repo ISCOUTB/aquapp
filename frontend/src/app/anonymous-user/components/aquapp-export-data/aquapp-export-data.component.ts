@@ -123,7 +123,6 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
     const commonSeriesConfig = {
       type: 'line',
       smooth: true,
-      stack: 'stack',
       itemStyle: {
         borderColor: 'rgba(0,0,0,0.4)',
         borderWidth: 1,
@@ -189,6 +188,12 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           callback,
         ) => {
           return params
+            .sort(
+              (
+                a: EChartOption.Tooltip.Format,
+                b: EChartOption.Tooltip.Format,
+              ) => (b.value as number) - (a.value as number),
+            )
             .map(param => {
               const unit = units[param.seriesIndex];
               return `${param.seriesName}<br/>
@@ -231,7 +236,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       ],
       yAxis: [
         {
-          type: 'category',
+          type: 'value',
           axisLabel: {
             formatter: (value: string | number | Date, index: any) => {
               switch (typeof value) {
