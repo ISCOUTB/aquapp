@@ -90,7 +90,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
   ];
   textColor = 'black';
   axisLineColor = 'black';
-  splitLineColor = 'black';
+  splitLineColor = '#c7c7c7';
   xAxis: number[] = [];
   yAxisList: Axis[] = [];
   waterBodies: any[];
