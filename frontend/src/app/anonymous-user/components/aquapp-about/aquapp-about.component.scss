@@ -1,0 +1,67 @@
+.feature-title {
+  position: absolute;
+  margin-top: 2px;
+  margin-left: 5px;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 421px;
+  perspective: 1000px;
+  margin: 10px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: #bbb;
+  color: black;
+}
+
+.flip-card-back {
+  background-color: #3f51b5;
+  color: white;
+  transform: rotateY(180deg);
+  padding: 5px;
+  overflow-y: auto;
+  border-radius: 4px;
+}
+
+.member {
+  padding-bottom: 0;
+}
+
+.member-photo-container {
+  overflow: hidden;
+  height: 320px;
+  width: calc(100% + 32px);
+  margin: 0 -16px 16px -16px;
+}
+
+.member-photo {
+  margin-top: -16px;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  width: calc(100% + 32px);
+  margin: 0 -16px 16px -16px;
+}

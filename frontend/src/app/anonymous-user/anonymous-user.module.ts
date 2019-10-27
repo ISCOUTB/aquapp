@@ -11,6 +11,7 @@ import {
   MatCheckboxModule,
   MatExpansionModule,
   MatSelectModule,
+  MatGridListModule,
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
@@ -47,6 +48,7 @@ const components = [
     NgxEchartsModule,
     MatExpansionModule,
     MatSelectModule,
+    MatGridListModule,
   ],
   exports: components,
   providers: [DatePipe],

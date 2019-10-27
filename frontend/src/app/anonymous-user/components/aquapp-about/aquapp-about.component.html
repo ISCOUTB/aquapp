@@ -1,1 +1,133 @@
-<p>aquapp-about works!</p>
+<h1>Proyecto</h1>
+
+AquApp es una plataforma creada para llevar a cabo el monitoreo y seguimiento de
+algunos parámetros fisicoquímicos y biológicos de calidad de agua para el
+sistema interno de caños y lagunas (o sistema lagunar) de Cartagena de Indias.
+La plataforma calcula, además, el
+<a href="http://siam.invemar.org.co/siam/redcam/indicadores/index.jsp">
+  Indicador de la Calidad de Aguas Marinas y Estuarinas para Preservación de
+  Flora y Fauna (ICAMpff)</a
+>
+creado por Invemar (Instituto de Investigaciones Marinas y Costeras).
+<br />
+Los datos en la plataforma están disponibles en dos tipos de formato: gráfica
+(figura) y tabulado (archivo con extensión ".csv"). El usuario puede visualizar
+las gráficas en la plataforma y, adicionalmente, comparar, en la misma gráfica,
+datos de cualquiera de los puntos de monitoreo establecidos a lo largo del
+sistema lagunar. ¿Qué es el sistema interno de caños y lagunas de Cartagena de
+Indias?
+<br />
+El sistema interno de caños y lagunas de Cartagena de Indias está conformado por
+6 cuerpos de agua: ciénaga de Las Quintas, caño de Bazurto, laguna de San
+Lázaro, laguna de Chambacú, laguna del Cabrero y caño Juan Angola (que incluye
+lo que se conoce como el canal paralelo). Estos cuerpos de agua no solo están
+interconectados entre sí, sino que también conectan a la bahía de Cartagena (a
+través de la ciénaga de Las Quintas y la laguna de San Lázaro) con el mar Caribe
+(a través de la ciénaga de La Virgen, cual está conectada al sistema lagunar por
+medio del caño Juan Angola).
+<br />
+A través de los años, la calidad del agua del sistema lagunar se ha venido
+deteriorando. Además, ha perdido no solo área superficial del espejo de agua y
+biomasa de manglar (áreas cubiertas de manglar), sino también área de la sección
+transversal de los cuerpos de agua, debido principalmente a: (a) sedimentos y
+contaminantes arrastrados por la escorrentía proveniente de las cuencas que
+drenan hacia el sistema lagunar, (b) asentamientos legales e ilegales a lo largo
+de las orillas, (c) tala del manglar y (d) mala disposición de residuos sólidos
+a lo largo de las orillas y dentro de los cuerpos de agua. Estas condiciones
+afectan de manera directa la calidad de los cuerpos de agua, su capacidad de
+autodepuración y la hidrodinámica que determina el destino y concentración de
+los contaminantes.
+<br />
+<h1>¿Por qué AquApp?</h1>
+El sistema lagunar es considerado un ecosistema estuarino intramareal boscoso.
+Alberga, a lo largo de su recorrido, fauna y flora que dependen de los
+manglares, los cuales son muy sensibles a los cambios en los valores de
+diferentes parámetros fisicoquímicos y microbiológicos (pH, temperatura,
+salinidad, nitratos, conductividad eléctrica, oxígeno disuelto, coliformes
+totales y fecales, entre otros) que pueden o no favorecer a la supervivencia de
+las especies permanentes y temporales de este ecosistema; además de,
+potencialmente, afectar los servicios ecosistémicos que el manglar ofrece
+(regulación del régimen hidrológico, remoción de dióxido de carbono, control de
+erosión, regulación de nutrientes y el microclima, hábitat de especies,
+retención de sólidos, etc.). En consecuencia, la calidad del agua (medio que
+sostiene el ecosistema) y su continuo monitoreo y seguimiento se hace primordial
+y AquApp hace posible dicho seguimiento de manera gratuita para todos los
+usuarios.
+<h2>Características</h2>
+<div *ngFor="let feature of features">
+  <mat-card class="mat-elevation-z2">
+    <mat-card-header>
+      <h3>
+        <mat-icon color="primary" matPrefix mat-list-icon>{{
+          feature.icon
+        }}</mat-icon
+        ><span class="feature-title">{{ feature.title }}</span>
+      </h3></mat-card-header
+    >
+    <mat-card-content>{{ feature.description }}</mat-card-content>
+  </mat-card>
+  <br />
+</div>
+<h2>Equipo</h2>
+<mat-grid-list
+  [rowHeight]="450"
+  [cols]="width > 1234 ? 3 : width > 873 ? 2 : 1"
+>
+  <mat-grid-tile *ngFor="let member of team">
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <mat-card class="member mat-elevation-z4">
+            <mat-card-header>
+              <mat-card-title>{{ member.name }} </mat-card-title>
+              <mat-card-subtitle> {{ member.role }} </mat-card-subtitle>
+            </mat-card-header>
+            <div class="member-photo-container">
+              <img
+                class="member-photo"
+                [src]="member.photo"
+                [alt]="member.photoAlt"
+              />
+            </div>
+          </mat-card>
+        </div>
+        <div class="flip-card-back mat-elevation-z4">
+          <h1>{{ member.name }}</h1>
+          <h2>{{ member.role }}</h2>
+          <p>{{ member.info }}</p>
+        </div>
+      </div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<br />
+<br />
+<br />
+<h1>Información adicional</h1>
+<br />
+AquApp es una plataforma que soporta un programa de monitoreo del sistema de
+caños y lagunas de Cartagena de Indias.
+<br />
+Este programa es software libre: usted puede resdistribuírlo y/o modificarlo
+bajo los términos de la licencia GNU Affero General Public License, u
+opcionalemente cualquier versión posterior.
+<br />
+Para más información haga clic aquí para leer la licencia GNU Affero General
+Public License. Contacto
+<br />
+Usted es libre de escribirnos agregando un mensaje en nuestra wiki. En esta wiki
+(alojada en Github) podemos además brindarle información a fondo sobre el
+proyecto.
+<br />
+<a href="https://github.com/IngenieriaDeSistemasUTB/aquappservice/wiki"
+  >Únase a la conversación</a
+>
+<br />
+<h1>Agradecimientos especiales</h1>
+Gracias a Invemar por brindarnos soporte técnico para el cálculo del ICAMpff a
+través de la conexión directa a su API.
+<br />
+<a href="http://www.invemar.org.co/inicio">
+  <img src="assets/logoInvemar.png" alt="Logo Invemar" />
+</a>
