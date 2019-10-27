@@ -245,7 +245,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
                       `ICAMpff: ${
                         icampff === -1 || icampff === undefined
                           ? 'Información no disponible'
-                          : icampff
+                          : icampff.toFixed(2)
                       }.`,
                     ],
                   });
