@@ -231,7 +231,17 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       ],
       yAxis: [
         {
-          type: 'value',
+          type: 'category',
+          axisLabel: {
+            formatter: (value: string | number | Date, index: any) => {
+              switch (typeof value) {
+                case 'number':
+                  return value.toFixed(2);
+                default:
+                  return value;
+              }
+            },
+          },
           axisLine: {
             lineStyle: {
               color: this.axisLineColor,
