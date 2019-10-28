@@ -1,9 +1,9 @@
-<h1>Exportar datos</h1>
+<h1 translate>aquapp.export.title</h1>
 <div echarts [options]="options" class="echart"></div>
 <br />
 <br />
 <br />
-<h2>Configuración del gráfico</h2>
+<h2 translate>aquapp.export.config.title</h2>
 <mat-accordion>
   <mat-expansion-panel *ngFor="let axis of yAxisList">
     <mat-expansion-panel-header>
@@ -15,7 +15,9 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Sensores activos</mat-label>
+      <mat-label>{{
+        'aquapp.export.config.sensorForm.activeSensors' | translate
+      }}</mat-label>
       <mat-select
         multiple
         [name]="'active-sensors-' + axis.name"
@@ -27,11 +29,11 @@
       </mat-select>
     </mat-form-field>
     <mat-checkbox [(ngModel)]="axis.active">
-      Incluir en el gráfico
+      {{ 'aquapp.export.config.sensorForm.addToChart' | translate }}
     </mat-checkbox>
   </mat-expansion-panel>
 </mat-accordion>
 <br />
 <button mat-button mat-raised-button color="primary" (click)="configureChart()">
-  Aplicar cambios
+  {{ 'aquapp.export.config.applyButton' | translate }}
 </button>

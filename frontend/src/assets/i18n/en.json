@@ -84,6 +84,17 @@
 				"title": "Why AquApp?"
 			}
 		},
+		"export": {
+			"config": {
+				"applyButton": "Apply changes",
+				"sensorForm": {
+					"activeSensors": "Data",
+					"addToChart": "Add to chart"
+				},
+				"title": "Chart configuration"
+			},
+			"title": "Export data"
+		},
 		"start": {
 			"title": ""
 		}
