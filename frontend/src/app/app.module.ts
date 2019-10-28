@@ -9,6 +9,9 @@ import { SuperUserModule } from './super-user/super-user.module';
 import { UtilsModule } from './utils/utils.module';
 import { AdminUserModule } from './admin-user/admin-user.module';
 import { MatProgressSpinnerModule } from '@angular/material';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,8 +24,19 @@ import { MatProgressSpinnerModule } from '@angular/material';
     AdminUserModule,
     UtilsModule,
     MatProgressSpinnerModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

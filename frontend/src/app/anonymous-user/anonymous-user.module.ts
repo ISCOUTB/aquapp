@@ -21,6 +21,9 @@ import { RouterModule } from '@angular/router';
 import { AquappExportDataComponent } from './components/aquapp-export-data/aquapp-export-data.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { AquappAboutComponent } from './components/aquapp-about/aquapp-about.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 const components = [
   LoginComponent,
@@ -49,8 +52,18 @@ const components = [
     MatExpansionModule,
     MatSelectModule,
     MatGridListModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   exports: components,
   providers: [DatePipe],
 })
 export class AnonymousUserModule {}
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

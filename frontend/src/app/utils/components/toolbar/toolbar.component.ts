@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-toolbar',
@@ -7,7 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ToolbarComponent implements OnInit {
   @Input() color = 'primary';
-  constructor() {}
+  language = 'es';
+  constructor(private translate: TranslateService) {}
 
   ngOnInit() {}
+
+  toggleLanguate() {
+    this.language = this.language === 'es' ? 'en' : 'es';
+    this.translate.use(this.language);
+  }
 }

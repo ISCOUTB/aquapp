@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { MESSAGES } from './messages';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +28,9 @@ export class AppComponent implements OnDestroy {
     private messageService: MessagesService,
     private overlay: Overlay,
     private viewContainerRef: ViewContainerRef,
+    private translate: TranslateService,
   ) {
+    translate.setDefaultLang('es');
     this.messageServiceSubscription = this.messageService
       .getMessage()
       .subscribe((message: Message) => {

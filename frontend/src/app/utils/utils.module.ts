@@ -26,7 +26,6 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
 } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
 import { ParticlesBackgroundComponent } from './components/particles-background/particles-background.component';
 import { GetStartPageComponent } from './components/get-start-page/get-start-page.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -43,6 +42,9 @@ import { TrackedObjectFieldComponent } from './components/tracked-object-field/t
 import { DateFieldComponent } from './components/date-field/date-field.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { FileFieldComponent } from './components/file-field/file-field.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 const components = [
   TableComponent,
@@ -71,7 +73,6 @@ const components = [
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
-    HttpClientModule,
     MatToolbarModule,
     MatCardModule,
     MatSidenavModule,
@@ -87,6 +88,13 @@ const components = [
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [
     ApiService,
@@ -100,3 +108,6 @@ const components = [
   entryComponents: [AddFieldComponent],
 })
 export class UtilsModule {}
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
