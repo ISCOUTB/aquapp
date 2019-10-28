@@ -95,6 +95,26 @@
 			},
 			"title": "Export data"
 		},
+		"sidenav": {
+			"admin": {
+				"forms": "Forms",
+				"logout": "Log out",
+				"objects": "Objects",
+				"roles": "Roles",
+				"start": "Start",
+				"users": "Users"
+			},
+			"anonymousUser": {
+				"about": "About",
+				"exportData": "Export data",
+				"login": "Log in",
+				"start": "Start"
+			},
+			"superuser": {
+				"logout": "Log out",
+				"start": "Start"
+			}
+		},
 		"start": {
 			"infoOverlay": {
 				"close": "Close",

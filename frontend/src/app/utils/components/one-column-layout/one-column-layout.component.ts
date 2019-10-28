@@ -85,13 +85,13 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
       if (user.name === 'superuser') {
         this.elements.push(
           {
-            title: 'Inicio',
+            title: 'aquapp.sidenav.superuser.start',
             icon: 'home',
             url: ['/', ROUTES.superuser],
             queryParameters: {},
           },
           {
-            title: 'Cerrar sesión',
+            title: 'aquapp.sidenav.superuser.logout',
             icon: 'input',
             url: ['/', ROUTES.login],
             queryParameters: {},
@@ -100,37 +100,37 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
       } else {
         this.elements.push(
           {
-            title: 'Inicio',
+            title: 'aquapp.sidenav.admin.start',
             icon: 'home',
             url: ['/', ROUTES.admin],
             queryParameters: {},
           },
           {
-            title: 'Objetos',
+            title: 'aquapp.sidenav.admin.objects',
             icon: 'account_tree',
             url: ['/', ROUTES.trackedObjects],
             queryParameters: {},
           },
           {
-            title: 'Formularios',
+            title: 'aquapp.sidenav.admin.forms',
             icon: 'assignment',
             url: ['/', ROUTES.forms],
             queryParameters: {},
           },
           {
-            title: 'Roles',
+            title: 'aquapp.sidenav.admin.roles',
             icon: 'verified_user',
             url: ['/', ROUTES.roles],
             queryParameters: {},
           },
           {
-            title: 'Usuarios',
+            title: 'aquapp.sidenav.admin.users',
             icon: 'people',
             url: ['/', ROUTES.users],
             queryParameters: {},
           },
           {
-            title: 'Cerrar sesión',
+            title: 'aquapp.sidenav.admin.logout',
             icon: 'input',
             url: ['/', ROUTES.login],
             queryParameters: {},
@@ -140,25 +140,25 @@ export class OneColumnLayoutComponent implements OnInit, OnDestroy {
     } catch (error) {
       this.elements.push(
         {
-          title: 'Inicio',
+          title: 'aquapp.sidenav.anonymousUser.start',
           icon: 'home',
           url: ['/', ROUTES.start],
           queryParameters: {},
         },
         {
-          title: 'Acerca de',
+          title: 'aquapp.sidenav.anonymousUser.about',
           icon: 'info',
           url: ['/', ROUTES.about],
           queryParameters: {},
         },
         {
-          title: 'Exportar datos',
+          title: 'aquapp.sidenav.anonymousUser.exportData',
           icon: 'bar_chart',
           url: ['/', ROUTES.aquappExportData],
           queryParameters: {},
         },
         {
-          title: 'Iniciar sesión',
+          title: 'aquapp.sidenav.anonymousUser.login',
           icon: 'input',
           url: ['/', ROUTES.login],
           queryParameters: {},
