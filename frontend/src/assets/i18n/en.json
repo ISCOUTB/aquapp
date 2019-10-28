@@ -96,6 +96,19 @@
 			"title": "Export data"
 		},
 		"start": {
+			"infoOverlay": {
+				"close": "Close",
+				"exportData": "Export data",
+				"layerMenu": {
+					"close": "Close",
+					"title": "Layers"
+				},
+				"waterBody": {
+					"cancel": "Cancel",
+					"date": "Date",
+					"title": "ICAMpff date"
+				}
+			},
 			"title": ""
 		}
 	}

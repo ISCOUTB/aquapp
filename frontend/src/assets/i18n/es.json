@@ -96,6 +96,19 @@
 			"title": "Exportar datos"
 		},
 		"start": {
+			"infoOverlay": {
+				"close": "Cerrar",
+				"exportData": "Exportar datos",
+				"layerMenu": {
+					"close": "Cerrar",
+					"title": "Capas"
+				},
+				"waterBody": {
+					"cancel": "Cancelar",
+					"date": "Fecha",
+					"title": "Fecha ICAMpff"
+				}
+			},
 			"title": ""
 		}
 	}
