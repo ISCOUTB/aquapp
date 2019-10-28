@@ -9,6 +9,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class ToolbarComponent implements OnInit {
   @Input() color = 'primary';
   language = 'es';
+  flags = {
+    es: '🇺🇸',
+    en: '🇨🇴',
+  };
   constructor(private translate: TranslateService) {}
 
   ngOnInit() {}

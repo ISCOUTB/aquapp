@@ -20,7 +20,8 @@
     src="assets/utb-white.png"
     alt="AquApp logo"
   />
-  <button mat-button (click)="toggleLanguate()">
-    {{ language === 'es' ? 'EN' : 'ES' }}
+  <span class="fill-space"></span>
+  <button class="flag" mat-button (click)="toggleLanguate()">
+    {{ flags[language] }}
   </button>
 </mat-toolbar>
