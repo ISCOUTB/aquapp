@@ -11,6 +11,7 @@ import { MESSAGES } from './messages';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { TranslateService } from '@ngx-translate/core';
+import { StorageService } from './utils/services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -29,8 +30,12 @@ export class AppComponent implements OnDestroy {
     private overlay: Overlay,
     private viewContainerRef: ViewContainerRef,
     private translate: TranslateService,
+    private storage: StorageService,
   ) {
-    translate.setDefaultLang('es');
+    const savedLanguage = this.storage.get('language');
+    this.translate.setDefaultLang(
+      savedLanguage !== null ? savedLanguage : 'es',
+    );
     this.messageServiceSubscription = this.messageService
       .getMessage()
       .subscribe((message: Message) => {
