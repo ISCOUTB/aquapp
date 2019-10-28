@@ -65,3 +65,5 @@ typings/
 
 src/archivos
 aquappndb/
+001_users.env
+mongo.env
