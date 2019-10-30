@@ -47,6 +47,8 @@ export class ApiApplication extends BootMixin(
 
     this.setUpBindings();
 
+    this.basePath('/api/v1');
+
     // Setup authentication
     this.component(AuthenticationComponent);
 
