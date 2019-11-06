@@ -23,18 +23,18 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { AquappAboutComponent } from './components/aquapp-about/aquapp-about.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-
-const components = [
-  LoginComponent,
-  AnonymousUserStartPageComponent,
-  AquappComponent,
-  AquappExportDataComponent,
-  AquappAboutComponent,
-];
+import { HttpClient } from '@angular/common/http';
+import { SensorAppComponent } from './components/sensor-app/sensor-app.component';
 
 @NgModule({
-  declarations: components,
+  declarations: [
+    LoginComponent,
+    AnonymousUserStartPageComponent,
+    AquappComponent,
+    AquappExportDataComponent,
+    AquappAboutComponent,
+    SensorAppComponent,
+  ],
   imports: [
     CommonModule,
     UtilsModule,
@@ -60,7 +60,7 @@ const components = [
       },
     }),
   ],
-  exports: components,
+  exports: [],
   providers: [DatePipe],
 })
 export class AnonymousUserModule {}
