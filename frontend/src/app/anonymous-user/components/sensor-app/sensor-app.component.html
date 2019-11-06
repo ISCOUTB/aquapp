@@ -1,1 +1,11 @@
-<p>sensor-app works!</p>
+<div
+  leaflet
+  class="map"
+  [ngStyle]="mapStyle"
+  [leafletOptions]="mapOptions"
+  (leafletMapReady)="onMapReady($event)"
+>
+  <div class="leaflet-control-container">
+    <div class="leaflet-top leaflet-right floating-controls"></div>
+  </div>
+</div>
