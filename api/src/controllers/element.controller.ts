@@ -60,6 +60,7 @@ export class ElementController {
       'post',
       currentUser,
     );
+    element.createdAt = Date.now();
     element.user = admin.id;
     element.active = true;
     return this.elementsRepository.create(element);
