@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LinkGridElement } from 'src/app/utils/models/link-grid';
 import { ROUTES } from 'src/app/routes';
+import { MessagesService } from 'src/app/utils/services/messages.service';
+import { MESSAGES } from 'src/app/messages';
 
 @Component({
   selector: 'app-anonymous-user-start-page',
@@ -24,7 +26,13 @@ export class AnonymousUserStartPageComponent implements OnInit {
       queryParameters: {},
     },
   ];
-  constructor() {}
+  constructor(private messageService: MessagesService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.messageService.sendMessage({ name: MESSAGES.closeSidenav, value: {} });
+    this.messageService.sendMessage({
+      name: MESSAGES.fullWidthContent,
+      value: {},
+    });
+  }
 }
