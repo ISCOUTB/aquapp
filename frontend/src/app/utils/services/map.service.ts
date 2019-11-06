@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
-import { MarkerLayer, GeoJSONLayer, Layer } from '../models/layer';
+import {
+  MarkerLayer,
+  GeoJSONLayer,
+  Layer,
+  MarkerClusterLayer,
+} from '../models/layer';
 import { Map } from 'leaflet';
+import 'leaflet';
+import 'leaflet.markercluster';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +22,8 @@ export class MapService {
       }
     } else if (layer instanceof GeoJSONLayer) {
       layer.figures.addTo(map);
+    } else if (layer instanceof MarkerClusterLayer) {
+      map.addLayer(layer.cluster);
     }
     layer.active = true;
     layer.loaded = true;
@@ -27,6 +36,8 @@ export class MapService {
       }
     } else if (layer instanceof GeoJSONLayer) {
       layer.figures.removeFrom(map);
+    } else if (layer instanceof MarkerClusterLayer) {
+      layer.cluster.removeFrom(map);
     }
     layer.active = false;
     layer.loaded = false;
