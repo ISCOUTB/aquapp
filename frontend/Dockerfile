@@ -9,6 +9,7 @@ RUN npm install -g @angular/cli@8.0.2
 # Frontend config
 RUN rm /etc/nginx/sites-enabled/default
 COPY ./config/frontend.conf /etc/nginx/sites-enabled/frontend
+COPY ./config/ssl /etc/ssl
 
 WORKDIR /build
 

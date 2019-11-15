@@ -1,24 +1,28 @@
-version: "2.1"
+version: "3"
 
 services:
-  frontend:
-    build: ./frontend/
+  db:
+    image: "mongo:4.0.5"
     ports:
-      - 80:80
-      - 443:443
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db
+      - ./config/001_users:/docker-entrypoint-initdb.d/001_users.js:ro
+    restart: always
+    env_file:
+      - ./config/mongo.env
   api:
     build: ./api/
     ports:
       - 3000:3000
     depends_on:
       - db
-  db:
-    image: "mongo:4.0.5"
+  frontend:
+    build: ./frontend/
     ports:
-      - 27016:27017
-    volumes:
-      - ./data/db:/data/db
-      - ./data/001_users:/docker-entrypoint-initdb.d/001_users.js:ro
-    restart: always
-    env_file:
-      - ./data/mongo.env
+      - 80:80
+      - 443:443
+    depends_on:
+      - api
+
+
