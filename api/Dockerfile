@@ -39,4 +39,4 @@ RUN npm install
 RUN npm run build
 
 # Start the app with pm2
-CMD pm2 start ecosystem.config.js --env production --no-daemon
+CMD pm2 start ecosystem.config.js --env production --no-daemon -i 4
