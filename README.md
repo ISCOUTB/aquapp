@@ -9,17 +9,14 @@ You need docker and docker-compose installed on your system.
 Check if you already been created the following folders (backups, grafana, influxd, imports and aquappdatabase):
 
     mkdir -p data/{grafana,influxd}
+    mkdir -p config
 
 Please the SSL certificates in:
 
-    frontend/config/utb.edu.co.crt
-    frontend/config/utb.edu.co.key
+    frontend/config/ssl/utb.edu.co.crt
+    frontend/config/ssl/utb.edu.co.key
 
-Just open the command prompt and cd to the root of the project, then:
-
-    docker-compose up --build
-
-### Configuration files ###
+### Configuration files
 
 **config/001_users:**
 
@@ -44,3 +41,9 @@ Just open the command prompt and cd to the root of the project, then:
     DB_USER=""
     DB_PASSWORD=""
     DB_DATABASE=""
+
+### Run server
+
+Just open the command prompt and cd to the root of the project, then:
+
+    docker-compose up --build
