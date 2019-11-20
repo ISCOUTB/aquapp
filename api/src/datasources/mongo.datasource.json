@@ -2,7 +2,7 @@
   "name": "Mongo",
   "connector": "mongodb",
   "url": "",
-  "host": "localhost",
+  "host": "db",
   "port": 27027,
   "user": "",
   "password": "",

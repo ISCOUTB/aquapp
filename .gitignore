@@ -1,0 +1,5 @@
+data/
+config/
+
+.DS_Store
+.vscode

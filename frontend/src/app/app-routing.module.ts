@@ -20,12 +20,18 @@ import { UsersComponent } from './admin-user/components/users/users.component';
 import { NewUserComponent } from './admin-user/components/new-user/new-user.component';
 import { AquappExportDataComponent } from './anonymous-user/components/aquapp-export-data/aquapp-export-data.component';
 import { AquappAboutComponent } from './anonymous-user/components/aquapp-about/aquapp-about.component';
+import { SensorAppComponent } from './anonymous-user/components/sensor-app/sensor-app.component';
+import { AquappComponent } from './anonymous-user/components/aquapp/aquapp.component';
 
 const routes: Routes = [
   // Anonymous user routes
   { path: ROUTES.login, component: LoginComponent },
+  // Anonymous user - AquApp
   { path: ROUTES.aquappExportData, component: AquappExportDataComponent },
   { path: ROUTES.about, component: AquappAboutComponent },
+  { path: ROUTES.aquapp, component: AquappComponent },
+  // Anonymous user - SensorApp
+  { path: ROUTES.sensorApp, component: SensorAppComponent },
   // Superuser routes
   { path: ROUTES.superuser, component: SuperuserStartPageComponent },
   { path: ROUTES.admins, component: AdminsComponent },
