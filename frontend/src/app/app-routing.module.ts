@@ -46,7 +46,7 @@ const routes: Routes = [
   { path: ROUTES.newDatum, component: NewDatumComponent },
   {
     path: ROUTES.start,
-    component: AnonymousUserStartPageComponent,
+    component: AquappComponent,
   },
   {
     path: ROUTES.roles,
@@ -74,4 +74,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
