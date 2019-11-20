@@ -18,3 +18,10 @@ services:
     restart: always
     env_file:
       - ./mongo.env
+  frontend:
+    build: ../frontend
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ../frontend/dist/frontend:/frontend
