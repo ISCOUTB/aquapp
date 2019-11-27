@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService } from 'src/app/utils/services/messages.service';
 import { MESSAGES } from 'src/app/messages';
-import { tileLayer, latLng, LatLngBounds, Map } from 'leaflet';
+import { tileLayer, latLng, LatLngBounds, Map, Marker } from 'leaflet';
 import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/utils/services/api.service';
 import { JSONataResponse } from 'src/app/utils/models/url';
-import { MarkerClusterLayer, Layer } from 'src/app/utils/models/layer';
+import { MarkerClusterLayer, Layer, MarkerLayer } from 'src/app/utils/models/layer';
 import { MapService } from 'src/app/utils/services/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDateTimeComponent } from '../dialog-date-time/dialog-date-time.component';
 declare let L;
 import 'leaflet';
 import 'leaflet.markercluster';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-sensor-app',
   templateUrl: './sensor-app.component.html',
-  styleUrls: ['./sensor-app.component.scss'],
+  styleUrls: [ './sensor-app.component.scss' ],
 })
 export class SensorAppComponent implements OnInit {
-
   mapStyle: any = {
     height: `${window.innerHeight - 64}px`,
     width: '100%',
@@ -34,10 +34,7 @@ export class SensorAppComponent implements OnInit {
     zoom: 13.5,
     center: latLng(10.4241961, -75.535),
   };
-  mapBounds = new LatLngBounds(
-    latLng(10.371076, -75.466699),
-    latLng(10.369281, -75.463776),
-  );
+  mapBounds = new LatLngBounds(latLng(10.371076, -75.466699), latLng(10.369281, -75.463776));
   map: Map;
   form = '5dc341823153fa33d0225b11';
   routes: any[];
@@ -46,8 +43,8 @@ export class SensorAppComponent implements OnInit {
     private messageService: MessagesService,
     private apiService: ApiService,
     private mapService: MapService,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.messageService.sendMessage({ name: MESSAGES.closeSidenav, value: {} });
@@ -65,13 +62,12 @@ export class SensorAppComponent implements OnInit {
       .toPromise()
       .then((routes: JSONataResponse) => {
         this.routes = routes.data;
-        console.log(routes);
       });
     for (const route of this.routes) {
       route.data = await this.apiService
         .get('/data/open/vm2', {
           query: `this.data`,
-          additionalFilters: JSON.stringify([{ trackedObject: route.id }]),
+          additionalFilters: JSON.stringify([ { trackedObject: route.id } ]),
         })
         .toPromise();
     }
@@ -79,22 +75,18 @@ export class SensorAppComponent implements OnInit {
   }
 
   setupLayers() {
-    console.log(this.layers);
     for (const route of this.routes) {
-      console.log(route.data);
-      //console.log((route.data || []).map(d => [d.latitude, d.longitude]));
       this.layers.push(
-        new MarkerClusterLayer(
+        new MarkerLayer(
           'Posiciones',
           '',
           {},
           true,
           false,
-          (route.data || []).map(d => [d.latitude, d.longitude]),
+          (route.data || []).map((d) => new Marker([ d.latitude, d.longitude ])),
         ),
       );
     }
-    console.log(this.layers);
     this.updateLayers();
   }
 
@@ -125,9 +117,9 @@ export class SensorAppComponent implements OnInit {
     this.mapStyle =
       this.mapStyle === undefined
         ? {
-          height: `${window.innerHeight - 64}px`,
-          width: '100%',
-        }
+            height: `${window.innerHeight - 64}px`,
+            width: '100%',
+          }
         : this.mapStyle;
     this.map.invalidateSize();
     if (this.mapBounds) {
@@ -136,42 +128,53 @@ export class SensorAppComponent implements OnInit {
   }
 
   openDialogDateTime() {
-    let dialogRef = this.dialog.open(DialogDateTimeComponent, {
+    const dialogRef = this.dialog.open(DialogDateTimeComponent, {
       data: {
-        Date: new Date(), StartTime: '', EndTime: ''
-      }
+        Date: new Date(),
+        StartTime: '',
+        EndTime: '',
+      },
+      scrollStrategy: new NoopScrollStrategy(),
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        let NewStartDate = new Date(result.Date.getFullYear(), result.Date.getMonth(), result.Date.getDate(),
-          result.StartTime, 0, 0, 0);
-        let NewEndDate = new Date(result.Date.getFullYear(), result.Date.getMonth(), result.Date.getDate(),
-          result.EndTime, 0, 0, 0);
-
-
-        console.log(NewStartDate);
-        console.log(NewEndDate);
-        this.apiService
-          .get('/elements/open/jsonata', {
-            query: `([$[form="${this.form}"]])`,
-          })
-          .toPromise()
-          .then((routes: JSONataResponse) => {
-            this.routes = routes.data;
-            console.log(this.routes);
-          });
+        const newStartDate = new Date(
+          result.Date.getFullYear(),
+          result.Date.getMonth(),
+          result.Date.getDate(),
+          parseInt(result.StartTime, 10),
+          0,
+          0,
+          0,
+        );
+        const newEndDate = new Date(
+          result.Date.getFullYear(),
+          result.Date.getMonth(),
+          result.Date.getDate(),
+          parseInt(result.EndTime, 10),
+          0,
+          0,
+          0,
+        );
         for (const route of this.routes) {
-          route.data = this.apiService
+          route.data = await this.apiService
             .get('/data/open/vm2', {
               query: `this.data`,
               additionalFilters: JSON.stringify([
-                { trackedObject: route.id }
+                { trackedObject: route.id },
+                { createdAt: { gte: +newStartDate } },
+                { createdAt: { lte: +newEndDate } },
               ]),
             })
             .toPromise();
         }
+        for (const layer of this.layers) {
+          layer.active = false;
+        }
+        console.log(this.routes);
+        this.updateLayers();
+        this.layers = [];
         this.setupLayers();
-
       }
     });
   }

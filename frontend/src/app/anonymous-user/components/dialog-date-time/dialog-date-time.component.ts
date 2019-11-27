@@ -28,6 +28,7 @@ export class DialogDateTimeComponent implements OnInit {
     { value: '19', viewValue: '7:00 PM' },
     { value: '20', viewValue: '8:00 PM' },
     { value: '21', viewValue: '9:00 PM' },
+    { value: '22', viewValue: '10:00 PM' },
   ];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
