@@ -6,6 +6,17 @@
   (leafletMapReady)="onMapReady($event)"
 >
   <div class="leaflet-control-container">
-    <div class="leaflet-top leaflet-right floating-controls"></div>
+    <div class="leaflet-top leaflet-right floating-controls">
+      <button
+        class=" leaflet-control"
+        mat-button
+        mat-raised-button
+        mat-icon-button
+        color="primary"
+        (click)="openDialogDateTime()"
+      >
+        <mat-icon>date_range</mat-icon>
+      </button>
+    </div>
   </div>
 </div>
