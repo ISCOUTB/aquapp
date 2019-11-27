@@ -7,6 +7,8 @@ import { ApiService } from 'src/app/utils/services/api.service';
 import { JSONataResponse } from 'src/app/utils/models/url';
 import { MarkerClusterLayer, Layer } from 'src/app/utils/models/layer';
 import { MapService } from 'src/app/utils/services/map.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDateTimeComponent } from '../dialog-date-time/dialog-date-time.component';
 declare let L;
 import 'leaflet';
 import 'leaflet.markercluster';
@@ -17,6 +19,7 @@ import 'leaflet.markercluster';
   styleUrls: ['./sensor-app.component.scss'],
 })
 export class SensorAppComponent implements OnInit {
+
   mapStyle: any = {
     height: `${window.innerHeight - 64}px`,
     width: '100%',
@@ -43,7 +46,8 @@ export class SensorAppComponent implements OnInit {
     private messageService: MessagesService,
     private apiService: ApiService,
     private mapService: MapService,
-  ) {}
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.messageService.sendMessage({ name: MESSAGES.closeSidenav, value: {} });
@@ -61,6 +65,7 @@ export class SensorAppComponent implements OnInit {
       .toPromise()
       .then((routes: JSONataResponse) => {
         this.routes = routes.data;
+        console.log(routes);
       });
     for (const route of this.routes) {
       route.data = await this.apiService
@@ -76,7 +81,8 @@ export class SensorAppComponent implements OnInit {
   setupLayers() {
     console.log(this.layers);
     for (const route of this.routes) {
-      console.log((route.data || []).map(d => [d.latitude, d.longitude]));
+      console.log(route.data);
+      //console.log((route.data || []).map(d => [d.latitude, d.longitude]));
       this.layers.push(
         new MarkerClusterLayer(
           'Posiciones',
@@ -119,13 +125,54 @@ export class SensorAppComponent implements OnInit {
     this.mapStyle =
       this.mapStyle === undefined
         ? {
-            height: `${window.innerHeight - 64}px`,
-            width: '100%',
-          }
+          height: `${window.innerHeight - 64}px`,
+          width: '100%',
+        }
         : this.mapStyle;
     this.map.invalidateSize();
     if (this.mapBounds) {
       this.map.fitBounds(this.mapBounds);
     }
+  }
+
+  openDialogDateTime() {
+    let dialogRef = this.dialog.open(DialogDateTimeComponent, {
+      data: {
+        Date: new Date(), StartTime: '', EndTime: ''
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        let NewStartDate = new Date(result.Date.getFullYear(), result.Date.getMonth(), result.Date.getDate(),
+          result.StartTime, 0, 0, 0);
+        let NewEndDate = new Date(result.Date.getFullYear(), result.Date.getMonth(), result.Date.getDate(),
+          result.EndTime, 0, 0, 0);
+
+
+        console.log(NewStartDate);
+        console.log(NewEndDate);
+        this.apiService
+          .get('/elements/open/jsonata', {
+            query: `([$[form="${this.form}"]])`,
+          })
+          .toPromise()
+          .then((routes: JSONataResponse) => {
+            this.routes = routes.data;
+            console.log(this.routes);
+          });
+        for (const route of this.routes) {
+          route.data = this.apiService
+            .get('/data/open/vm2', {
+              query: `this.data`,
+              additionalFilters: JSON.stringify([
+                { trackedObject: route.id }
+              ]),
+            })
+            .toPromise();
+        }
+        this.setupLayers();
+
+      }
+    });
   }
 }

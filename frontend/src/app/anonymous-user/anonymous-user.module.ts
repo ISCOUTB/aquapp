@@ -12,6 +12,11 @@ import {
   MatExpansionModule,
   MatSelectModule,
   MatGridListModule,
+  MatDialogModule, 
+  MatFormFieldModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatSliderModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
@@ -25,6 +30,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { SensorAppComponent } from './components/sensor-app/sensor-app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogDateTimeComponent } from './components/dialog-date-time/dialog-date-time.component';
+
+
 
 @NgModule({
   declarations: [
@@ -34,6 +43,8 @@ import { SensorAppComponent } from './components/sensor-app/sensor-app.component
     AquappExportDataComponent,
     AquappAboutComponent,
     SensorAppComponent,
+    DialogDateTimeComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -52,6 +63,11 @@ import { SensorAppComponent } from './components/sensor-app/sensor-app.component
     MatExpansionModule,
     MatSelectModule,
     MatGridListModule,
+    MatDialogModule, 
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSliderModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -59,6 +75,9 @@ import { SensorAppComponent } from './components/sensor-app/sensor-app.component
         deps: [HttpClient],
       },
     }),
+  ],
+  entryComponents: [
+    DialogDateTimeComponent
   ],
   exports: [],
   providers: [DatePipe],
