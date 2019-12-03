@@ -2,25 +2,17 @@
 
 <ng-template #templatePortalContent>
   <mat-card class="mat-elevation-z8">
-    <mat-card-header><h1>Login</h1></mat-card-header>
+    <mat-card-header>
+      <h1>Login</h1>
+    </mat-card-header>
     <mat-card-content>
       <form (keyup.enter)="login()" [formGroup]="form">
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
-          <input
-            id="email"
-            placeholder="Email"
-            matInput
-            type="email"
-            formControlName="email"
-            [errorStateMatcher]="errorStateMatcher"
-          />
+          <input id="email" placeholder="Email" matInput type="email" formControlName="email"
+            [errorStateMatcher]="errorStateMatcher" />
         </mat-form-field>
-        <mat-error
-          *ngIf="
-            !form.get('email').pristine && form.get('email').hasError('email')
-          "
-        >
+        <mat-error *ngIf="!form.get('email').pristine && form.get('email').hasError('email')">
           Please enter a valid email address
         </mat-error>
         <mat-error *ngIf="form.get('email').hasError('required')">
@@ -28,24 +20,12 @@
         </mat-error>
         <mat-form-field appearance="fill">
           <mat-label>Contraseña</mat-label>
-          <input
-            id="password"
-            placeholder="Password"
-            matInput
-            type="password"
-            formControlName="password"
-          />
+          <input id="password" placeholder="Password" matInput type="password" formControlName="password" />
         </mat-form-field>
       </form>
     </mat-card-content>
     <mat-card-actions>
-      <button
-        [disabled]="form.invalid"
-        color="primary"
-        mat-button
-        mat-raised-button
-        (click)="login()"
-      >
+      <button [disabled]="form.invalid" color="primary" mat-button mat-raised-button (click)="login()">
         Login
       </button>
       <button color="warn" mat-button mat-raised-button (click)="start()">

@@ -15,14 +15,12 @@ import 'leaflet.markercluster';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
 
 
-
 @Component({
   selector: 'app-sensor-app',
   templateUrl: './sensor-app.component.html',
-  styleUrls: ['./sensor-app.component.scss'],
+  styleUrls: [ './sensor-app.component.scss' ],
 })
 export class SensorAppComponent implements OnInit {
-
   mapStyle: any = {
     height: `${window.innerHeight - 64}px`,
     width: '100%',
@@ -37,10 +35,7 @@ export class SensorAppComponent implements OnInit {
     zoom: 13.5,
     center: latLng(10.4241961, -75.535),
   };
-  mapBounds = new LatLngBounds(
-    latLng(10.371076, -75.466699),
-    latLng(10.369281, -75.463776),
-  );
+  mapBounds = new LatLngBounds(latLng(10.371076, -75.466699), latLng(10.369281, -75.463776));
   map: Map;
   form = '5dc341823153fa33d0225b11';
   routes: any[];
@@ -49,8 +44,8 @@ export class SensorAppComponent implements OnInit {
     private messageService: MessagesService,
     private apiService: ApiService,
     private mapService: MapService,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
     this.messageService.sendMessage({ name: MESSAGES.closeSidenav, value: {} });
@@ -68,13 +63,12 @@ export class SensorAppComponent implements OnInit {
       .toPromise()
       .then((routes: JSONataResponse) => {
         this.routes = routes.data;
-        console.log(routes);
       });
     for (const route of this.routes) {
       route.data = await this.apiService
         .get('/data/open/vm2', {
           query: `this.data`,
-          additionalFilters: JSON.stringify([{ trackedObject: route.id }]),
+          additionalFilters: JSON.stringify([ { trackedObject: route.id } ]),
         })
         .toPromise();
     }
@@ -97,6 +91,7 @@ export class SensorAppComponent implements OnInit {
       //console.log(route.data);
       console.log((route.data || []).map(d => d.latitude !== null && d.latitude !== undefined &&
         d.longitude !== null && d.longitude !== undefined ? [d.latitude, d.longitude] : []));
+    for (const route of this.routes) {
       this.layers.push(
         new MarkerLayer(
           'Posiciones',
@@ -121,10 +116,10 @@ export class SensorAppComponent implements OnInit {
                 }),
               },
             ) : new Marker([0, 0])),
+          (route.data || []).map((d) => new Marker([ d.latitude, d.longitude ])),
         ),
       );
     }
-    console.log(this.layers);
     this.updateLayers();
   }
 
@@ -155,9 +150,9 @@ export class SensorAppComponent implements OnInit {
     this.mapStyle =
       this.mapStyle === undefined
         ? {
-          height: `${window.innerHeight - 64}px`,
-          width: '100%',
-        }
+            height: `${window.innerHeight - 64}px`,
+            width: '100%',
+          }
         : this.mapStyle;
     this.map.invalidateSize();
     if (this.mapBounds) {
@@ -166,11 +161,16 @@ export class SensorAppComponent implements OnInit {
   }
 
   openDialogDateTime() {
-    let dialogRef = this.dialog.open(DialogDateTimeComponent, {
+    const dialogRef = this.dialog.open(DialogDateTimeComponent, {
       data: {
         Date: new Date(), StartTime: '', EndTime: ''
       },
       scrollStrategy: new NoopScrollStrategy()
+        Date: new Date(),
+        StartTime: '',
+        EndTime: '',
+      },
+      scrollStrategy: new NoopScrollStrategy(),
     });
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {

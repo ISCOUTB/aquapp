@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'http://localhost:3000/api/v1',
   mapUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   //mapUrl: 'http://localhost:8083/styles/klokantech-basic/{z}/{x}/{y}.png',
 };
