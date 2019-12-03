@@ -1,5 +1,5 @@
 <h1 translate>aquapp.export.title</h1>
-<div echarts [options]="options" class="echart"></div>
+<div echarts [options]="options" (chartClick)="chartClick($event)" class="echart"></div>
 <br />
 <br />
 <br />
@@ -18,11 +18,7 @@
       <mat-label>{{
         'aquapp.export.config.sensorForm.activeSensors' | translate
       }}</mat-label>
-      <mat-select
-        multiple
-        [name]="'active-sensors-' + axis.name"
-        [(ngModel)]="axis.activeSensors"
-      >
+      <mat-select multiple [name]="'active-sensors-' + axis.name" [(ngModel)]="axis.activeSensors">
         <mat-option *ngFor="let sensor of axis.sensors" [value]="sensor.name">{{
           sensor.title
         }}</mat-option>

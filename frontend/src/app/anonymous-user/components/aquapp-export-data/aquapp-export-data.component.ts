@@ -47,8 +47,8 @@ class WQMonitoringPointAxis implements Axis {
 }
 
 class WaterBodyAxis implements Axis {
-  sensors = [{ name: 'icampff', title: 'ICAMpff' }];
-  activeSensors: string[] = ['icampff'];
+  sensors = [ { name: 'icampff', title: 'ICAMpff' } ];
+  activeSensors: string[] = [ 'icampff' ];
   constructor(
     public id: string,
     public name: string,
@@ -62,7 +62,7 @@ class WaterBodyAxis implements Axis {
 @Component({
   selector: 'app-aquapp-export-data',
   templateUrl: './aquapp-export-data.component.html',
-  styleUrls: ['./aquapp-export-data.component.scss'],
+  styleUrls: [ './aquapp-export-data.component.scss' ],
 })
 export class AquappExportDataComponent implements OnInit, AfterViewInit {
   options: EChartOption = {};
@@ -112,11 +112,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
     { name: 'phosphates', unit: 'µg/L' },
   ];
 
-  constructor(
-    private apiService: ApiService,
-    private datePipe: DatePipe,
-    private messages: MessagesService,
-  ) {}
+  constructor(private apiService: ApiService, private datePipe: DatePipe, private messages: MessagesService) {}
 
   ngOnInit() {
     this.getElements();
@@ -147,9 +143,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
         continue;
       }
       for (const activeSensor of axis.activeSensors) {
-        const name = `${axis.name}, ${
-          axis.sensors.find(s => s.name === activeSensor).title
-        }`;
+        const name = `${axis.name}, ${axis.sensors.find((s) => s.name === activeSensor).title}`;
         if (axis instanceof WQMonitoringPointAxis) {
           const cache: any = {};
           for (const datum of axis.data) {
@@ -158,19 +152,17 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           series.push({
             ...commonSeriesConfig,
             name,
-            data: this.icampffDates.map((date: number) =>
-              cache[date] !== undefined ? cache[date] : -1,
-            ),
+            data: this.icampffDates.map((date: number) => (cache[date] !== undefined ? cache[date] : -1)),
           });
         } else {
           series.push({
             ...commonSeriesConfig,
             name,
-            data: axis.data.map(d => d[activeSensor]),
+            data: axis.data.map((d) => d[activeSensor]),
           });
         }
         legendNames.push(name);
-        const unit = this.units.find(u => u.name === activeSensor);
+        const unit = this.units.find((u) => u.name === activeSensor);
         units.push(unit !== undefined ? unit.unit : '');
       }
     }
@@ -188,33 +180,22 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       color: this.colors,
       tooltip: {
         trigger: 'axis',
-        formatter: (
-          params: EChartOption.Tooltip.Format[],
-          ticket,
-          callback,
-        ) => {
+        formatter: (params: EChartOption.Tooltip.Format[], ticket, callback) => {
           return params
             .sort(
-              (
-                a: EChartOption.Tooltip.Format,
-                b: EChartOption.Tooltip.Format,
-              ) => (b.value as number) - (a.value as number),
+              (a: EChartOption.Tooltip.Format, b: EChartOption.Tooltip.Format) =>
+                (b.value as number) - (a.value as number),
             )
-            .map(param => {
+            .map((param) => {
               const unit = units[param.seriesIndex];
               return `${param.seriesName}<br/>
-            ${this.datePipe.transform(
-              param.name,
-              'shortDate',
-            )}: <span style="color: ${param.color};
+            ${this.datePipe.transform(param.name, 'shortDate')}: <span style="color: ${param.color};
               text-shadow: 2px 0 0 #333,
                 -2px 0 0 #333, 0 2px 0 #333,
                 0 -2px 0 #333, 1px 1px #333,
                 -1px -1px 0 #333,
                 1px -1px 0 #333,
-                -1px 1px 0 #333;">${(param.value as number).toFixed(2)}${
-                unit !== undefined ? unit : ''
-              }</span>`;
+                -1px 1px 0 #333;">${(param.value as number).toFixed(2)}${unit !== undefined ? unit : ''}</span>`;
             })
             .join('<br/>');
         },
@@ -239,8 +220,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
             },
           },
           axisLabel: {
-            formatter: (date: number) =>
-              this.datePipe.transform(date, 'shortDate'),
+            formatter: (date: number) => this.datePipe.transform(date, 'shortDate'),
           },
         },
       ],
@@ -294,24 +274,14 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       this.apiService
         .get(`/elements/open/jsonata`, {
           query: `([$])`,
-          additionalFilters: JSON.stringify([
-            { category: 'tracked-objects' },
-            { form: '5dacb798a52adb394573ca70' },
-          ]),
+          additionalFilters: JSON.stringify([ { category: 'tracked-objects' }, { form: '5dacb798a52adb394573ca70' } ]),
         })
         .toPromise()
         .then((response: JSONataResponse) => {
           this.wqMonitoringPoints = response.data;
-          this.wqMonitoringPoints.forEach(wq => {
+          this.wqMonitoringPoints.forEach((wq) => {
             this.yAxisList.push(
-              new WQMonitoringPointAxis(
-                wq.id,
-                wq.name,
-                'Punto de monitoreo de calidad del agua',
-                false,
-                false,
-                [],
-              ),
+              new WQMonitoringPointAxis(wq.id, wq.name, 'Punto de monitoreo de calidad del agua', false, false, []),
             );
           });
         })
@@ -321,10 +291,7 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
       this.apiService
         .get(`/elements/open/jsonata`, {
           query: `([$])`,
-          additionalFilters: JSON.stringify([
-            { category: 'tracked-objects' },
-            { form: '5dac93e7e67d5a13c95a99ed' },
-          ]),
+          additionalFilters: JSON.stringify([ { category: 'tracked-objects' }, { form: '5dac93e7e67d5a13c95a99ed' } ]),
         })
         .toPromise()
         .then((response: JSONataResponse) => {
@@ -367,14 +334,10 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
             }
           }
           for (const datum of data) {
-            if (
-              datum.date !== undefined &&
-              this.icampffDates.indexOf(datum.date) === -1
-            ) {
+            if (datum.date !== undefined && this.icampffDates.indexOf(datum.date) === -1) {
               this.icampffDates.push(datum.date);
             }
-            const axis: WQMonitoringPointAxis | undefined =
-              wqPointsAxisMap[datum.trackedObject];
+            const axis: WQMonitoringPointAxis | undefined = wqPointsAxisMap[datum.trackedObject];
             if (axis !== undefined) {
               axis.data.push(datum);
             }
@@ -386,28 +349,21 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           for (const waterBody of this.waterBodies) {
             this.icampffs[waterBody.id] = {};
             for (const date of this.icampffDates) {
-              const filteredData = data.filter(d => d.date === date);
+              const filteredData = data.filter((d) => d.date === date);
               const icampffPerMonitoringPoint = waterBody.puntosDeMonitoreo
                 .map((mp: string) => {
-                  const dataForThisDate = filteredData.find(
-                    (d: any) => d.trackedObject === mp,
-                  );
-                  return dataForThisDate === undefined
-                    ? -1
-                    : dataForThisDate.icampff;
+                  const dataForThisDate = filteredData.find((d: any) => d.trackedObject === mp);
+                  return dataForThisDate === undefined ? -1 : dataForThisDate.icampff;
                 })
                 .filter((ic: number) => ic !== -1);
-              this.icampffs[waterBody.id][
-                date
-              ] = icampffPerMonitoringPoint.length
-                ? icampffPerMonitoringPoint.reduce(
-                    (pv: number, cv: number) => pv + cv,
-                  ) / icampffPerMonitoringPoint.length
+              this.icampffs[waterBody.id][date] = icampffPerMonitoringPoint.length
+                ? icampffPerMonitoringPoint.reduce((pv: number, cv: number) => pv + cv) /
+                  icampffPerMonitoringPoint.length
                 : -1;
             }
           }
           this.icampffDates.sort((a: number, b: number) => a - b);
-          this.waterBodies.forEach(wb => {
+          this.waterBodies.forEach((wb) => {
             this.yAxisList.push(
               new WaterBodyAxis(
                 wb.id,
@@ -424,5 +380,9 @@ export class AquappExportDataComponent implements OnInit, AfterViewInit {
           this.configureChart();
         },
       });
+  }
+
+  chartClick(ev) {
+    console.log('Click sobre gráfico', ev);
   }
 }
