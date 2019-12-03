@@ -24,5 +24,6 @@ export const ROUTES = {
   aquapp: 'aquapp',
   // Anonymous user - SensorApp
   sensorApp: 'sensor-app',
+  sensorAppExport: 'sensor-app-export',
   about: 'about',
 };
