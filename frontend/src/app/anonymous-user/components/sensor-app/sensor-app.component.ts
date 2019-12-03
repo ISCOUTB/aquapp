@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService } from 'src/app/utils/services/messages.service';
 import { MESSAGES } from 'src/app/messages';
-import { tileLayer, latLng, LatLngBounds, Map } from 'leaflet';
+import { tileLayer, latLng, LatLngBounds, Map, Marker } from 'leaflet';
 import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/utils/services/api.service';
 import { JSONataResponse } from 'src/app/utils/models/url';
-import { MarkerClusterLayer, Layer } from 'src/app/utils/models/layer';
+import { MarkerClusterLayer, Layer, MarkerLayer } from 'src/app/utils/models/layer';
 import { MapService } from 'src/app/utils/services/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDateTimeComponent } from '../dialog-date-time/dialog-date-time.component';
 declare let L;
 import 'leaflet';
 import 'leaflet.markercluster';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
+
+
 
 @Component({
   selector: 'app-sensor-app',
@@ -84,13 +87,13 @@ export class SensorAppComponent implements OnInit {
       console.log(route.data);
       //console.log((route.data || []).map(d => [d.latitude, d.longitude]));
       this.layers.push(
-        new MarkerClusterLayer(
+        new MarkerLayer(
           'Posiciones',
           '',
           {},
           true,
           false,
-          (route.data || []).map(d => [d.latitude, d.longitude]),
+          (route.data || []).map((d) => new Marker([ d.latitude, d.longitude ])),
         ),
       );
     }
@@ -139,40 +142,50 @@ export class SensorAppComponent implements OnInit {
     let dialogRef = this.dialog.open(DialogDateTimeComponent, {
       data: {
         Date: new Date(), StartTime: '', EndTime: ''
-      }
+      },
+      scrollStrategy: new NoopScrollStrategy()
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        let NewStartDate = new Date(result.Date.getFullYear(), result.Date.getMonth(), result.Date.getDate(),
-          result.StartTime, 0, 0, 0);
-        let NewEndDate = new Date(result.Date.getFullYear(), result.Date.getMonth(), result.Date.getDate(),
-          result.EndTime, 0, 0, 0);
-
-
-        console.log(NewStartDate);
-        console.log(NewEndDate);
-        this.apiService
-          .get('/elements/open/jsonata', {
-            query: `([$[form="${this.form}"]])`,
-          })
-          .toPromise()
-          .then((routes: JSONataResponse) => {
-            this.routes = routes.data;
-            console.log(this.routes);
-          });
+        const newStartDate = new Date(
+          result.Date.getFullYear(),
+          result.Date.getMonth(),
+          result.Date.getDate(),
+          parseInt(result.StartTime, 10),
+          0,
+          0,
+          0,
+        );
+        const newEndDate = new Date(
+          result.Date.getFullYear(),
+          result.Date.getMonth(),
+          result.Date.getDate(),
+          parseInt(result.EndTime, 10),
+          0,
+          0,
+          0,
+        );
         for (const route of this.routes) {
-          route.data = this.apiService
+          route.data = await this.apiService
             .get('/data/open/vm2', {
               query: `this.data`,
               additionalFilters: JSON.stringify([
-                { trackedObject: route.id }
+                { trackedObject: route.id },
+                { createdAt: { gte: +newStartDate } },
+                { createdAt: { lte: +newEndDate } },
               ]),
             })
             .toPromise();
         }
+        for (const layer of this.layers) {
+          layer.active = false;
+        }
+        console.log(this.routes);
+        this.updateLayers();
+        this.layers = [];
         this.setupLayers();
-
       }
     });
+
   }
 }
