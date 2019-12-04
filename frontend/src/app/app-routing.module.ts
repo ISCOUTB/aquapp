@@ -22,6 +22,7 @@ import { AquappExportDataComponent } from './anonymous-user/components/aquapp-ex
 import { AquappAboutComponent } from './anonymous-user/components/aquapp-about/aquapp-about.component';
 import { SensorAppComponent } from './anonymous-user/components/sensor-app/sensor-app.component';
 import { AquappComponent } from './anonymous-user/components/aquapp/aquapp.component';
+import { SensorAppExportDataComponent } from './anonymous-user/components/sensor-app-export-data/sensor-app-export-data.component';
 
 const routes: Routes = [
   // Anonymous user routes
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: ROUTES.aquapp, component: AquappComponent },
   // Anonymous user - SensorApp
   { path: ROUTES.sensorApp, component: SensorAppComponent },
+  { path: ROUTES.bar, component: SensorAppExportDataComponent },
   // Superuser routes
   { path: ROUTES.superuser, component: SuperuserStartPageComponent },
   { path: ROUTES.admins, component: AdminsComponent },

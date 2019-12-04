@@ -25,4 +25,6 @@ export const ROUTES = {
   // Anonymous user - SensorApp
   sensorApp: 'sensorapp',
   about: 'about',
+  //example for bar chart
+  bar: 'bar-chart'
 };
