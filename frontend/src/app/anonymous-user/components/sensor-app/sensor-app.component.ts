@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService } from 'src/app/utils/services/messages.service';
 import { MESSAGES } from 'src/app/messages';
-import { tileLayer, latLng, LatLngBounds, Map, Marker } from 'leaflet';
+import { tileLayer, latLng, LatLngBounds, Map, Marker, DivIcon } from 'leaflet';
 import { environment } from 'src/environments/environment';
 import { ApiService } from 'src/app/utils/services/api.service';
 import { JSONataResponse } from 'src/app/utils/models/url';
@@ -75,6 +75,16 @@ export class SensorAppComponent implements OnInit {
   }
 
   setupLayers() {
+    const markerStyle = `
+            text-shadow: 2px 0 0 #333,
+              -2px 0 0 #333, 0 2px 0 #333,
+              0 -2px 0 #333, 1px 1px #333,
+              -1px -1px 0 #333,
+              1px -1px 0 #333,
+              -1px 1px 0 #333;
+            color: #3f51b5;
+            font-size: 32pt;
+          `;
     for (const route of this.routes) {
       this.layers.push(
         new MarkerLayer(
@@ -83,7 +93,24 @@ export class SensorAppComponent implements OnInit {
           {},
           true,
           false,
-          (route.data || []).map((d) => new Marker([ d.latitude, d.longitude ])),
+          (route.data || []).filter(
+            (d) => d.latitude !== null && d.latitude !== undefined && d.longitude !== null && d.longitude !== undefined,
+          )
+          .map((d) => new Marker([ d.latitude, d.longitude ],
+            {
+            icon: new DivIcon({
+              className: 'marker',
+              html: `
+              <i
+                class="fas fa-map-marker-alt"
+                style="${markerStyle}"
+              >
+              </i>
+              `,
+              iconSize: [32, 32],
+              iconAnchor: [12, 36],
+            }),
+          },)),
         ),
       );
     }

@@ -45,8 +45,7 @@ import { SensorAppExportDataComponent } from './components/sensor-app-export-dat
     AquappAboutComponent,
     SensorAppComponent,
     DialogDateTimeComponent,
-    SensorAppExportDataComponent,
-    
+    SensorAppExportDataComponent
   ],
   imports: [
     CommonModule,

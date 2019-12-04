@@ -23,7 +23,8 @@ export const ROUTES = {
   aquappExportData: 'aquapp-export-data',
   aquapp: 'aquapp',
   // Anonymous user - SensorApp
-  sensorApp: 'sensor-app',
-  sensorAppExport: 'sensor-app-export',
+  sensorApp: 'sensorapp',
   about: 'about',
+  //example for bar chart
+  bar: 'bar-chart'
 };

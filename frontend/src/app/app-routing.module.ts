@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: ROUTES.aquapp, component: AquappComponent },
   // Anonymous user - SensorApp
   { path: ROUTES.sensorApp, component: SensorAppComponent },
-  { path: ROUTES.sensorAppExport, component: SensorAppExportDataComponent },
+  { path: ROUTES.bar, component: SensorAppExportDataComponent },
   // Superuser routes
   { path: ROUTES.superuser, component: SuperuserStartPageComponent },
   { path: ROUTES.admins, component: AdminsComponent },
