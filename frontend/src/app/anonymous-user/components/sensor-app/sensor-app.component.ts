@@ -17,7 +17,7 @@ import { NoopScrollStrategy } from '@angular/cdk/overlay';
 @Component({
   selector: 'app-sensor-app',
   templateUrl: './sensor-app.component.html',
-  styleUrls: [ './sensor-app.component.scss' ],
+  styleUrls: ['./sensor-app.component.scss'],
 })
 export class SensorAppComponent implements OnInit {
   mapStyle: any = {
@@ -44,7 +44,7 @@ export class SensorAppComponent implements OnInit {
     private apiService: ApiService,
     private mapService: MapService,
     public dialog: MatDialog,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.messageService.sendMessage({ name: MESSAGES.closeSidenav, value: {} });
@@ -55,6 +55,14 @@ export class SensorAppComponent implements OnInit {
   }
 
   async init() {
+    let rightNow = new Date();
+    let TenMinAgo = new Date(rightNow.getFullYear(),
+      rightNow.getMonth(),
+      rightNow.getDate(),
+      rightNow.getHours(),
+      rightNow.getMinutes() - 10,
+      rightNow.getSeconds(),
+      rightNow.getMilliseconds())
     await this.apiService
       .get('/elements/open/jsonata', {
         query: `([$[form="${this.form}"]])`,
@@ -67,7 +75,11 @@ export class SensorAppComponent implements OnInit {
       route.data = await this.apiService
         .get('/data/open/vm2', {
           query: `this.data`,
-          additionalFilters: JSON.stringify([ { trackedObject: route.id } ]),
+          additionalFilters: JSON.stringify([
+            { trackedObject: route.id },
+            { createdAt: { gte: +TenMinAgo } },
+            { createdAt: { lte: +rightNow } },
+          ]),
         })
         .toPromise();
     }
@@ -86,6 +98,7 @@ export class SensorAppComponent implements OnInit {
             font-size: 32pt;
           `;
     for (const route of this.routes) {
+      console.log(route.data);
       this.layers.push(
         new MarkerLayer(
           'Posiciones',
@@ -96,21 +109,21 @@ export class SensorAppComponent implements OnInit {
           (route.data || []).filter(
             (d) => d.latitude !== null && d.latitude !== undefined && d.longitude !== null && d.longitude !== undefined,
           )
-          .map((d) => new Marker([ d.latitude, d.longitude ],
-            {
-            icon: new DivIcon({
-              className: 'marker',
-              html: `
+            .map((d) => new Marker([d.latitude, d.longitude],
+              {
+                icon: new DivIcon({
+                  className: 'marker',
+                  html: `
               <i
                 class="fas fa-map-marker-alt"
                 style="${markerStyle}"
               >
               </i>
               `,
-              iconSize: [32, 32],
-              iconAnchor: [12, 36],
-            }),
-          },)),
+                  iconSize: [32, 32],
+                  iconAnchor: [12, 36],
+                }),
+              })),
         ),
       );
     }
@@ -144,9 +157,9 @@ export class SensorAppComponent implements OnInit {
     this.mapStyle =
       this.mapStyle === undefined
         ? {
-            height: `${window.innerHeight - 64}px`,
-            width: '100%',
-          }
+          height: `${window.innerHeight - 64}px`,
+          width: '100%',
+        }
         : this.mapStyle;
     this.map.invalidateSize();
     if (this.mapBounds) {
@@ -156,41 +169,21 @@ export class SensorAppComponent implements OnInit {
 
   openDialogDateTime() {
     const dialogRef = this.dialog.open(DialogDateTimeComponent, {
-      data: {
-        Date: new Date(),
-        StartTime: '',
-        EndTime: '',
-      },
+      width: '60%',
+      data: {},
       scrollStrategy: new NoopScrollStrategy(),
     });
     dialogRef.afterClosed().subscribe(async (result) => {
+      console.log(result);
       if (result) {
-        const newStartDate = new Date(
-          result.Date.getFullYear(),
-          result.Date.getMonth(),
-          result.Date.getDate(),
-          parseInt(result.StartTime, 10),
-          0,
-          0,
-          0,
-        );
-        const newEndDate = new Date(
-          result.Date.getFullYear(),
-          result.Date.getMonth(),
-          result.Date.getDate(),
-          parseInt(result.EndTime, 10),
-          0,
-          0,
-          0,
-        );
         for (const route of this.routes) {
           route.data = await this.apiService
             .get('/data/open/vm2', {
               query: `this.data`,
               additionalFilters: JSON.stringify([
                 { trackedObject: route.id },
-                { createdAt: { gte: +newStartDate } },
-                { createdAt: { lte: +newEndDate } },
+                { createdAt: { gte: +result.startDate } },
+                { createdAt: { lte: +result.endDate } },
               ]),
             })
             .toPromise();

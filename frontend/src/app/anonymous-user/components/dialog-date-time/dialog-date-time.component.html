@@ -1,55 +1,35 @@
-<h2 mat-dialog-title>Select a DateTime to finding data</h2>
-<mat-dialog-content>
-  <mat-form-field>
-    <input matInput [matDatepicker]="myDatepicker" [(ngModel)]="data.Date"/>
-    <mat-datepicker-toggle
-      matSuffix
-      [for]="myDatepicker"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #myDatepicker></mat-datepicker>
-  </mat-form-field>
-  <div class="forms">
-    <div class="formItem forms">
-      <mat-form-field class="formField">
-        <mat-label>Start Time</mat-label>
-        <mat-select [(value)]="data.StartTime">
-          <mat-option *ngFor="let hour of hours" [value]="hour.value">
-            {{ hour.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="formItem forms">
-      <mat-form-field class="formField">
-        <mat-label>End Time</mat-label>
-        <mat-select  [(value)]="data.EndTime">
-          <mat-option *ngFor="let hour of hours" [value]="hour.value">
-            {{ hour.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+<h1 mat-dialog-title>Sensor App Data</h1>
+<mat-dialog-content class="mat-typography">
+  <div align="right">
+    <mat-form-field>
+      <mat-label>Mes Actual</mat-label>
+      <mat-select
+        [(ngModel)]="currentMonth"
+        (selectionChange)="monthSelected()"
+      >
+        <mat-option *ngFor="let Month of Months" [value]="Month.value">
+          {{ Month.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div
+    echarts
+    [ngStyle]="{ height: '300%', width: '100%' }"
+    [options]="options"
+    (chartClick)="chartClick($event)"
+    [mat-dialog-close]="data"
+    *ngIf="!showMessage"
+  ></div>
+  <div *ngIf="showMessage"
+  [ngStyle]="{width: '100%' }">
+    <h1 align="center">{{message}}</h1>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button
-    class=" leaflet-control"
-    mat-button
-    mat-dialog-close
-    mat-button
-    color="RED"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-  <button
-    class=" leaflet-control"
-    mat-button
-    mat-dialog-close
-    mat-button
-    [mat-dialog-close]="data"
-    color="primary"
-    cdkFocusInitial
-  >
-    <mat-icon>search</mat-icon>
-  </button>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!--button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+    Search <mat-icon>search</mat-icon>
+  </button-->
 </mat-dialog-actions>
