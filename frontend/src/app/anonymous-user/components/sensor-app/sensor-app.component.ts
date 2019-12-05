@@ -98,7 +98,7 @@ export class SensorAppComponent implements OnInit {
             font-size: 32pt;
           `;
     for (const route of this.routes) {
-      console.log(route.data);
+      //console.log(route.data);
       this.layers.push(
         new MarkerLayer(
           'Posiciones',
