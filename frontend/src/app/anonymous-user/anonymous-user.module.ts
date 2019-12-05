@@ -32,7 +32,7 @@ import { HttpClient } from '@angular/common/http';
 import { SensorAppComponent } from './components/sensor-app/sensor-app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogDateTimeComponent } from './components/dialog-date-time/dialog-date-time.component';
-import { SensorAppExportDataComponent } from './components/sensor-app-export-data/sensor-app-export-data.component';
+
 
 
 
@@ -44,8 +44,7 @@ import { SensorAppExportDataComponent } from './components/sensor-app-export-dat
     AquappExportDataComponent,
     AquappAboutComponent,
     SensorAppComponent,
-    DialogDateTimeComponent,
-    SensorAppExportDataComponent
+    DialogDateTimeComponent
   ],
   imports: [
     CommonModule,

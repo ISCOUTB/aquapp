@@ -26,5 +26,4 @@ export const ROUTES = {
   sensorApp: 'sensorapp',
   about: 'about',
   //example for bar chart
-  bar: 'bar-chart'
 };
