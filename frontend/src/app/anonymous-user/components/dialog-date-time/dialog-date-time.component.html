@@ -1,30 +1,47 @@
 <h1 mat-dialog-title>Sensor App Data</h1>
 <mat-dialog-content class="mat-typography">
-  <div align="right">
-    <mat-form-field>
-      <mat-label>Select Month</mat-label>
-      <mat-select
-        [(ngModel)]="currentMonth"
-        (selectionChange)="monthSelected()"
-      >
-        <mat-option *ngFor="let Month of Months" [value]="Month.value">
-          {{ Month.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
   <div
-    echarts
+    *ngIf="!showContent"
+    class="center"
+    style="overflow:hidden"
     [ngStyle]="{ height: '300%', width: '100%' }"
-    [options]="options"
-    (chartClick)="chartClick($event)"
-    [mat-dialog-close]="data"
-    *ngIf="!showMessage"
-  ></div>
-  <div *ngIf="showMessage"
-  [ngStyle]="{width: '100%' }">
-    <h1 align="center">{{message}}</h1>
+  >
+    <mat-progress-spinner [mode]="'indeterminate'"> </mat-progress-spinner>
+  </div>
+  <div *ngIf="showContent">
+    <div align="right">
+      <mat-form-field>
+        <mat-label>Select Year</mat-label>
+        <mat-select [(ngModel)]="currentYear">
+          <mat-option *ngFor="let Year of Years" [value]="Year.value">
+            {{ Year.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Select Month</mat-label>
+        <mat-select
+          [(ngModel)]="currentMonth"
+          (selectionChange)="monthSelected()"
+        >
+          <mat-option *ngFor="let Month of Months" [value]="Month.value">
+            {{ Month.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div
+      echarts
+      [ngStyle]="{ height: '300%', width: '100%' }"
+      [options]="options"
+      (chartClick)="chartClick($event)"
+      [mat-dialog-close]="data"
+      *ngIf="!showMessage"
+    ></div>
+    <div *ngIf="showMessage" [ngStyle]="{ width: '100%' }">
+      <h1 align="center">{{ message }}</h1>
+    </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

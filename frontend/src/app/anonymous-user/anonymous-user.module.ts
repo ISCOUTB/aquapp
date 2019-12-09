@@ -16,7 +16,8 @@ import {
   MatFormFieldModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSliderModule
+  MatSliderModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AnonymousUserStartPageComponent } from './components/anonymous-user-start-page/anonymous-user-start-page.component';
@@ -56,6 +57,7 @@ import { DialogDateTimeComponent } from './components/dialog-date-time/dialog-da
     ReactiveFormsModule,
     LeafletModule,
     RouterModule,
+    MatProgressSpinnerModule,
     MatListModule,
     MatIconModule,
     MatCheckboxModule,
@@ -63,6 +65,7 @@ import { DialogDateTimeComponent } from './components/dialog-date-time/dialog-da
     MatExpansionModule,
     MatSelectModule,
     MatGridListModule,
+    BrowserAnimationsModule,
     MatDialogModule, 
     MatFormFieldModule,
     MatDatepickerModule,

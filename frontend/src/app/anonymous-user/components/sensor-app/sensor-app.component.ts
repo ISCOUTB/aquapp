@@ -56,6 +56,12 @@ export class SensorAppComponent implements OnInit {
 
   async init() {
     let rightNow = new Date();
+    let todayDate = new Date(
+      rightNow.getFullYear(),
+      rightNow.getMonth(),
+      rightNow.getDate(),
+      0, 0, 0, 0
+    );
     let TenMinAgo = new Date(rightNow.getFullYear(),
       rightNow.getMonth(),
       rightNow.getDate(),
@@ -66,11 +72,16 @@ export class SensorAppComponent implements OnInit {
     await this.apiService
       .get('/elements/open/jsonata', {
         query: `([$[form="${this.form}"]])`,
+        additionalFilters: JSON.stringify([
+          { createdAt: { gte: +todayDate } },
+          { createdAt: { lte: +rightNow } },
+        ]),
       })
       .toPromise()
       .then((routes: JSONataResponse) => {
         this.routes = routes.data;
       });
+    //console.log(this.routes);
     for (const route of this.routes) {
       route.data = await this.apiService
         .get('/data/open/vm2', {
@@ -174,8 +185,20 @@ export class SensorAppComponent implements OnInit {
       scrollStrategy: new NoopScrollStrategy(),
     });
     dialogRef.afterClosed().subscribe(async (result) => {
-      console.log(result);
+      //console.log(result);
       if (result) {
+        await this.apiService
+      .get('/elements/open/jsonata', {
+        query: `([$[form="${this.form}"]])`,
+        additionalFilters: JSON.stringify([
+          { createdAt: { gte: +result.startDate } },
+          { createdAt: { lte: +result.endDate } },
+        ]),
+      })
+      .toPromise()
+      .then((routes: JSONataResponse) => {
+        this.routes = routes.data;
+      });
         for (const route of this.routes) {
           route.data = await this.apiService
             .get('/data/open/vm2', {
@@ -191,7 +214,7 @@ export class SensorAppComponent implements OnInit {
         for (const layer of this.layers) {
           layer.active = false;
         }
-        console.log(this.routes);
+        //console.log(this.routes);
         this.updateLayers();
         this.layers = [];
         this.setupLayers();
