@@ -148,7 +148,7 @@ export class DialogDateTimeComponent implements OnInit {
         this.completeOption();
       }
     } else {
-      this.showMessage = this.routes.length === 0
+      this.showMessage = this.points.length === 0
       this.showContent = true
     }
 
@@ -158,7 +158,7 @@ export class DialogDateTimeComponent implements OnInit {
   }
 
   chartClick(ev) {
-    console.log('Chart clicked:', ev);
+    //console.log('Chart clicked:', ev);
     this.dataDateToFind = new Date(this.geoPoints[ev.name][0].createdAt)
     this.data.startDate = new Date(
       this.dataDateToFind.getFullYear(),

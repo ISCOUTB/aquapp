@@ -9,6 +9,7 @@ import { MarkerClusterLayer, Layer, MarkerLayer } from 'src/app/utils/models/lay
 import { MapService } from 'src/app/utils/services/map.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDateTimeComponent } from '../dialog-date-time/dialog-date-time.component';
+import { DialogByHoursComponent } from '../dialog-by-hours/dialog-by-hours.component';
 declare let L;
 import 'leaflet';
 import 'leaflet.markercluster';
@@ -94,8 +95,8 @@ export class SensorAppComponent implements OnInit {
               inq: this.routesIds,
             },
           },
-          //{ createdAt: { gte: +TenMinAgo } },
-          //{ createdAt: { lte: +rightNow } },
+          { createdAt: { gte: +TenMinAgo } },
+          { createdAt: { lte: +rightNow } },
         ]),
       })
       .toPromise();
@@ -140,7 +141,7 @@ export class SensorAppComponent implements OnInit {
                 iconAnchor: [12, 36],
               }),
             })),
-      ),
+      )
     );
 
     this.updateLayers();
@@ -191,7 +192,13 @@ export class SensorAppComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(async (result) => {
       //console.log(result);
-      if (result) {
+      const dialogRef2 = this.dialog.open(DialogByHoursComponent, {
+        width: '60%',
+        data: result,
+        scrollStrategy: new NoopScrollStrategy(),
+      });
+      dialogRef2.afterClosed().subscribe(async (result) => {
+        if (result) {
           this.points = await this.apiService
             .get('/data/open/vm2', {
               query: `this.data`,
@@ -201,19 +208,19 @@ export class SensorAppComponent implements OnInit {
                     inq: this.routesIds,
                   },
                 },
-                { createdAt: { gte: +result.startDate } },
-                { createdAt: { lte: +result.endDate } },
+                { createdAt: { gte: +result.startDateHour } },
+                { createdAt: { lte: +result.endDateHour } },
               ]),
             })
             .toPromise();
-        for (const layer of this.layers) {
-          layer.active = false;
+          for (const layer of this.layers) {
+            layer.active = false;
+          }
+          this.updateLayers();
+          this.layers = [];
+          this.setupLayers();
         }
-        //console.log(this.routes);
-        this.updateLayers();
-        this.layers = [];
-        this.setupLayers();
-      }
+      });
     });
   }
 }

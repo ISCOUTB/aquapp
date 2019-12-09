@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Sensor App Data: {{title}}</h1>
+<mat-dialog-content class="mat-typography">
+  <div
+    *ngIf="!showContent"
+    class="center"
+    style="overflow:hidden"
+    [ngStyle]="{ height: '300%', width: '100%' }"
+  >
+    <mat-progress-spinner [mode]="'indeterminate'"> </mat-progress-spinner>
+  </div>
+  <div *ngIf="showContent">
+    <div
+      echarts
+      [ngStyle]="{ height: '300%', width: '100%' }"
+      [options]="options"
+      (chartClick)="chartClick($event)"
+      [mat-dialog-close]="data"
+      *ngIf="!showMessage"
+    ></div>
+    <div *ngIf="showMessage" [ngStyle]="{ width: '100%' }">
+      <h1 align="center">{{ message }}</h1>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <!--button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+    Search <mat-icon>search</mat-icon>
+  </button-->
+</mat-dialog-actions>
+
+

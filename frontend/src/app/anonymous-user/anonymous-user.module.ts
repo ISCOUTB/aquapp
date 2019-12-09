@@ -33,6 +33,7 @@ import { HttpClient } from '@angular/common/http';
 import { SensorAppComponent } from './components/sensor-app/sensor-app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogDateTimeComponent } from './components/dialog-date-time/dialog-date-time.component';
+import { DialogByHoursComponent } from './components/dialog-by-hours/dialog-by-hours.component';
 
 
 
@@ -45,7 +46,8 @@ import { DialogDateTimeComponent } from './components/dialog-date-time/dialog-da
     AquappExportDataComponent,
     AquappAboutComponent,
     SensorAppComponent,
-    DialogDateTimeComponent
+    DialogDateTimeComponent,
+    DialogByHoursComponent
   ],
   imports: [
     CommonModule,
@@ -80,7 +82,8 @@ import { DialogDateTimeComponent } from './components/dialog-date-time/dialog-da
     }),
   ],
   entryComponents: [
-    DialogDateTimeComponent
+    DialogDateTimeComponent,
+    DialogByHoursComponent
   ],
   exports: [],
   providers: [DatePipe],
