@@ -38,6 +38,8 @@ export class SensorAppComponent implements OnInit {
   map: Map;
   form = '5dc341823153fa33d0225b11';
   routes: any[];
+  routesIds: string[] = [];
+  points: any;
   layers: Layer[] = [];
   constructor(
     private messageService: MessagesService,
@@ -72,28 +74,31 @@ export class SensorAppComponent implements OnInit {
     await this.apiService
       .get('/elements/open/jsonata', {
         query: `([$[form="${this.form}"]])`,
-        additionalFilters: JSON.stringify([
-          { createdAt: { gte: +todayDate } },
-          { createdAt: { lte: +rightNow } },
-        ]),
       })
       .toPromise()
       .then((routes: JSONataResponse) => {
         this.routes = routes.data;
       });
     //console.log(this.routes);
+    let routeIds = []
     for (const route of this.routes) {
-      route.data = await this.apiService
-        .get('/data/open/vm2', {
-          query: `this.data`,
-          additionalFilters: JSON.stringify([
-            { trackedObject: route.id },
-            { createdAt: { gte: +TenMinAgo } },
-            { createdAt: { lte: +rightNow } },
-          ]),
-        })
-        .toPromise();
+      routeIds.push(route.id);
     }
+    this.routesIds = routeIds;
+    this.points = await this.apiService
+      .get('/data/open/vm2', {
+        query: `this.data`,
+        additionalFilters: JSON.stringify([
+          {
+            trackedObject: {
+              inq: this.routesIds,
+            },
+          },
+          //{ createdAt: { gte: +TenMinAgo } },
+          //{ createdAt: { lte: +rightNow } },
+        ]),
+      })
+      .toPromise();
     this.setupLayers();
   }
 
@@ -108,36 +113,36 @@ export class SensorAppComponent implements OnInit {
             color: #3f51b5;
             font-size: 32pt;
           `;
-    for (const route of this.routes) {
-      //console.log(route.data);
-      this.layers.push(
-        new MarkerLayer(
-          'Posiciones',
-          '',
-          {},
-          true,
-          false,
-          (route.data || []).filter(
-            (d) => d.latitude !== null && d.latitude !== undefined && d.longitude !== null && d.longitude !== undefined,
-          )
-            .map((d) => new Marker([d.latitude, d.longitude],
-              {
-                icon: new DivIcon({
-                  className: 'marker',
-                  html: `
+
+    //console.log(route.data);
+    this.layers.push(
+      new MarkerLayer(
+        'Posiciones',
+        '',
+        {},
+        true,
+        false,
+        (this.points || []).filter(
+          (d) => d.latitude !== null && d.latitude !== undefined && d.longitude !== null && d.longitude !== undefined,
+        )
+          .map((d) => new Marker([d.latitude, d.longitude],
+            {
+              icon: new DivIcon({
+                className: 'marker',
+                html: `
               <i
                 class="fas fa-map-marker-alt"
                 style="${markerStyle}"
               >
               </i>
               `,
-                  iconSize: [32, 32],
-                  iconAnchor: [12, 36],
-                }),
-              })),
-        ),
-      );
-    }
+                iconSize: [32, 32],
+                iconAnchor: [12, 36],
+              }),
+            })),
+      ),
+    );
+
     this.updateLayers();
   }
 
@@ -187,30 +192,20 @@ export class SensorAppComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (result) => {
       //console.log(result);
       if (result) {
-        await this.apiService
-      .get('/elements/open/jsonata', {
-        query: `([$[form="${this.form}"]])`,
-        additionalFilters: JSON.stringify([
-          { createdAt: { gte: +result.startDate } },
-          { createdAt: { lte: +result.endDate } },
-        ]),
-      })
-      .toPromise()
-      .then((routes: JSONataResponse) => {
-        this.routes = routes.data;
-      });
-        for (const route of this.routes) {
-          route.data = await this.apiService
+          this.points = await this.apiService
             .get('/data/open/vm2', {
               query: `this.data`,
               additionalFilters: JSON.stringify([
-                { trackedObject: route.id },
+                {
+                  trackedObject: {
+                    inq: this.routesIds,
+                  },
+                },
                 { createdAt: { gte: +result.startDate } },
                 { createdAt: { lte: +result.endDate } },
               ]),
             })
             .toPromise();
-        }
         for (const layer of this.layers) {
           layer.active = false;
         }

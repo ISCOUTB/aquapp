@@ -18,12 +18,14 @@ import * as _ from 'lodash';
 export class DialogDateTimeComponent implements OnInit {
 
   dataDate: string[] = []
+  routesIds: string[] = []
   dataDateLength: number[] = []
   startDate: Date
   endDate: Date
   geoPoints: any = {}
   dataDateToFind: Date
   options: EChartOption = {}
+
   Months: any[] = [
     { value: 0, viewValue: 'Enero' },
     { value: 1, viewValue: 'Febrero' },
@@ -38,6 +40,7 @@ export class DialogDateTimeComponent implements OnInit {
     { value: 10, viewValue: 'Noviembre' },
     { value: 11, viewValue: 'Diciembre' }
   ];
+  points: any[]
   Years: any[] = [
     { value: 2019, viewValue: 2019 },
   ];
@@ -96,44 +99,38 @@ export class DialogDateTimeComponent implements OnInit {
     this.dateTofind();
     let geoPoint = [];
 
-    await this.apiService
-      .get('/elements/open/jsonata', {
-        query: `([$[form="${this.form}"]])`,
+
+    //console.log(this.routes)
+    this.message = 'There aren\'t data to show in ' + this.Months[this.currentMonth].viewValue + '!'
+    //console.log(this.routes.length > 0, this.routes.length)
+    
+    //console.log(new Date(route.createdAt))
+    this.points = await this.apiService
+      .get('/data/open/vm2', {
+        query: `this.data`,
         additionalFilters: JSON.stringify([
+          {
+            trackedObject: {
+              inq: this.routesIds,
+            },
+          },
           { createdAt: { gte: +this.startDate } },
           { createdAt: { lte: +this.endDate } },
         ]),
       })
-      .toPromise()
-      .then((routes: JSONataResponse) => {
-        //console.log(routes);
-        this.routes = routes.data;
-      });
-    //console.log(this.routes)
-    this.message = 'There aren\'t data to show in ' + this.Months[this.currentMonth].viewValue + '!'
-    //console.log(this.routes.length > 0, this.routes.length)
-    if (this.routes.length > 0) {
-      for (const route of this.routes) {
-        route.data = await this.apiService
-          .get('/data/open/vm2', {
-            query: `this.data`,
-            additionalFilters: JSON.stringify([
-              { trackedObject: route.id },
-              { createdAt: { gte: +this.startDate } },
-              { createdAt: { lte: +this.endDate } },
-            ]),
-          })
-          .toPromise();
+      .toPromise();
 
-        for (const datum of route.data) {
-          const newDate = new Date(datum.createdAt);
-          datum._date = `${newDate.getDate() > 9 ? newDate.getDate() : '0' + newDate.getDate()}/${(newDate.getMonth() + 1) > 9 ? (newDate.getMonth() + 1) : '0' + (newDate.getMonth() + 1)}/${newDate.getFullYear()}`;
-          datum._geoPoint = { lat: datum.latitude, lon: datum.longitude };
-          geoPoint.push(datum);
-        }
-        //console.log(Object.keys(_.groupBy(route.data, (datum) => datum._date)));
-        //console.log(_.groupBy(route.data, (datum) => datum._date));
+
+    if (this.points.length > 0) {
+      for (const datum of this.points) {
+        const newDate = new Date(datum.createdAt);
+        datum._date = `${newDate.getDate() > 9 ? newDate.getDate() : '0' + newDate.getDate()}/${(newDate.getMonth() + 1) > 9 ? (newDate.getMonth() + 1) : '0' + (newDate.getMonth() + 1)}/${newDate.getFullYear()}`;
+        datum._geoPoint = { lat: datum.latitude, lon: datum.longitude };
+        geoPoint.push(datum);
       }
+      //console.log(Object.keys(_.groupBy(route.data, (datum) => datum._date)));
+      //console.log(_.groupBy(route.data, (datum) => datum._date));
+
 
       this.geoPoints = _.groupBy(geoPoint, (datum) => datum._date);
       this.dataDate = Object.keys(this.geoPoints);
@@ -150,16 +147,18 @@ export class DialogDateTimeComponent implements OnInit {
       if (!this.showMessage) {
         this.completeOption();
       }
-    }else{
+    } else {
       this.showMessage = this.routes.length === 0
       this.showContent = true
     }
 
 
+
+
   }
 
   chartClick(ev) {
-    //console.log('Chart clicked:', ev);
+    console.log('Chart clicked:', ev);
     this.dataDateToFind = new Date(this.geoPoints[ev.name][0].createdAt)
     this.data.startDate = new Date(
       this.dataDateToFind.getFullYear(),
@@ -237,28 +236,35 @@ export class DialogDateTimeComponent implements OnInit {
         //console.log(routes);
         this.routes = routes.data;
       });
-    //console.log(this.routes)
+    let routeIds = []
     for (const route of this.routes) {
-      //console.log(new Date(route.createdAt))
-      route.data = await this.apiService
-        .get('/data/open/vm2', {
-          query: `this.data`,
-          additionalFilters: JSON.stringify([
-            { trackedObject: route.id },
-            { createdAt: { gte: +this.startDate } },
-            { createdAt: { lte: +this.endDate } },
-          ]),
-        })
-        .toPromise();
-      for (const datum of route.data) {
-        const newDate = new Date(datum.createdAt);
-        datum._date = `${newDate.getDate() > 9 ? newDate.getDate() : '0' + newDate.getDate()}/${(newDate.getMonth() + 1) > 9 ? (newDate.getMonth() + 1) : '0' + (newDate.getMonth() + 1)}/${newDate.getFullYear()}`;
-        datum._geoPoint = { lat: datum.latitude, lon: datum.longitude };
-        geoPoint.push(datum);
-      }
-      //console.log(Object.keys(_.groupBy(route.data, (datum) => datum._date)));
-      //console.log(_.groupBy(route.data, (datum) => datum._date));
+      routeIds.push(route.id);
     }
+    this.routesIds = routeIds;
+    //console.log(new Date(route.createdAt))
+    this.points = await this.apiService
+      .get('/data/open/vm2', {
+        query: `this.data`,
+        additionalFilters: JSON.stringify([
+          {
+            trackedObject: {
+              inq: this.routesIds,
+            },
+          },
+          { createdAt: { gte: +this.startDate } },
+          { createdAt: { lte: +this.endDate } },
+        ]),
+      })
+      .toPromise();
+    for (const datum of this.points) {
+      const newDate = new Date(datum.createdAt);
+      datum._date = `${newDate.getDate() > 9 ? newDate.getDate() : '0' + newDate.getDate()}/${(newDate.getMonth() + 1) > 9 ? (newDate.getMonth() + 1) : '0' + (newDate.getMonth() + 1)}/${newDate.getFullYear()}`;
+      datum._geoPoint = { lat: datum.latitude, lon: datum.longitude };
+      geoPoint.push(datum);
+    }
+    //console.log(Object.keys(_.groupBy(route.data, (datum) => datum._date)));
+    //console.log(_.groupBy(route.data, (datum) => datum._date));
+
 
     this.geoPoints = _.groupBy(geoPoint, (datum) => datum._date);
     this.dataDate = Object.keys(this.geoPoints);
