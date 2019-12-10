@@ -15,6 +15,7 @@ services:
     build: ./api/
     ports:
       - 3000:3000
+    restart: always
     depends_on:
       - db
   frontend:
@@ -22,6 +23,7 @@ services:
     ports:
       - 80:80
       - 443:443
+    restart: always
     depends_on:
       - api
 
