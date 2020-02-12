@@ -8,14 +8,15 @@
   <ng-template #templatePortalContent>
     <mat-card>
       <mat-card-header
-        ><h1>{{ overlayTitle }}</h1></mat-card-header
+      ><h1>{{ overlayTitle }}</h1></mat-card-header
       >
       <mat-card-content class="icampff-date-list">
         <p>{{ overlayDescription }}</p>
         <p *ngFor="let paragraph of overlayParagraphs">{{ paragraph }}</p>
       </mat-card-content>
       <mat-card-actions
-        ><button
+      >
+        <button
           color="primary"
           [routerLink]="overlayRouterLink"
           [queryParams]="overlayQueryParams"
@@ -32,16 +33,17 @@
           (click)="closeOverlay()"
         >
           {{ 'aquapp.start.infoOverlay.close' | translate }}
-        </button></mat-card-actions
+        </button>
+      </mat-card-actions
       >
     </mat-card>
   </ng-template>
   <ng-template #icampffDatesContent>
     <mat-card>
       <mat-card-header
-        ><h1>
-          {{ 'aquapp.start.infoOverlay.waterBody.title' | translate }}
-        </h1></mat-card-header
+      ><h1>
+        {{ 'aquapp.start.infoOverlay.waterBody.title' | translate }}
+      </h1></mat-card-header
       >
       <mat-card-content class="icampff-date-list">
         <mat-list>
@@ -50,7 +52,7 @@
             class="item"
             [class.active]="id === currentIcampffDate"
             *ngFor="let id of icampffDates"
-            >{{ id | date: 'shortDate' }}</mat-list-item
+          >{{ id | date: 'shortDate' }}</mat-list-item
           >
         </mat-list>
       </mat-card-content>
@@ -62,23 +64,26 @@
           (click)="closeOverlay()"
         >
           {{ 'aquapp.start.infoOverlay.waterBody.cancel' | translate }}
-        </button></mat-card-actions
+        </button>
+      </mat-card-actions
       >
     </mat-card>
   </ng-template>
   <ng-template #layersMenuContent>
     <mat-card>
       <mat-card-header
-        ><h1>
-          {{ 'aquapp.start.infoOverlay.layerMenu.title' | translate }}
-        </h1></mat-card-header
+      ><h1>
+        {{ 'aquapp.start.infoOverlay.layerMenu.title' | translate }}
+      </h1></mat-card-header
       >
       <mat-card-content class="icampff-date-list">
         <mat-list>
           <mat-list-item *ngFor="let layer of layers"
-            ><mat-checkbox [(ngModel)]="layer.active">{{
+          >
+            <mat-checkbox [(ngModel)]="layer.active">{{
               layer.name
-            }}</mat-checkbox></mat-list-item
+              }}</mat-checkbox>
+          </mat-list-item
           >
         </mat-list>
       </mat-card-content>
@@ -90,8 +95,10 @@
           (click)="updateLayers(); closeOverlay()"
         >
           {{ 'aquapp.start.infoOverlay.layerMenu.close' | translate }}
-        </button></mat-card-actions
-      ></mat-card
+        </button>
+      </mat-card-actions
+      >
+    </mat-card
     >
   </ng-template>
   <div class="leaflet-control-container">
@@ -116,6 +123,31 @@
       >
         <mat-icon>date_range</mat-icon>
       </button>
+    </div>
+  </div>
+  <div class="leaflet-control-container">
+    <div class="leaflet-bottom leaflet-right">
+      <mat-card class="container">
+        <h4>{{ 'ICAMpff (estuary) values' | translate }}</h4>
+        <span>
+          <i style="background:#555555"></i> {{ 'Unavailable' | translate }}
+        </span>
+        <span>
+          <i style="background:#FB1502"></i> {{ 'Poor' | translate }} (0–25)
+        </span>
+        <span>
+          <i style="background:#F57702"></i> {{ 'Inadequate' | translate }} (26–50)
+        </span>
+        <span>
+          <i style="background:#F9F107"></i> {{ 'Acceptable' | translate }} (51–70)
+        </span>
+        <span>
+          <i style="background:#49C502"></i> {{ 'Adequate' | translate }} (71–90)
+        </span>
+        <span>
+          <i style="background:#0032FF"></i> {{ 'Optimal' | translate }} (91 - 100)
+        </span>
+      </mat-card>
     </div>
   </div>
 </div>

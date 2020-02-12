@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import {
   MessagesService,
-  Message,
 } from 'src/app/utils/services/messages.service';
 import { MESSAGES } from 'src/app/messages';
 import {
@@ -59,7 +58,6 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
     latLng(10.452121, -75.505814),
   );
   map: Map;
-  monitoringPointsId = '5dacb798a52adb394573ca70';
   layers: Layer[] = [];
   overlayRef: OverlayRef;
 
@@ -84,6 +82,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   icampffs: { [prop: string]: { [prop: number]: number } } = {};
   icampffDates: number[] = [];
   currentIcampffDate: number;
+  resizeListener: () => void;
 
   constructor(
     private messageService: MessagesService,
@@ -93,7 +92,15 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private ngZone: NgZone,
     private datePipe: DatePipe,
-  ) {}
+  ) {
+    this.resizeListener = () => {
+      if (!this.map) {
+        return;
+      }
+      this.fixMap();
+    };
+    window.addEventListener('resize', this.resizeListener);
+  }
 
   ngOnInit() {
     this.messageService.sendMessage({ name: MESSAGES.closeSidenav, value: {} });
@@ -120,6 +127,7 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.overlayRef.detach();
     this.overlayRef.dispose();
+    window.removeEventListener('resize', this.resizeListener);
   }
 
   openOverlay(data: any) {
@@ -406,18 +414,14 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   fixMap() {
-    this.mapStyle =
-      this.mapStyle === undefined
-        ? {
-            height: `${window.innerHeight - 64}px`,
-            width: '100%',
-          }
-        : this.mapStyle;
+    this.mapStyle = {
+      ...(this.mapStyle || {}),
+      height: `${window.innerHeight - 64}px`,
+      width: '100%',
+    };
     this.map.invalidateSize();
     if (this.mapBounds) {
       this.map.fitBounds(this.mapBounds);
     }
   }
-
-  layerMenu() {}
 }
