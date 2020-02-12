@@ -357,16 +357,16 @@ export class AquappComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getColor(icampff: number) {
     return icampff > 90
-      ? '#51B53F' // blue
+      ? '#0032FF' // blue
       : icampff > 70
-      ? '#8BB53F' // green
+      ? '#49C502' // green
       : icampff > 50
-      ? '#B5A33F' // yellow
+      ? '#F9F107' // yellow
       : icampff > 25
-      ? '#B5683F' // orange
+      ? '#F57702' // orange
       : icampff === -1
       ? '#555555'
-      : '#B53F51'; // red
+      : '#FB1502'; // red
   }
 
   setIcampffDate(date: number) {
