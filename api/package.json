@@ -60,7 +60,7 @@
     "jsonata": "^1.6.5",
     "jsonwebtoken": "^8.5.1",
     "loopback-connector-mongodb": "^4.2.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.0",
     "vm2": "^3.8.4"
   },
